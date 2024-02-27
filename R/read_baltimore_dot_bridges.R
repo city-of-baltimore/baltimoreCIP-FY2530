@@ -1,8 +1,18 @@
+#' Read Baltimore DOT Bridge Inventory data from ArcGIS Data Service
+#'
+#' Read data for the Baltimore DOT Bridge Inventory, tidy the attributes and add
+#' additional attributes to combine with the DGS asset data.
+#'
+#' @param url url to access with [arcgislayers::arc_read()]. Defaults to the
+#'   CitiMap MapServer layer with the bridge inventory data.
+#' @inheritParams arcgislayers::arc_read
+#' @inheritDotParams arcgislayers::arc_read
 read_baltimore_dot_bridges <- function(
+    url = "https://geodata.baltimorecity.gov/egis/rest/services/CitiMap/DOT_Layers/MapServer/7",
     ...,
     crs = 3857) {
   dot_bridges_src <- arc_read(
-    url = "https://geodata.baltimorecity.gov/egis/rest/services/CitiMap/DOT_Layers/MapServer/7",
+    url = url,
     ...,
     crs = crs
   ) |>
@@ -196,88 +206,4 @@ read_baltimore_dot_bridges <- function(
       # )
     ) |>
     bind_cols(dot_bridges_coords)
-}
-
-read_imap_maryland_bridges <- function(
-    type = c("extent", "location", "condition"),
-    year = NULL,
-    county = NULL,
-    where = NULL,
-    col_select = NULL,
-    col_names = TRUE,
-    ...,
-    crs = 3857) {
-  type <- arg_match(type)
-
-  if (type == "condition") {
-    year <- as.character(year)
-    stopifnot(is_string(year))
-    year <- arg_match(year, c("2017", "2016"))
-    type <- paste0(type, year)
-  }
-
-  url <- switch(type,
-    extent = "https://services.arcgis.com/njFNhDsUCentVYJW/ArcGIS/rest/services/Maryland_Bridge_External/FeatureServer/0",
-    location = "https://services.arcgis.com/njFNhDsUCentVYJW/arcgis/rest/services/Maryland_Bridge_External/FeatureServer/1",
-    condition2017 = "https://services.arcgis.com/njFNhDsUCentVYJW/arcgis/rest/services/Bridge_Condition_NHS_2017/FeatureServer/0",
-    condition2016 = "https://services.arcgis.com/njFNhDsUCentVYJW/arcgis/rest/services/Bridge_Condition_NHS_2016/FeatureServer/0"
-  )
-
-  if (!is.null(county) && is.null(where)) {
-    where <- where_in_sql(county, "COUNTY_CODE")
-  }
-
-  arc_read(
-    url,
-    col_select = col_select,
-    where = where,
-    col_names = col_names,
-    crs = crs,
-    ...
-  ) |>
-    st_set_geometry("geometry")
-}
-
-load_baltimore_bridge_inventory <- function(
-    crs = 3857) {
-  dot_bridge_inventory <- read_baltimore_dot_bridges(crs = crs) |>
-    mutate(
-      bridge_id_short = str_remove(
-        asset_id,
-        " (B|C|D|R|X|1|2|3|4)$"
-      ),
-      .before = asset_id
-    ) |>
-    st_drop_geometry()
-
-  dot_bridge_inventory_join <- dot_bridge_inventory |>
-    left_join(
-      dot_bridge_inventory |>
-        count(
-          bridge_id_short,
-          name = "asset_id_count"
-        ),
-      by = join_by(bridge_id_short)
-    ) |>
-    filter(
-      asset_id_count < 2
-    )
-
-  read_imap_maryland_bridges(
-    county = c(5, 510),
-    fields = c("COUNTY_CODE", "BRIDGE_NUMBER", "STRUCTURE_NUMBER"),
-    col_names = c("county_code", "bridge_number", "structure_number"),
-    crs = crs
-  ) |>
-    mutate(
-      bridge_id_short = str_sub(
-        bridge_number,
-        end = -4
-      )
-    ) |>
-    left_join(
-      dot_bridge_inventory_join,
-      by = join_by(bridge_id_short)
-    ) |>
-    filter(!is.na(asset_id))
 }
