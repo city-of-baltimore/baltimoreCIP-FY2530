@@ -4,3 +4,9 @@
 #'   other data sources that follow similar conventions.
 #' @name dgs_asset_data
 NULL
+
+#' Extract attributes from character vectors
+#'
+#' @inheritParams stringr::str_extract
+#' @rdname wd_str_extract
+NULL
