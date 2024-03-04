@@ -9,22 +9,25 @@ format_asset_list <- function(
     attributes_sheet = "OtherDATA-FMS",
     rename_xwalk_cols = c("clean_name", "variable"),
     additional_data = NULL,
+    crs = 3857,
     names_to = rlang::zap()) {
+  # return(dictionary)
+
   attributes_dictionary <- dictionary |>
-    filter(
+    dplyr::filter(
       sheet == attributes_sheet
     )
 
   attributes_data <- attributes_data |>
     janitor::clean_names() |>
-    # select(!starts_with("na_")) |>
+    select(!starts_with("na_")) |>
     rename_with_xwalk(
       xwalk = attributes_dictionary,
       xwalk_cols = rename_xwalk_cols
     )
 
-  data_dictionary <- dictionary |>
-    filter(
+  asset_data_dictionary <- dictionary |>
+    dplyr::filter(
       sheet == data_sheet
     )
 
@@ -32,18 +35,22 @@ format_asset_list <- function(
     janitor::clean_names() |>
     select(!starts_with("na_")) |>
     rename_with_xwalk(
-      xwalk = data_dictionary,
+      xwalk = asset_data_dictionary,
       xwalk_cols = rename_xwalk_cols
     ) |>
     left_join(
-      attributes_data,
+      y = attributes_data,
       by = join_by(asset_id),
       suffix = c("", "_attr")
     ) |>
     relocate(
       starts_with("asset"),
       .before = everything()
-    ) |>
+    )
+
+  # return(asset_data_formatted)
+
+  asset_data_formatted <- asset_data_formatted |>
     filter(!is.na(asset_id)) |>
     trim_squish_across() |>
     format_asset_coords() |>
@@ -55,7 +62,6 @@ format_asset_list <- function(
     trim_squish_across()
 
   if (!is.null(additional_data)) {
-
     if (!is.list(additional_data)) {
       additional_data <- list(additional_data)
     }
@@ -67,13 +73,16 @@ format_asset_list <- function(
       ),
       names_to = names_to
     )
-
-    asset_data_formatted <- sf::st_as_sf(
-      asset_data_formatted
-    )
   }
 
-  if (is_installed(c("mapbaltimore", "sfext"))) {
+  asset_data_formatted <- sf::st_as_sf(
+    asset_data_formatted,
+    coords = c("lon", "lat"),
+    crs = 4326,
+    remove = FALSE
+  )
+
+  if (FALSE && is_installed(c("mapbaltimore", "sfext"))) {
     # NOTE: The following code could be reproduced using sf and dplyr but uses the
     # custom mapbaltimore and sfext functions for convenience
 
@@ -85,17 +94,18 @@ format_asset_list <- function(
 
     # Join neighborhoods, counties, and parks to asset list
     asset_data_formatted <- asset_data_formatted |>
+      sf::st_drop_geometry() |>
       left_join(
         asset_data_mapbaltimore,
         na_matches = "never",
         relationship = "one-to-one",
         by = join_by(asset_id)
       ) |>
-      trim_squish_across() |>
-      sf::st_as_sf()
+      sf::st_as_sf() |>
+      trim_squish_across()
   }
 
-
   asset_data_formatted |>
-    format_asset_admin_id()
+    format_asset_admin_id() |>
+    sf::st_transform(crs = crs)
 }

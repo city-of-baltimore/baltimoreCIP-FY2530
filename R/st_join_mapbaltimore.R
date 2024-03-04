@@ -34,6 +34,12 @@ st_join_mapbaltimore <- function(data) {
       .id = "park"
     ) |>
     select(
-      asset_id, neighborhood, park, planning_district, county
+      all_of(c(
+        "asset_id",
+        "neighborhood",
+        "park",
+        "planning_district",
+        "county"
+      ))
     )
 }

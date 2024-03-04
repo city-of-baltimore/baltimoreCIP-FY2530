@@ -1,7 +1,7 @@
 #' Flag the asset start and end year based on common patterns in the asset name and asset type columns
 flag_asset_start_end_year <- function(asset_data) {
   stopifnot(
-    all(has_name(asset_data, c("asset_name", "asset_type")))
+    all(has_name(asset_data, c("asset_name"))) # , "asset_type")))
   )
 
   if (!has_name(asset_data, "start_year")) {
@@ -32,7 +32,7 @@ flag_asset_start_end_year <- function(asset_data) {
     end_year = case_when(
       str_detect(asset_name, "DEMOLISHED-2021") ~ 2021,
       str_detect(asset_name, "DEMOLISHED 2021") ~ 2021,
-      str_detect(asset_type, "DEMO SUMMER 2021") ~ 2021,
+      # str_detect(asset_type, "DEMO SUMMER 2021") ~ 2021,
       str_detect(asset_name, "DEMOLISHED 2020") ~ 2020,
       str_detect(asset_name, "DEMOLISHED-2020") ~ 2020,
       .default = end_year

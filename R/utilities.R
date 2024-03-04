@@ -1,3 +1,54 @@
+#' Format external link for including in a rendered Quarto document
+#'
+qto_external_link <- function(src,
+                              text = "Learn more at ",
+                              icon = "{{< fa external-link-alt >}}",
+                              use_icon = knitr::is_latex_output(),
+                              call = caller_env()) {
+  link_text <- src |>
+    str_remove("^(http|https)://") |>
+    str_remove("^www\\.")
+
+  if (use_icon) {
+    link_text <- paste0(link_text, " ", icon)
+  }
+
+  quartools::qto_link(
+    src = src,
+    text = paste0(text, link_text),
+    call = call
+  )
+}
+
+#' Knit children and optionally display results
+#'
+knit_children <- function(.l,
+                          ...,
+                          .input,
+                          .params = list2(),
+                          .quiet = TRUE,
+                          .display = TRUE) {
+  purrr::pwalk(
+    .l,
+    \(...) {
+      child <- knitr::knit_child(
+        input = .input,
+        envir = rlang::env(
+          ...,
+          !!!.params
+        ),
+        quiet = .quiet
+      )
+
+      if (!.display) {
+        return(child)
+      }
+
+      cat(child)
+    }
+  )
+}
+
 #' Tidy values in a matched pair of name and code columns
 #'
 #' Use [str_remove_all()] (by default) and [str_remove_trim()] to extract a code
@@ -71,6 +122,11 @@ left_join_coalesce <- function(
     select(!any_of(update_col))
 }
 
+#' Create a where query for use with `arcgislayers::arc_read()`
+where_in_sql <- function(needle, haystack, ..., .envir = current_env(), .con = DBI::ANSI()) {
+  glue::glue_sql(haystack, " ", "IN", " ({needle*})", ..., .envir = .envir, .con = .con)
+}
+
 
 #' Rename variables using a crosswalk data frame with columns for existing
 #' and updated names
@@ -84,6 +140,7 @@ rename_with_xwalk <- function(x,
   if (is.data.frame(xwalk)) {
     xwalk <- xwalk |>
       select(all_of(xwalk_cols)) |>
+      # filter(!is.na(.data[[xwalk_cols[[1]]]])) |>
       deframe() |>
       as.list() #|>
     # vctrs::list_drop_empty()
@@ -93,6 +150,33 @@ rename_with_xwalk <- function(x,
     x,
     ~ names(xwalk)[which(xwalk == .x)],
     .cols = any_of(as.character(xwalk))
+  )
+}
+
+dictionary_to_xwalk <- function(dictionary,
+                                data) {
+  # Rename project_requests data based on dictionary values
+  dictionary |>
+    filter(
+      !is.na(requests_clean_names),
+      import_clean_names %in% names(data),
+      rename_flag
+    ) |>
+    select(requests_clean_names, import_clean_names) |>
+    # FIXME: This is only needed because of an issue with the input data dictionary
+    distinct(import_clean_names, .keep_all = TRUE) |>
+    tibble::deframe()
+}
+
+rename_with_dictionary <- function(
+    data,
+    dictionary) {
+  rename_with_xwalk(
+    x = data,
+    xwalk = dictionary_to_xwalk(
+      dictionary = dictionary,
+      data = data
+    )
   )
 }
 

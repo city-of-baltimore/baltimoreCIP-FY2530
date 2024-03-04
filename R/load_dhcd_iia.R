@@ -1,8 +1,9 @@
 #' Load data for DHCD Impact Investment areas
 #'
-load_dhcd_iia <- function(..., crs = 3857) {
-  url <- "https://geodata.baltimorecity.gov/egis/rest/services/Housing/dmxFocusAreas/MapServer/0"
-
+load_dhcd_iia <- function(
+    ...,
+    url = "https://geodata.baltimorecity.gov/egis/rest/services/Housing/dmxFocusAreas/MapServer/0",
+    crs = 3857) {
   impact_investment_areas_src <- arcgislayers::arc_read(
     url = url,
     crs = crs
@@ -29,7 +30,7 @@ load_dhcd_iia <- function(..., crs = 3857) {
 
   impact_investment_areas |>
     bind_cols(
-      suppressWarnings(covert_to_coords(impact_investment_areas))
+      suppressWarnings(convert_to_coords(impact_investment_areas))
     ) |>
     left_join(
       st_join_mapbaltimore(impact_investment_areas) |>
