@@ -1,0 +1,96 @@
+```{r}
+#| eval: false
+agency_label <- "Department of Public Works"
+agency_label <- "Baltimore City Information Technology"
+agency_level <- 2
+agency <- agency_label
+data <- filter(report_data, .data[["agency_label"]] == agency)
+```
+
+```{r}
+#| eval: true
+# Expected in document environment
+# - data
+# - agency_label
+# - agency_level
+# - agency_reference
+
+# Custom functions in document
+# - qto_agency_overview
+
+# Filter agency reference data to agency
+agency <- agency_label
+
+agency <- filter(
+  agency_reference,
+  agency_label %in% agency
+)
+
+# Ungroup data
+# FIXME: This shouldn't be required - unsure why I need it
+data <- ungroup(data)
+
+# Subset data with requests
+if (FALSE) {
+  project_request_list <- filter(
+    data,
+    has_requests
+  )
+
+  # Subset data with no requests
+  project_additional_list <- filter(
+    data,
+    !has_requests,
+    priority_level == "High"
+  )
+
+  cip_type <- "request"
+} else if (TRUE) {
+  project_request_list <- filter(
+    data,
+    has_recommendations
+  )
+
+  project_additional_list <- data.frame()
+
+  cip_type <- "recommendation"
+}
+
+
+cip_singular <- cip_type
+cip_plural <- paste0(cip_type, "s")
+cip_singular_title <- str_to_title(cip_singular)
+cip_plural_title <- str_to_title(cip_plural)
+
+n_projects <- nrow(data)
+n_requests <- nrow(project_request_list)
+n_additional <- nrow(project_additional_list)
+```
+
+{{< pagebreak >}}
+
+```{r}
+# Display agency heading and overview
+qto_agency_overview(
+  agency = agency,
+  agency_level = agency_level
+)
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| eval: !expr n_requests > 0
+#| child: "report/children/_agency_list_project_request.qmd"
+```
+
+```{r}
+#| eval: !expr n_additional > 0
+#| child: "report/children/_agency_list_project_additional.qmd"
+```
+
+```{r}
+#| eval: !expr n_requests > 0
+#| output: asis
+cat("{{< pagebreak >}}")
+```

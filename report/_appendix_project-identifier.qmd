@@ -1,0 +1,133 @@
+## Project names and identifiers
+
+### Project names
+
+This year's report uses new project naming conventions created by Department of Planning staff to provide a more organized and easy to read project list.
+
+Typical changes to project names include:
+
+-   Removing the legacy account ID numbers, CIP number, and outdated fiscal year information
+-   Using consistent formatting and spacing for contract numbers, building names, and project details
+-   Unpacking abbreviations, e.g. Water Main instead of WM, and using formal program or projects name as appropriate
+
+To help agency staff or City residents compare projects in this report to prior year reports, the table below provides a crosswalk between the existing and updated project names. Department staff expect to add a second reference table with a crosswalk between legacy CIP project numbers in a future update to this report.
+
+```{r}
+#| echo: false
+report_data |>
+  select(agency_label, project_code, project_name_src, project_name) |>
+  mutate(
+    project_name_src = str_remove_trim(
+      project_name_src,
+      paste0("^", project_code)
+    ),
+    project_name = if_else(
+      project_name == project_name_src,
+      "---",
+      project_name
+    )
+  ) |>
+  group_by(agency_label) |>
+  kbl_tbl(
+    rowname_col = "project_code",
+    widths = paste0(c(2.5, 2.5), "in"),
+    width_cols = c(2, 3),
+    col_names = c("Project code", "Name (Workday)", "Name (Report)"),
+    latex_options = "repeat_header",
+    rowname_col_label = "Project code"
+  )
+```
+
+<!-- ### CIP numbers -->
+
+<!-- Previously, the Department of Planning maintained a database with a unique CIP (Capital Improvement Program) number for each capital project. The city's accounting system, however, did not use the CIP number as a project account identifier. When Baltimore City migrated accounting records to Workday in 2022 and 2023, agency staff could not automatically match the legacy CIP numbers to new project codes. For this report, Department of Planning staff manually created a crosswalk to match CIP numbers and project codes. -->
+
+```{r}
+#| eval: false
+cip_prj_xwalk_update <- readr::read_csv(
+  here::here("data-raw", "files", "cip_prj_xwalk_update.csv"),
+  show_col_types = FALSE
+)
+
+cip_prj_xwalk_update |>
+  select(
+    agency_label,
+    cip_number,
+    project_title,
+    project_code,
+    project_name
+  ) |>
+  filter(
+    project_code %in% report_data$project_code
+  ) |>
+  group_by(agency_label) |>
+  gt()
+# kbl_tbl(
+#   # col_names = c("CIP number", "Title", "Project code", "Name"),
+#   width_cols = c(1, 2, 3, 4),
+#   widths = c(0.75, 1.5, 0.75, 1.5),
+#   latex_options = "repeat_header"#,
+#   # align = c("r", "l", "r", "l")
+# )
+```
+
+### Legacy project and contract numbers
+
+The Board of Public Works and City agencies continue to use legacy project and contract numbers to report on capital projects and related procurement activities. For this report, contract numbers appear in project names for both the Department of Public Works and the Department of Transportation.
+
+Five different types of contract numbers appear in this report as part of project names and descriptions.
+
+| Contract type             | Abbreviation |
+|---------------------------|--------------|
+| Water                     | WC           |
+| Sewer                     | SC           |
+| Stormwater Drainage       | SDC          |
+| Environmental Restoration | ER           |
+| Transportation            | TR           |
+
+Unfortunately, combining contract numbers and project codes used by Workday is complicated by limitations in the city's legacy accounting system and capital project database. A single capital project can include funding for multiple contracts and a single contract can be supported by multiple capital projects. To connect these different project identifiers, the following table lists project codes by related contract number. This table is not a comprehensive reference on this topic and agency staff should use this resource with caution.
+
+```{r}
+agency_contract_requests <- report_data |>
+  filter(!is.na(agency_contract_id)) |>
+  mutate(
+    agency_contract_id_list_add = str_extract_agency_contract_id(
+      project_name,
+      extract_all = TRUE
+    )
+  )
+
+agency_contract_requests$agency_contract_id_list <- map2(
+  agency_contract_requests$agency_contract_id_list,
+  agency_contract_requests$agency_contract_id_list_add,
+  \(x, y) {
+    unique(c(x, y))
+  }
+)
+
+agency_contract_requests |>
+  select(
+    -agency_contract_id
+  ) |>
+  select(
+    agency_label,
+    agency_contract_id_list,
+    project_code,
+    project_name
+  ) |>
+  tidyr::unnest_longer(
+    col = all_of("agency_contract_id_list"),
+    values_to = "agency_contract_id"
+  ) |>
+  group_by(agency_label) |>
+  arrange(agency_contract_id, .by_group = TRUE) |>
+  kbl_tbl(
+    rowname_col = "agency_contract_id",
+    rowname_col_label = "Contract number",
+    widths = paste0(c(1, 4), "in"),
+    width_cols = c(2, 3),
+    col_names = c("Contract number", "Project code", "Project name"),
+    latex_options = "repeat_header",
+    align = c("c", "c", "l")
+  )
+```

@@ -1,0 +1,68 @@
+## How this report is created
+
+### Data sources and tools
+
+Over the past two years, Baltimore City migrated contract and financial management systems to a cloud-based application known as [Workday](https://www.workday.com/). Data on the Capital Improvement Program is now stored in both Workday and a second integrated application, known as [Workday Adaptive Planning](https://www.workday.com/en-us/products/adaptive-planning/overview.html) or Adaptive, that combined project information entered by agency staff with financial data maintained in Workday.
+
+This report is based on project details and requests exported from the Workday Adaptive Planning system as Excel files. These Excel files are transformed using a data processing and analysis script (created with [R](https://www.r-project.org/) and [Quarto](https://quarto.org/)) to produce this PDF document.
+
+Locations for assets identified in this report are based on several additional sources including:
+
+-   Department of General Services building and asset data
+-   [Department of Transportation bridge inventory](https://geodata.baltimorecity.gov/egis/rest/services/CitiMap/DOT_Layers/MapServer/7)
+-   Data from [OpenStreetMap](https://www.openstreetmap.org/#map=12/39.2846/-76.6204) for non-city owned properties
+
+The locator maps used data from U.S. Census Bureau TIGER/Line shapefiles accessed using the [tigris](https://github.com/walkerke/tigris) R package and Community Statistical Area boundaries created by the [Baltimore Neighborhood Indicators Alliance](https://bniajfi.org/).
+
+Excel and CSV files with the project request data included in this report are (or will be) available on the [CIP Reports & Resources](https://planning.baltimorecity.gov/planning-capital-improvement/maps). Department staff expect to publish a reproducible version of this report including all code and reference data to the [City of Baltimore GitHub account](https://github.com/city-of-baltimore/).
+
+### Credits
+
+This report is created by the Baltimore City Department of Planning by staff including Kristen Ahearn, John Lloyd, Sara Paranilam, Eli Pousson, and Jamie Williams.
+
+```{r}
+#| eval: false
+credit_cols <- report_data |>
+  select(
+    starts_with("p_manager_"),
+    starts_with("p_project_owner_")
+  )
+
+credit_list <- list(
+  distinct(select(credit_cols, name = p_manager_name)),
+  distinct(select(credit_cols, name = p_project_owner_name))
+)
+
+credit_names <- credit_list |>
+  list_rbind() |>
+  distinct() |>
+  filter(!is.na(name)) |>
+  arrange() |>
+  pull(name) |>
+  str_subset("Ahearn", TRUE) |>
+  str_sort()
+
+additional_credit <- c(
+  "Valerie McGuire",
+  "Kate Brower",
+  "Dr. Marvin Blye",
+  "Bernie Daniloski",
+  "Chris Harrington",
+  "Teneil Hall",
+  "Marwan Alkarajat",
+  "Christopher Hepler",
+  "Willem Elsevier",
+  "Sandra Blake",
+  "Kim Clark",
+  "Robert O'Brien",
+  "Jin Wang",
+  "Maureen Gershberg",
+  "Alex Bennett"
+)
+
+additional_credit <- str_sort(additional_credit[!(additional_credit %in% credit_names)])
+
+# Capital project descriptions and information are written, input, and revised in Workday and Adaptive Planning city staff including `r knitr::combine_words(credit_names)`. Contributing agency staff also include `r knitr::combine_words(additional_credit)`. Jason Howard and Sara Brumfield also provided technical assistance on the creation of this report.
+```
+
+Many others, including city staff, planners, engineers, designers, and residents, also contributed to the identification of these projects through their use and attention to the city's public assets.

@@ -1,0 +1,30 @@
+```{r}
+# Expected in environment
+# - project
+# - project_level
+
+# Custom functions in document
+# - qto_dl_prj_info
+
+quartools::qto_div(
+  .content = c(
+    quartools::qto_heading(
+      project[["prj"]],
+      level = project_level
+    ),
+    # Show project description
+    project[["project_desc"]],
+    # Create a list of basic information for a project
+    qto_dl_prj_info(
+      project,
+      nm = c(
+        "project_type",
+        "location", "related_plan",
+        "cost_center", "operating_impact",
+        "est_cost_total"
+      )
+    )
+  ),
+  collapse = "\n\n"
+)
+```

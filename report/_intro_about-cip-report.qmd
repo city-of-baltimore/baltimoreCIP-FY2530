@@ -1,0 +1,99 @@
+## About the Capital Improvement Program report
+
+### Required information
+
+The [City Charter](https://legislativereference.baltimorecity.gov/city-codes) requires the Department of Planning to publish a report on the long-range Capital Improvement Program adopted by the Board of Estimates. For each capital project included in the capital budget, the report must include:
+
+-   a brief description and location,
+-   the total estimated cost,
+-   the appropriations authorized to date,
+-   the appropriations proposed for the next fiscal year,
+-   the appropriations required thereafter to complete the project,
+-   and the estimated additional annual maintenance and operation cost.
+
+The goal of this report is to facilitate internal and external review of the city’s Capital Improvement Program before and after the Planning Commission review and Board of Estimates adoption of the Ordinance of Estimates. Due to recent changes in Baltimore City’s accounting systems, this report does not include appropriations authorized to date, however, Department staff expect to add this information in a future update.
+
+### Report organization
+
+The report is organized into sections by agency. Each section starts with an agency overview:
+
+-   A description of the agency and the agency’s typical capital projects
+-   A summary table of projects and detailed project profiles with `r cip_singular` in this 6-year program
+
+```{r}
+#| output: asis
+if (cip_singular == "request") {
+  cat("-   A summary table of projects identified as an agency priority for future requests and brief project profiles")
+}
+```
+
+For each detailed project profile, the report includes:
+
+-   A project code and name
+-   A project type (one of State of Good Repair, Modernization, New Asset, Community/Economic Development, Replacement, or (if type is not provided by an agency) not specified)
+-   A location description
+-   A table showing `r cip_plural` by source for the next 6 years (FY25-FY30)
+-   A table showing estimated project costs
+
+Project requests from the Department of Public Works are organized by Bureau and Division (corresponding to project Cost Center) and project requests from the Department of General Services are organized by the agency using the project asset. Other agency projects are organized by Cost Center.
+
+#### Project locations
+
+Capital funding (including design, planning, and implementation costs) associated with citywide systems and infrastructure may not be tied to a specific location. Other agency budgets support projects that may be used at one or more location as needed to respond to future urgent needs.
+
+For projects that are specific to a physical location, the profile also includes a locator map showing the project location Community Statistical Area where the project is located. However, it is also important to remember that even these projects often provide critical services for residents outside of the location where they are physically located. The Department of Planning prepares a separate distribution analysis to evaluate the distributional equity of investments included in the proposed Capital Improvement Program.
+
+::: {.callout-tip logo="false" title="Explore project locations online" appearance="simple"}
+You can explore prior project locations [in this online webmap](https://www.arcgis.com/home/item.html?id=657321dbfda24a06bec5cc0d5e69ebfa). Department of Planning staff expect to provide an updated online webmap for FY2025-30 requests in early 2024.
+:::
+
+{{< pagebreak >}}
+
+#### Request and estimate tables
+
+Detailed project profiles include tables showing `r cip_plural` by year and source and estimated design, construction, and other project costs.
+
+The detail table listing `r cip_singular` amounts by source and fiscal year includes an abbreviated name for the source. The table below serves as a reference to explain these abbreviations.
+
+```{r}
+#| tbl-colwidths: [0.1, 0.4, 0.35]
+
+# Requires cols_width_ext function
+
+sources_abb <- report_xwalks[["revenue_category_name_xwalk"]] |>
+  select(
+    all_of(
+      c(
+        "budget_category",
+        "revenue_category_label",
+        "revenue_category_name_short",
+        "exclude_flag"
+      )
+    )
+  ) |>
+  filter(
+    is.na(exclude_flag),
+    !is.na(budget_category)
+  ) |>
+  select(!exclude_flag)
+
+sources_abb |>
+  gt(
+    groupname_col = "budget_category",
+    row_group_as_column = TRUE
+  ) |>
+  cols_label(
+    revenue_category_label ~ "Funding source",
+    revenue_category_name_short ~ "Abbreviation"
+  ) |>
+  cols_width_ext(
+    columns = c("budget_category", "revenue_category_label", "revenue_category_name_short"),
+    widths = c(0.25, 0.4, 0.35),
+    textwidth = 5
+  ) |>
+  tab_header(
+    title = "Capital funding source names with abbreviations"
+  )
+```
+
+Reader should note that the total request for FY25-30 may not match the total cost estimate due to several reasons. The project may be supported by another non-city funding source (e.g. a contribution from a philanthropic partner) or an agency may be in the process of funding a project over a longer period than the six-year program. Programmatic items, such as road resurfacing or façade improvement grants, may exclude estimated costs as the amount of work the agency is able to support depends largely on the amount of funding made available.

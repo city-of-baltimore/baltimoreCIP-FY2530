@@ -1,0 +1,104 @@
+```{r}
+# Expected in document environment
+# - project
+# - project_level
+# - internal_report
+
+# Custom functions in document
+# - qto_dl_prj_info
+# - plot_prj_locator_map
+# - gt_prj_fy_requests
+# - plot_src_image
+
+cip_data_col <- "recommendation_data"
+
+# Create project locator map
+project_locations <- project[["location_data"]] |>
+  purrr::list_rbind() |>
+  sf::st_as_sf() |>
+  dplyr::filter(!is.na(asset_id))
+
+
+has_prj_location <- nrow(project_locations) > 0
+
+src <- here(
+  "images",
+  tolower(paste0(project[["location_asset_id"]], "_asset_map.jpeg"))
+)
+
+has_src_file <- file.exists(src)
+# FIXME: Disabling pregenerated maps until I can include it consistently
+has_src_file <- FALSE
+```
+
+```{r}
+# Set heading
+quartools::qto_heading(project[["prj"]], level = project_level)
+
+# Show project description and info list
+quartools::qto_block(
+  project[["project_desc"]]
+)
+```
+
+::: {layout="[ 60, 45 ]"}
+<div>
+
+```{r}
+#| layout-valign: top
+# Create a list of basic information for a project
+qto_dl_prj_info(project)
+```
+
+</div>
+
+<div>
+
+```{r}
+#| eval: !expr has_prj_location
+#| layout-valign: top
+#| out-width: \\textwidth
+#| fig-align: center
+#| fig-width: 1.5
+#| fig-height: 1.75
+# Show project locator map
+# FIXME: Plotting the locator map like this does not use the multiple location values
+plot_location_data(data = project_locations)
+```
+
+</div>
+:::
+
+```{r}
+#| out-width: 100%
+# Create a table for requested funds by source and year
+gt_prj_fy_requests(project[[cip_data_col]])
+```
+
+::: {layout="[ 40, 60 ]" layout-valign="top"}
+<div>
+
+```{r}
+#| layout-valign: top
+#| fig-show: hold
+# Create a table for estimated costs
+gt_prj_est_cost(project)
+```
+
+</div>
+
+<div>
+
+```{r}
+#| eval: !expr has_src_file
+#| fig-align: center
+#| fig-show: hold
+#| layout-valign: top
+# Plot a prepared image
+plot_src_image(src)
+```
+
+</div>
+:::
+
+{{< pagebreak >}}

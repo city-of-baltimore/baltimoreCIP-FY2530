@@ -1,0 +1,173 @@
+## Summary
+
+The Capital Improvement Program is a six-year plan for funding capital projects by City agencies. The program is updated and adopted each year as part of the Baltimore City Budget.
+
+::: {layout="[ 55, 45 ]"}
+<div>
+
+Baltimore City agencies requested capital funding for more than four hundred projects detailed project profiles organized by agency. Agencies also shared information on 150 priority projects that could be funded if additional capital funds are made available. In total, agencies requested more than \$2.8 billion in funds for construction, repair, modernization, and other improvements. The requests identify more than two hundred different buildings, parks, and other public assets as planned locations for this investment.
+
+</div>
+
+<div>
+
+```{r}
+#| fig-cap: !expr glue("Project {cip_plural} with locations in {params$title_short}")
+
+# plot_project_locations
+plot_location_data(report_data, size = 1.85)
+```
+
+</div>
+:::
+
+This report is prepared by the Baltimore City Department of Planning and published in advance of the Baltimore City Planning Commission review of agency requests each year. The goal of this report is to support the Planning Commission in the review and approval of the program and to share this important information with residents across the city and region.
+
+For questions, please contact the Department of Planning at 410-396-PLAN (7526) or visit the Department website at `r qto_external_link("https://planning.baltimorecity.gov", "")`.
+
+{{< pagebreak >}}
+
+```{r}
+#| eval: true
+# Must have functions
+# - vec_fmt_currency_plain
+# - fmt_currency_plain
+# - cols_label_ext
+report_data[[cip_data_col]] |>
+  purrr::list_rbind() |>
+  filter(!is.na(request_id)) |>
+  mutate(
+    budget_category_sort = if_else(
+      budget_category == "Utility Revenue" &
+        fund_grant_special_purpose_name == "9965 FND Parking Facilities Capital Project Fund",
+      22,
+      budget_category_sort
+    ),
+    budget_category = if_else(
+      budget_category == "Utility Revenue" &
+        fund_grant_special_purpose_name == "9965 FND Parking Facilities Capital Project Fund",
+      "Other",
+      budget_category
+    )
+  ) |>
+  summarise(
+    budget_category_sort = min(budget_category_sort),
+    across(
+      starts_with("fy_"),
+      \(x) {
+        sum(x, na.rm = TRUE)
+      }
+    ),
+    .by = c(budget_category)
+  ) |>
+  arrange(budget_category_sort) |>
+  select(!budget_category_sort) |>
+  ungroup() |>
+  gt(
+    rowname_col = "budget_category"
+  ) |>
+  grand_summary_rows(
+    columns = starts_with("fy_"),
+    fns = list(
+      "Total ($M)" ~ sum(., na.rm = TRUE)
+    ),
+    fmt = list(~ fmt(
+      data = .,
+      columns = starts_with("fy_"),
+      fns = \(x){
+        vec_fmt_currency_plain(x, scale_by = 0.000001, decimals = 1)
+      }
+    ))
+  ) |>
+  cols_label_ext(
+    columns = c(
+      "budget_category",
+      paste0("fy_", c(2025:2030)),
+      "fy_total"
+    ),
+    labels = c(
+      "Source",
+      paste0("FY", c(25:30)),
+      "Total ($M)"
+    )
+  ) |>
+  fmt_currency_plain(
+    columns = starts_with("fy_"),
+    scale_by = 0.000001,
+    decimals = 1
+  ) |>
+  tab_header(
+    paste0(
+      "Total ", cip_verb, " capital funds by year and source category"
+    )
+  )
+```
+
+```{r}
+report_data[[cip_data_col]] |>
+  purrr::list_rbind() |>
+  # FIXME: Rename request_id column with more general column name
+  filter(!is.na(request_id)) |>
+  summarise(
+    across(
+      starts_with("fy_"),
+      \(x) {
+        sum(x, na.rm = TRUE)
+      }
+    ),
+    .by = c(agency_short_name)
+  ) |>
+  arrange(agency_short_name) |>
+  ungroup() |>
+  gt(
+    rowname_col = "agency_short_name"
+  ) |>
+  grand_summary_rows(
+    columns = starts_with("fy_"),
+    fns = list(
+      "Total ($M)" ~ sum(., na.rm = TRUE)
+    ),
+    fmt = list(~ fmt(
+      data = .,
+      columns = starts_with("fy_"),
+      fns = \(x){
+        vec_fmt_currency_plain(x, scale_by = 0.000001, decimals = 1)
+      }
+    ))
+  ) |>
+  cols_label_ext(
+    columns = c(
+      "agency_short_name",
+      paste0("fy_", c(2025:2030)),
+      "fy_total"
+    ),
+    labels = c(
+      "Agency",
+      paste0("FY", c(25:30)),
+      "Total ($M)"
+    )
+  ) |>
+  fmt_currency_plain(
+    columns = starts_with("fy_"),
+    scale_by = 0.000001,
+    decimals = 1
+  ) |>
+  tab_header(
+    paste0(
+      "Total ", cip_verb, " capital funds by year and agency"
+    )
+  )
+```
+
+<!-- :::{.callout-note collapse=false appearance='simple' title='January 2024 Agency Presentations' icon=true} -->
+<!-- -   Baltimore City Information Technology: [Slides](https://planning.baltimorecity.gov/sites/default/files/BCIT%20FY25%20CIP%20Presentation%203.pdf) -->
+<!-- -   Department of General Services: [Slides](https://planning.baltimorecity.gov/sites/default/files/FY25%20DGS%20CIP%20Planning%20Presentation%201.17.24_Final%20(1).pdf)  -->
+<!-- -   Bureau of Solid Waste (Public Works): [Slides](https://planning.baltimorecity.gov/sites/default/files/FY%2025%20CIP%20Presentation%20-%20BSW%20(Final).pdf)  -->
+<!-- -   Water, Wastewater, and Stormwater Utilities (Public Works): [Slides](https://planning.baltimorecity.gov/sites/default/files/FY%2025%20CIP%20Presentation%20-%20BW&WW%20(Final).pdf)  -->
+<!-- -   Department of Transportation: [Slides](https://planning.baltimorecity.gov/sites/default/files/DRAFT_BCDOT%20FY25-30%20CIP%20Presentation%20(Jan%2018%202024).pdf)  -->
+<!-- -   Department of Recreation and Parks: [Slides](https://planning.baltimorecity.gov/sites/default/files/BCRP%20FY25%20CIP%20Presentation.pdf) -->
+<!-- -   Department of Housing & Community Development: [Slides](https://planning.baltimorecity.gov/sites/default/files/DHCD%20CIP%20Presentation%20FY25%20-%20F30.pdf) -->
+<!-- -   Baltimore Development Corporation: [Slides](https://planning.baltimorecity.gov/sites/default/files/BDC_CIP_FY25-30%20Presentation.pdf)  -->
+<!-- ::: -->
+
+{{< pagebreak >}}

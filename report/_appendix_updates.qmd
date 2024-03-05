@@ -1,0 +1,15 @@
+## Updates
+
+```{r}
+sys_time <- format(Sys.time(), format = "%D %r")
+request_file_time <- format(targets::tar_meta(cip_requests_src)[["time"]], format = "%D %r")
+details_file_time <- format(targets::tar_meta(cip_project_details_src)[["time"]], format = "%m/%d %r")
+```
+
+::: {.callout-important appearance="simple" icon="true"}
+Report last updated `r sys_time` using request data (exported from Adaptive Planning at `r request_file_time`) and project details (exported at `r details_file_time`).
+:::
+
+If any corrections or modifications to the report are required, these updates will be noted in this section of the report and a new version posted [to the Department website](https://planning.baltimorecity.gov/planning-capital-improvement/maps). Additional updates are expected following the Planning Commission hearings with agency staff and Planning Commission adoption of the Capital Improvement Program.
+
+-   **2023 January 25:** Minor corrections and updates to project names for BCRP, DHCD, and DPW to better match project names in this report to project names used by agencies in Planning Commission briefing presentations. Add maps for DOT FY25 Requests.

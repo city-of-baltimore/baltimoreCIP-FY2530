@@ -1,0 +1,314 @@
+```{r}
+#| eval: false
+# block of code for testing
+source(here::here("R/packages.R"))
+source(here("R/utilities.R"))
+source_here("utilities-gt.R")
+source_here("functions-visualizations.R")
+
+# Load requests
+source_here("load_report_data.R")
+
+agency_label <- "Department of Public Works"
+agency_level <- 2
+agency <- agency_label
+data <- filter(report_data, .data[["agency_label"]] == agency)
+```
+
+```{r}
+#| file: R/functions-agency_report.R
+```
+
+```{r}
+#| eval: true
+# Expected in document environment
+# - data
+# - agency_label
+# - agency_level
+# - agency_reference
+
+# Custom functions in document
+# - qto_agency_overview
+
+# Filter agency reference data to agency
+agency <- agency_label
+
+agency <- filter(
+  agency_reference,
+  agency_label %in% agency
+)
+
+# Ungroup data
+# FIXME: This shouldn't be required - unsure why I need it
+data <- ungroup(data)
+
+# Subset data with requests
+project_recommendation_list <- filter(
+  data,
+  is_recommended
+)
+
+# n_projects <- nrow(data)
+# n_requests <- nrow(project_request_list)
+
+# Create agency project type plot
+# agency_project_type_plot <- plot_agency_projects_type(data)
+# Create agency project priority plot
+# agency_project_priority_plot <- plot_agency_projects_priority(data)
+# agency_project_type_plot + agency_project_priority_plot
+```
+
+{{< pagebreak >}}
+
+```{r}
+quartools::qto_heading(agency[["agency_label"]], level = agency_level)
+```
+
+```{r}
+# groupname_col <- NULL
+groupname_col <- "cost_center"
+group_project_recommendation_tbl <- agency_label %in% c(
+  "Department of General Services",
+  "Department of Public Works"
+)
+
+project_recommendation_tbl_data <- project_recommendation_list
+
+if (group_project_recommendation_tbl) {
+  groupname_col <- case_match(
+    agency_label,
+    "Department of General Services" ~ "asset_agency_label",
+    "Department of Public Works" ~ "division"
+  )
+
+  project_recommendation_tbl_data <- project_recommendation_list |>
+    tidyr::replace_na(
+      replace = list(
+        division = "No assigned division",
+        asset_agency_label = "Multiple Agencies/Other"
+      )
+    ) |>
+    mutate(
+      # Required only for DGS asset_agency_label grouping
+      asset_agency_label = case_when(
+        str_detect(
+          project_name,
+          "Baltimore City Police Department"
+        ) ~ "Baltimore City Police Department",
+        # Manual fix for Bromo Seltzer Tower
+        project_code == "PRJ003083" ~ "Multiple Agencies/Other",
+        .default = asset_agency_label
+      )
+    )
+}
+
+if (!is.null(groupname_col) && length(unique(project_recommendation_tbl_data[[groupname_col]])) > 1) {
+  project_recommendation_tbl_data <- project_recommendation_tbl_data |>
+    group_by(
+      .data[[groupname_col]]
+    )
+}
+```
+
+```{r}
+quartools::qto_heading(
+  "Recommendations",
+  level = agency_level + 1
+)
+```
+
+```{r}
+#| message: false
+project_recommendation_tbl_data |>
+  select(
+    # any_of(groupname_col),
+    project_code, project_name,
+    recommendation_overall,
+    diff_overall = fy_total_diff,
+    fy_total_pct_diff
+  ) |>
+  # suppressMessages() |>
+  mutate(
+    # project_name = stringr::str_wrap(
+    #   project_name,
+    #   width = 60
+    # ),
+    fy_total_pct_diff = case_when(
+      (fy_total_pct_diff == 0 | is.na(fy_total_pct_diff)) ~ "---",
+      fy_total_pct_diff < 0 ~ paste0(
+        round(fy_total_pct_diff * 100, digits = 1), "%"
+      ),
+      fy_total_pct_diff > 0 ~ paste0(
+        "+", round(fy_total_pct_diff * 100, digits = 1), "%"
+      )
+    ),
+    diff_overall = if_else(
+      diff_overall == 0,
+      NA_real_,
+      diff_overall
+    ),
+    across(
+      ends_with("_overall"),
+      \(x) {
+        x <- vec_fmt_currency_plain(x, escape = FALSE)
+        stringr::str_replace(x, "NA", "---")
+      }
+    )
+  ) |>
+  kbl_tbl(
+    col_names = c(
+      "", "Project",
+      "Recommendation ($K)",
+      "Change ($K)", "Change (%)"
+    ),
+    widths = c("3.875in", "1.5in", "1in", "1in"),
+    align = "llrrr",
+    width_cols = c(2, 3, 4, 5),
+    rowname_col = "project_code",
+    latex_options = "repeat_header",
+    rowname_col_label = ""
+  )
+```
+
+```{r}
+changed_project_list <- project_recommendation_list |>
+  filter(
+    diff_desc_overall != "No change"
+  )
+
+has_changed_projects <- nrow(changed_project_list) > 0
+```
+
+```{r}
+#| eval: !expr has_changed_projects
+
+change_summary_text <- changed_project_list |>
+  count(diff_desc_overall) |>
+  mutate(
+    change_summary = map2(
+      n, diff_desc_overall,
+      \(x, y) {
+        cli::pluralize("{x} project{?s} with {tolower(y)}")
+      }
+    )
+  ) |>
+  pull(change_summary) |>
+  knitr::combine_words()
+
+quartools::qto_heading(
+  "Changes to requests",
+  level = agency_level + 1
+)
+
+quartools::qto_block(
+  "This summary table only lists projects where the recommendation is different than original agency request.", paste0("Recommended changes to ", agency_label, "requests include ", change_summary_text, ".")
+)
+```
+
+
+```{r}
+#| eval: !expr has_changed_projects
+
+fy_col_names <- c(paste0("FY", c(25:30)), "Total ($K)")
+
+changed_project_list |>
+  pull(recommendation_data) |>
+  list_rbind() |>
+  left_join(
+    project_recommendation_list |>
+      select(project_code, diff_desc_overall),
+    by = join_by(project_code)
+  ) |>
+  group_by(diff_desc_overall) |>
+  select(
+    diff_desc_overall,
+    project_code,
+    report,
+    revenue_category_name_short,
+    starts_with("fy_")
+  ) |>
+  mutate(
+    across(
+      starts_with("fy_"),
+      \(x) {
+        vec_fmt_currency_plain(x, escape = FALSE)
+      }
+    )
+  ) |>
+  kbl_tbl(
+    col_names = c(
+      "Project",
+      "Category",
+      "Source",
+      fy_col_names
+    ),
+    rowname_col = "project_code",
+    latex_options = "repeat_header",
+    rowname_col_label = "Project code"
+  )
+```
+
+{{< pagebreak >}}
+
+
+```{r}
+# Custom functions in document
+# - qto_callout_agency_additional
+# - kbl_agency_projects
+# - nest_by_project_code
+# - knit_children
+
+# Data
+# - projaect_additional_list
+# - agency_level
+# - agency_label
+
+internal_report <- FALSE
+```
+
+```{r}
+#| eval: false
+quartools::qto_block(
+  quartools::qto_heading(
+    "Recommended projects",
+    level = agency_level + 1
+  ),
+  # qto_callout_agency_additional(
+  #   project_additional_list,
+  #   agency_label,
+  #   callout = FALSE
+  # ),
+  # Show table of projects with no requests
+  kbl_agency_projects(
+    data = project_recommendation_list,
+    show_requests = FALSE,
+    full_width = FALSE
+  ),
+  # gt_agency_projects_no_requests(project_additional_list, agency_label)
+  sep = "\n\n"
+)
+```
+
+{{< pagebreak >}}
+
+```{r}
+quartools::qto_heading(
+  "Recommended project details",
+  level = agency_level + 1
+)
+```
+
+```{r}
+#| output: asis
+project_recommendation_list |>
+  nest_by_project_code() |>
+  knit_children(
+    project,
+    ...,
+    .input = here("report", "children", "_project_recommended.qmd"),
+    .params = list2(
+      project_level = agency_level + 2,
+      internal_report = internal_report
+    )
+  )
+```

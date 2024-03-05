@@ -1,0 +1,15 @@
+::: {layout="[ 40, -10, 60 ]" layout-valign="bottom"}
+
+![Cover image](https://www.arcgis.com/sharing/rest/content/items/3c6b15374abb47b3a6aca6645f76fe24/resources/images/widget_46/1684261987063.png){width="250" fig-align=}
+<div>
+\RaggedRight \noindent Baltimore takes a comprehensive approach to hazard mitigation planning, recognizing the City’s vulnerability to the impacts of severe hazard events and the need to increase our resilience to disaster. Baltimore’s Disaster Preparedness and Planning Project (DP3) was first produced by the Department of Planning in 20131 to address both existing hazards and the predictions of the impacts of climate change on these natural hazards, including but not limited to heat waves, sea level rise, increased precipitation, and flooding. 
+</div>
+:::
+
+::: {layout-ncol=2 layout-valign="top"}
+- Item X
+- Item Y
+- Item Z
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida eu erat et fring. Morbi congue augue vel eros ullamcorper, eget convallis tortor sagittis. Fusce sodales viverra mauris a fringilla. Donec feugiat, justo eu blandit placerat, enim dui volutpat turpis, eu dictum lectus urna eu urna. Mauris sed massa ornare, interdum ipsum a, semper massa. 
+:::

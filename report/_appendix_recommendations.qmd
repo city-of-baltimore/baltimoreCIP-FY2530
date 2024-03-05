@@ -1,0 +1,83 @@
+```{r}
+tbl_list <- cip_comparison_summary |>
+  left_join(
+    select(
+      cip_project_details,
+      all_of(c("project_code", "project_name", "agency_label"))
+    ),
+    by = join_by(project_code)
+  ) |>
+  filter(
+    fy_total_diff != 0
+  ) |>
+  select(
+    !c(is_new, diff_desc)
+  ) |>
+  relocate(
+    agency_label,
+    project_name,
+    .after = project_code
+  ) |>
+  nest_by(fy, .keep = FALSE) |>
+  purrr::pmap(
+    \(fy,
+      data) {
+      data |>
+        arrange(agency_label, project_code) |>
+        kbl_comparison()
+    }
+  )
+```
+
+\blandscape
+
+## Requests and Recommendations Comparison
+
+::: {width=90%}
+
+### Overall Changes
+
+`r tbl_list[[2]]`
+
+{{< pagebreak >}}
+
+### FY 2025 Changes
+
+`r tbl_list[[1]]`
+
+{{< pagebreak >}}
+
+### FY 2026 Changes
+
+`r tbl_list[[3]]`
+
+{{< pagebreak >}}
+
+### FY 2027 Changes
+
+`r tbl_list[[4]]`
+
+{{< pagebreak >}}
+
+### FY 2028 Changes
+
+`r tbl_list[[5]]`
+
+{{< pagebreak >}}
+
+### FY 2029 Changes
+
+`r tbl_list[[6]]`
+
+{{< pagebreak >}}
+
+### FY 2030 Changes
+
+`r tbl_list[[7]]`
+
+:::
+
+\elandscape
+
+{{< pagebreak >}}
+

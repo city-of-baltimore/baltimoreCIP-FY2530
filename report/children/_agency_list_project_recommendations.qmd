@@ -1,0 +1,155 @@
+
+```{r}
+# Custom functions in document
+# - gt_revenue_category_fy
+# - qto_callout_agency_requests
+# - plot_project_locations
+# - kbl_agency_projects
+# - nest_by_project_code
+# - knit_children
+
+has_request_locations <- any(!is.na(project_request_list[["location_asset_id"]]))
+
+missing_request_locations <- !has_request_locations
+
+groupname_col <- NULL
+group_project_request_tbl <- agency_label %in% c(
+  "Department of General Services",
+  "Department of Public Works"
+)
+
+project_request_tbl_data <- project_request_list
+
+if (group_project_request_tbl) {
+  groupname_col <- case_match(
+    agency_label,
+    "Department of General Services" ~ "asset_agency_label",
+    "Department of Public Works" ~ "division"
+  )
+
+  project_request_tbl_data <- project_request_list |>
+    tidyr::replace_na(
+      replace = list(
+        division = "No assigned division",
+        asset_agency_label = "Multiple Agencies/Other"
+      )
+    ) |>
+    mutate(
+      # Required only for DGS asset_agency_label grouping
+      asset_agency_label = case_when(
+        str_detect(
+          project_name,
+          "Baltimore City Police Department"
+        ) ~ "Baltimore City Police Department",
+        # Manual fix for Bromo Seltzer Tower
+        project_code == "PRJ003083" ~ "Multiple Agencies/Other",
+        .default = asset_agency_label
+      )
+    )
+
+  project_request_tbl_data <- project_request_tbl_data |>
+    group_by(
+      .data[[groupname_col]]
+    )
+}
+```
+
+```{r}
+quartools::qto_heading("Project requests", level = agency_level + 1)
+```
+
+```{r}
+gt_revenue_category_fy(
+  project_request_list$request_data,
+  title = paste0(
+    "Total ",
+    agency[["agency_label_abb"]],
+    " requests by source"
+  )
+)
+```
+
+
+```{r}
+#| eval: !expr missing_request_locations
+# Show agency callout
+qto_callout_agency_requests(
+  data = project_request_list,
+  agency_label = agency_label,
+  callout = FALSE
+)
+```
+
+::: {layout="[ 60, 40 ]"}
+<div>
+
+```{r}
+#| eval: !expr has_request_locations
+#| layout-valign: top
+# Show agency callout
+qto_callout_agency_requests(
+  data = project_request_list,
+  agency_label = agency_label,
+  callout = FALSE
+)
+```
+
+</div>
+
+<div>
+
+```{r}
+#| eval: !expr has_request_locations
+#| layout-valign: top
+#| fig-align: center
+#| fig-width: 2
+#| fig-height: 2
+plot_project_locations(project_request_list, size = 3, asset_data = )
+```
+
+</div>
+:::
+
+```{r}
+# Show table of projects with requests
+kbl_agency_projects(
+  data = project_request_tbl_data,
+  groupname_col = groupname_col
+)
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| eval: !expr agency_label == "Department of Transportation"
+#| file: R/plot_DOT_FY25_location_map.R
+#| fig-width: 6.5
+#| fig-height: 8
+```
+
+```{r}
+#| eval: !expr agency_label == "Department of Transportation"
+#| output: asis
+cat("{{< pagebreak >}}")
+```
+
+```{r}
+#| output: asis
+# Walk through agency projects with requests
+
+project_level <- agency_level + 2
+internal_report <- FALSE
+
+project_request_list |>
+  nest_by_project_code() |>
+  knit_children(
+    project,
+    .input = here("report", "children", "_project_request.qmd"),
+    .params = list2(
+      "project_level" = project_level,
+      "internal_report" = internal_report
+    )
+  )
+```
+
+

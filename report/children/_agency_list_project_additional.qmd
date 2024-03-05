@@ -1,0 +1,53 @@
+```{r}
+# Custom functions in document
+# - qto_callout_agency_additional
+# - kbl_agency_projects
+# - nest_by_project_code
+# - knit_children
+
+# Data
+# - project_additional_list
+# - agency_level
+# - agency_label
+
+internal_report <- FALSE
+```
+
+```{r}
+quartools::qto_block(
+  quartools::qto_heading(
+    "Additional priority projects",
+    level = agency_level + 1
+  ),
+  qto_callout_agency_additional(
+    project_additional_list,
+    agency_label,
+    callout = FALSE
+  ),
+  # Show table of projects with no requests
+  kbl_agency_projects(
+    data = project_additional_list,
+    show_requests = FALSE,
+    full_width = FALSE
+  ),
+  # gt_agency_projects_no_requests(project_additional_list, agency_label)
+  sep = "\n\n"
+)
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| output: asis
+project_additional_list |>
+  nest_by_project_code() |>
+  knit_children(
+    project,
+    ...,
+    .input = here("report", "children", "_project_additional.qmd"),
+    .params = list2(
+      project_level = agency_level + 2,
+      internal_report = internal_report
+    )
+  )
+```

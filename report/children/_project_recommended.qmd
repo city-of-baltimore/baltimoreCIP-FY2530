@@ -1,0 +1,47 @@
+```{r}
+#| file: !expr here("R", "functions-project_report.R")
+```
+
+```{r}
+# Expected in environment
+# - project
+# - project_level
+
+# Custom functions in document
+# - qto_dl_prj_info
+
+project <- project |>
+  mutate(
+    `Recommended change` = if_else(
+      diff_desc_overall == "No change",
+      NA_character_,
+      diff_desc_overall
+    )
+  )
+
+quartools::qto_div(
+  .content = c(
+    quartools::qto_heading(
+      project[["prj"]],
+      level = project_level
+    ),
+    # Show project description
+    project[["project_desc"]],
+    # Create a list of basic information for a project
+    qto_dl_prj_info(
+      project,
+      nm = c(
+        "project_type",
+        "location",
+        "cost_center",
+        "Recommended change",
+        "est_cost_overall"
+      )
+    )
+  ),
+  # .attributes = c(
+  #   "layout" = "[ 60, 40 ]"
+  # ),
+  collapse = "\n\n"
+)
+```
