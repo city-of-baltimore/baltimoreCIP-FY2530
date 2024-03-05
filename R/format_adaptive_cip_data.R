@@ -54,6 +54,7 @@ format_adaptive_cip_data <- function(data,
           "g", # grant
           "fy"
         )
-      )
+      ),
+      any_of(names(revenue_category_name_xwalk))
     )
 }

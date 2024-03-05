@@ -1,8 +1,8 @@
 #' Create a summary table of agency projects with or without requests using
 #' `kableExtra::kbl`
 #'
-#' TODO: This should be re-implemented using the `kbl_tidy()` function in
-#' utilities.R based on this function.
+#' TODO: This should be re-implemented using the `kbl_tidy()` function based on
+#' this function.
 #'
 kbl_agency_projects <- function(data,
                                 caption = NULL,
@@ -17,10 +17,11 @@ kbl_agency_projects <- function(data,
                                   "HOLD_position"
                                 ),
                                 groupname_col = group_vars(data),
+                                summary_col = "total_amt",
                                 latex_wrap_text = FALSE,
                                 full_width = FALSE) {
   tbl_col_names <- c("", "Project", "Total ($K)")
-  tbl_cols <- c("project_code", "project_name", "total_request_amt")
+  tbl_cols <- c("project_code", "project_name", summary_col)
   tbl_col_align <- "rlr"
 
   if (!is.null(caption)) {
@@ -33,8 +34,8 @@ kbl_agency_projects <- function(data,
       ungroup() |>
       summarise(
         project_code = "",
-        project_name = "Total — Agency Requests",
-        total_request_amt = sum(total_request_amt)
+        project_name = "Total — All Projects",
+        "{summary_col}" := sum(.data[[summary_col]])
       )
   }
 
@@ -58,7 +59,7 @@ kbl_agency_projects <- function(data,
     # Create group summary
     agency_tbl_data_summary <- data |>
       summarise(
-        total_request_amt = sum(total_request_amt),
+        "{summary_col}" := sum(.data[[summary_col]]),
         project_name = paste0("Total", " - ", unique(.data[[groupname_col]])),
         project_code = "",
         total_row = TRUE
@@ -110,8 +111,8 @@ kbl_agency_projects <- function(data,
 
   agency_tbl <- agency_tbl_data |>
     mutate(
-      total_request_amt = vec_fmt_currency_plain(
-        total_request_amt,
+      "{summary_col}" := vec_fmt_currency_plain(
+        .data[[summary_col]],
         escape = FALSE
       )
     ) |>

@@ -9,10 +9,6 @@ format_asset_block_lot <- function(asset_data,
     block_lot_col == "block_lot"
   )
 
-  cli::cli_inform(
-    names(asset_data)
-  )
-
   asset_data |>
     mutate(
       # Correct non-standard block_lot for consistency

@@ -22,7 +22,8 @@ load_dot_intersections <- function(intersections) {
     sf::st_transform(3857) |>
     filter(
       id %in% intersections
-    )
+    ) |>
+    sf::st_set_geometry("geometry")
 
   intersection_data |>
     mutate(
@@ -38,8 +39,5 @@ load_dot_intersections <- function(intersections) {
     select(
       asset_id, asset_name, agency_abb
     ) |>
-    sf::st_set_geometry("geometry") |>
-    bind_coords(
-      intersection_data
-    )
+    bind_coords()
 }

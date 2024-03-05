@@ -1,3 +1,25 @@
+intersects_baltimore_city <- function(x) {
+  y <- sf::st_transform(
+    mapbaltimore::baltimore_city,
+    crs = sf::st_crs(x)
+  )
+
+  is_st_intersects(x, y)
+}
+
+is_st_intersects <- function(x, y, sparse = FALSE) {
+  x <- filter(x, !sf::st_is_empty(x))
+
+  intersects <- sf::st_intersects(x, y, sparse = sparse)
+
+  # if (!sparse && dim(intersects)[[2]] == 1) {
+  if (!sparse) {
+    return(as.logical(intersects))
+  }
+
+  intersects
+}
+
 ## ---- plot_prj_locator_map
 plot_prj_locator_map <- function(data = NULL,
                                  id = NULL,
@@ -18,6 +40,19 @@ plot_prj_locator_map <- function(data = NULL,
                                  ...) {
   data <- data %||% get_asset_by_id(id)
 
+  if (!is.data.frame(data)) {
+    data <- data |>
+      purrr::list_rbind() |>
+      sf::st_as_sf() |>
+      dplyr::filter(!is.na(asset_id))
+
+    return(data)
+
+    if (nrow(data) == 0) {
+      return(invisible(NULL))
+    }
+  }
+
   county_col <- "county"
 
   if (has_name(data, "asset_county")) {
@@ -28,8 +63,11 @@ plot_prj_locator_map <- function(data = NULL,
   data <- data |>
     filter(!sf::st_is_empty(geometry))
 
-  if (!all(data[[county_col]] %in% "Baltimore city")) {
-    regional_map <- make_prj_regional_locator_map(
+  needs_msa_map <- !all(data[[county_col]] %in% "Baltimore city") # ||
+  # !all(intersects_baltimore_city(data))
+
+  if (needs_regional_map) {
+    msa_map <- plot_baltimore_msa_locator_map(
       data,
       size = size,
       shape = shape,
@@ -39,64 +77,21 @@ plot_prj_locator_map <- function(data = NULL,
       ...
     )
 
-    return(regional_map)
+    return(msa_map)
   }
 
-  basemap <- basemap %||% read_basemap_rds("baltimore_locator_basemap")
-  # FIXME: Making boundaries into a parameter only works if the basemap supports
-  # a boundaries parameter
-  boundaries <- boundaries %||% read_basemap_rds("community_areas")
-  boundaries <- sf::st_filter(boundaries, data)
-
-  if (location == "centroid") {
-    project_locations <- suppressWarnings(sf::st_centroid(data))
-  }
-
-  if (is_function(project_layer)) {
-    project_layer <- project_layer(data = project_locations)
-  }
-
-  project_layer <- project_layer %||% geom_sf(
-    data = project_locations,
+  plot_baltimore_city_locator_map(
+    data,
     size = size,
     shape = shape,
-    alpha = alpha,
-    fill = fill,
-    color = color,
-    stroke = stroke
+    stroke = stroke,
+    border_color = border_color,
+    border_linewidth = border_linewidth,
+    project_layer = project_layer,
+    basemap = basemap,
+    boundaries = boundaries,
+    location = location,
+    limit_bbox = limit_bbox,
+    ...
   )
-
-  map_limits <- list()
-
-  if (limit_bbox) {
-    baltimore_city_bbox <- read_basemap_rds("baltimore_city_bbox")
-
-    map_limits <- list(
-      coord_sf(
-        xlim = c(baltimore_city_bbox$xmin, baltimore_city_bbox$xmax),
-        ylim = c(baltimore_city_bbox$ymin, baltimore_city_bbox$ymax),
-        expand = FALSE
-      )
-    )
-  }
-
-  baltimore_city <- read_basemap_rds("baltimore_city")
-
-  basemap +
-    geom_sf(
-      data = boundaries,
-      fill = "#FCB826",
-      color = "#FDD06E",
-      alpha = 0.9,
-      linewidth = 0.3
-    ) +
-    geom_sf(
-      data = baltimore_city,
-      color = border_color,
-      # color = "gray20",
-      fill = NA,
-      linewidth = border_linewidth
-    ) +
-    project_layer +
-    map_limits
 }

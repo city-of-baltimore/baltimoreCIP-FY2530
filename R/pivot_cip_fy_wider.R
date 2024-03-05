@@ -6,7 +6,7 @@
 #' @param data Data frame with columns starting with "fy"
 #' @param names_from String passed to `all_of()` and to [tidyr::pivot_wider()]
 pivot_cip_fy_wider <- function(data,
-                                     names_from = "report") {
+                               names_from = "report") {
   data |>
     pivot_wider(
       names_from = all_of(names_from),

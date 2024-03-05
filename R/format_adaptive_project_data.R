@@ -5,9 +5,11 @@ format_adaptive_project_data <- function(data,
                                          project_detail_updates,
                                          project_data_corrections,
                                          report_xwalks,
-                                         p_hierarchy_xwalks) {
+                                         p_hierarchy_xwalks,
+                                         agency_reference = NULL) {
   project_details_source <- data
   adaptive_dictionary <- dictionary
+  # FIXME: The filename should be a parameter
   project_details_filename <- "Capital_Projects_-_Project_Details.xlsx"
   location_updates <- project_detail_updates[["location_updates"]]
   project_name_updates <- project_detail_updates[["project_name_updates"]]
@@ -25,9 +27,7 @@ format_adaptive_project_data <- function(data,
     filter(
       exclude_flag == "Y"
     ) |>
-    select(
-      project_code
-    )
+    pull(project_code)
 
   # Filter dictionary to project details
   project_details_dictionary <- filter(
@@ -70,7 +70,7 @@ format_adaptive_project_data <- function(data,
       !starts_with("fgs_grant_")
     ) |>
     filter(
-      !(project_code %in% exclude_projects[["project_code"]])
+      !(project_code %in% exclude_projects)
     ) |>
     # Format adaptive data
     format_prj_data() |>
@@ -184,8 +184,12 @@ format_adaptive_project_data <- function(data,
       relationship = "many-to-one",
       na_matches = "never"
     ) |>
-    # FIXME: This should be handled by the dictionary
     rename(
+      # FIXME: This should be handled by the dictionary
       operating_impact = operating_budget_impact
+    ) |>
+    left_join(
+      select(agency_reference, agency_label, agency_short_name, agency_label_abb),
+      by = join_by(agency_label)
     )
 }

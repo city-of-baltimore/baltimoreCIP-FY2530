@@ -1,0 +1,100 @@
+## ---- gt_prj_fy_requests
+#' Create a project fiscal year capital request table
+#'
+#' [gt_prj_fy_requests()] is used to insert a standalone fiscal year
+#' request table in a project profile report.
+#'
+#' @seealso [gt_project_details()]
+gt_prj_fy_requests <- function(data,
+                               labels = NULL,
+                               prefix = "FY",
+                               decimals = 0,
+                               scale_by = NULL,
+                               suffixing = NULL,
+                               show_summary = TRUE,
+                               ...,
+                               textwidth = 10,
+                               title = "Recommendations by source",
+                               request_source_col = "revenue_category_name_short",
+                               rowname_col = request_source_col) {
+  if (vctrs::is_list_of(data) && has_length(data, 1)) {
+    data <- data[[1]]
+  }
+
+  stopifnot(is.data.frame(data))
+
+  fy_cols <- paste0("fy_", c(2025:2030))
+
+  labels <- labels %||%
+    set_names(
+      c("Source", "Total ($K)", paste0(prefix, c(25:30))),
+      c(request_source_col, "fy_total", fy_cols)
+    )
+
+  footnote <- NULL
+
+  # if (any(!is.na(data[["grant_program"]]))) {
+  #   # FIXME: Add state grants as a footnote
+  #   footnote <- "Test footnote"
+  #   footnote_location <- cells_stub(
+  #     rows = 1 #' [revenue_category_name_short] %in% c("State Grant", "Fed. Grant")'
+  #   )
+  # }
+
+  data <- data |>
+    select(
+      all_of(request_source_col),
+      starts_with("fy")
+    ) |>
+    arrange(
+      .data[[request_source_col]]
+    ) |>
+    gt_simple(
+      ...,
+      rowname_col = rowname_col,
+      labels = labels,
+      textwidth = textwidth
+    ) |>
+    fmt_currency_plain(
+      columns = all_of(c("fy_total", fy_cols))
+    ) |>
+    sub_missing(
+      columns = all_of(request_source_col)
+    )
+
+  if (!show_summary) {
+    return(data)
+  }
+
+  data <- data |>
+    grand_summary_rows(
+      columns = starts_with("fy_"),
+      fns = list("Total by Year ($K)" ~ sum(., na.rm = TRUE)),
+      fmt = list(~ fmt(
+        data = .,
+        columns = starts_with("fy_"),
+        fns = \(x){
+          vec_fmt_currency_plain(x)
+        }
+      ))
+    )
+
+  # FIXME: This broke the rendering - check why and how to fix.
+  #   if (!is.null(footnote)) { # Maybe add  `&& !is.na(footnote)` to check
+  #     data <- data |>
+  #       tab_footnote(
+  #         footnote = footnote,
+  #         locations = locations
+  #       )
+  #   }
+
+  if (is.null(title)) {
+    return(data)
+  }
+
+  # data
+  data |>
+    tab_header(
+      title = title
+    )
+}

@@ -1,7 +1,7 @@
 # ----- prep_project_locations
 prep_project_locations <- function(project_details_data,
                                    project_asset_xwalk,
-                                   asset_parcels) {
+                                   asset_parcels = NULL) {
   project_asset_locations <- asset_parcels |>
     select(
       location_asset_id = asset_id,

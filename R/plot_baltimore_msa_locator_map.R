@@ -1,22 +1,20 @@
-## make_prj_regional_locator_map ----
-make_prj_regional_locator_map <- function(data = NULL,
-                                          id = NULL,
-                                          size = 3,
-                                          shape = 21,
-                                          stroke = (size / 6),
-                                          # color = "#FCB826",
-                                          color = "white",
-                                          fill = "black",
-                                          alpha = 0.8,
-                                          # fill = "#FCB826",
-                                          # color = "black",
-                                          border_color = "#00415F",
-                                          border_linewidth = 0.5,
-                                          mask_dist = 0.125,
-                                          mask_unit = "mi",
-                                          basemap = NULL) {
-  data <- data %||% get_asset_by_id(id)
-
+## plot_baltimore_msa_locator_map ----
+plot_baltimore_msa_locator_map <- function(
+    data = NULL,
+    size = 3,
+    shape = 21,
+    stroke = (size / 6),
+    # color = "#FCB826",
+    color = "white",
+    fill = "black",
+    alpha = 0.8,
+    # fill = "#FCB826",
+    # color = "black",
+    border_color = "#00415F",
+    border_linewidth = 0.5,
+    mask_dist = 0.125,
+    mask_unit = "mi",
+    basemap = NULL) {
   basemap <- basemap %||%
     read_basemap_rds("baltimore_msa_locator_basemap")
 

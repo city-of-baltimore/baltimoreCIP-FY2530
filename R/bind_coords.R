@@ -6,6 +6,8 @@
 bind_coords <- function(data, coords = c("lon", "lat"), ...) {
   testthat::expect_s3_class(data, "sf")
 
+  sf_column <- attr(data, "sf_column")
+
   data |>
     bind_cols(
       convert_to_coords(
@@ -15,7 +17,7 @@ bind_coords <- function(data, coords = c("lon", "lat"), ...) {
       )
     ) |>
     relocate(
-      coords,
-      .before = all_of(attr(data, "sf_column"))
+      all_of(coords),
+      .before = any_of(sf_column)
     )
 }

@@ -1,7 +1,7 @@
 #' Format DGS Asset Data
 #'
 #' @inheritParams source
-format_asset_list <- function(
+format_dgs_asset_list <- function(
     asset_data,
     attributes_data,
     dictionary,
@@ -10,6 +10,8 @@ format_asset_list <- function(
     rename_xwalk_cols = c("clean_name", "variable"),
     additional_data = NULL,
     crs = 3857,
+    asset_agency_xwalk = NULL,
+    agency_reference = NULL,
     names_to = rlang::zap()) {
   # return(dictionary)
 
@@ -52,6 +54,9 @@ format_asset_list <- function(
 
   asset_data_formatted <- asset_data_formatted |>
     filter(!is.na(asset_id)) |>
+    mutate(
+      agency_abb = controlling_agency
+    ) |>
     trim_squish_across() |>
     format_asset_coords() |>
     format_asset_block_lot() |>
@@ -65,6 +70,8 @@ format_asset_list <- function(
     if (!is.list(additional_data)) {
       additional_data <- list(additional_data)
     }
+
+    additional_data <- convert_sf_list_to_df_list(additional_data)
 
     asset_data_formatted <- purrr::list_rbind(
       c(
@@ -80,7 +87,22 @@ format_asset_list <- function(
     coords = c("lon", "lat"),
     crs = 4326,
     remove = FALSE
-  )
+  ) |>
+    sf::st_transform(crs = crs)
+
+  county_locations <- asset_data_formatted |>
+    dplyr::filter(
+      !sf::st_is_empty(geometry)
+    ) |>
+    dplyr::select(asset_id) |>
+    sf::st_join(
+      mapbaltimore::baltimore_msa_counties |>
+        # dplyr::rename(county) |>
+        dplyr::select(county = namelsad) |>
+        sf::st_transform(crs = crs),
+      largest = TRUE
+    ) |>
+    sf::st_drop_geometry()
 
   if (FALSE && is_installed(c("mapbaltimore", "sfext"))) {
     # NOTE: The following code could be reproduced using sf and dplyr but uses the
@@ -105,7 +127,42 @@ format_asset_list <- function(
       trim_squish_across()
   }
 
+  # return(asset_data_formatted)
+
   asset_data_formatted |>
     format_asset_admin_id() |>
-    sf::st_transform(crs = crs)
+    select(!county) |>
+    left_join(
+      county_locations,
+      by = join_by(asset_id),
+      relationship = "one-to-one",
+      na_matches = "never"
+    ) |>
+    left_join(
+      asset_agency_xwalk |>
+        rename(asset_agency_label = agency_name),
+      by = join_by(agency_abb),
+      relationship = "many-to-one",
+      na_matches = "never"
+    ) |>
+    mutate(
+      asset_agency_label = case_when(
+        asset_occupant == "POLICE DEPT."  ~ "Baltimore City Police Department",
+        asset_occupant == "FIRE DEPT." ~ "Baltimore City Fire Department",
+        responsible_agency == "POLICE DEPT." ~ "Baltimore City Police Department",
+        responsible_agency == "FIRE DEPT." ~ "Baltimore City Fire Department",
+        responsible_agency == "FIRE" ~ "Baltimore City Fire Department",
+        responsible_agency == "HEALTH DEPT." ~ "Health Department",
+        str_detect(
+          asset_name_short,
+          "^BCPD"
+        ) ~ "Baltimore City Police Department",
+        .default = asset_agency_label
+      )
+    )
+  # left_join(
+  #   agency_reference |>
+  #     select(agency_label, agency_short_name),
+  #   by = join_by(agency_name == agency_label)
+  # )
 }

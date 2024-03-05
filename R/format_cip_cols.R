@@ -10,6 +10,10 @@ format_cip_cols <- function(data,
     "r_account_code", "r_account_name"
   ))))
 
+  revenue_category_name_xwalk <- format_revenue_category_name_xwalk(
+    revenue_category_name_xwalk
+  )
+
   data <- data |>
     mutate(
       revenue_category_name = str_remove_trim(

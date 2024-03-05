@@ -29,7 +29,7 @@ plot_project_locations <- function(data,
       )
   }
 
-  if (!inherits_all(data, "sf")) {
+  if (!inherits_any(data, "sf")) {
     data <- asset_data |>
       filter(
         .data[["asset_id"]] %in% data[["asset_id"]]
