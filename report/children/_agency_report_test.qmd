@@ -1,0 +1,59 @@
+
+```{r}
+#| eval: true
+# Expected in document environment
+# - data
+# - agency_label
+# - agency_level
+# - agency_reference
+
+# Custom functions in document
+# - qto_agency_overview
+
+# Filter agency reference data to agency
+agency <- agency_label
+
+agency <- filter(
+  agency_reference,
+  agency_label %in% agency
+)
+
+# Ungroup data
+# FIXME: This shouldn't be required - unsure why I need it
+data <- ungroup(data)
+
+# Subset data with requests
+project_request_list <- filter(
+  data,
+  has_requests
+)
+
+# Subset data with no requests
+project_additional_list <- filter(
+  data,
+  !has_requests,
+  priority_level == "High"
+)
+
+n_projects <- nrow(data)
+n_requests <- nrow(project_request_list)
+n_additional <- nrow(project_additional_list)
+
+# Create agency project type plot
+# agency_project_type_plot <- plot_agency_projects_type(data)
+# Create agency project priority plot
+# agency_project_priority_plot <- plot_agency_projects_priority(data)
+# agency_project_type_plot + agency_project_priority_plot
+```
+
+{{< pagebreak >}}
+
+```{r}
+# Display agency heading and overview
+qto_agency_overview(
+  agency = agency,
+  agency_level = agency_level
+)
+```
+
+{{< pagebreak >}}

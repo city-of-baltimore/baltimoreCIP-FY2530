@@ -2,8 +2,7 @@ project:
   type: default
   output-dir: _output
   render:
-    - bridges.qmd
-    - report.qmd
+    - report_*.qmd
 
-execute:
-  echo: false
+metadata-files:
+  - _report.yml
