@@ -11,7 +11,6 @@ qto_callout_agency_requests <- function(
     cip_type = "recommendations",
     total_amt_col = "total_amt",
     callout = TRUE) {
-
   # Format request amount
   total_amt <- vec_fmt_currency(
     sum(data[[total_amt_col]]),

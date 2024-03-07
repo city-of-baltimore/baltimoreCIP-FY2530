@@ -23,7 +23,7 @@ sf_list_rbind <- function(.list,
 
 #' Convert a sf list to a data frame list
 #'
-convert_sf_list_to_df_list <- function(
+sf_list_to_df_list <- function(
     .list,
     coords = c("lon", "lat")) {
   map(

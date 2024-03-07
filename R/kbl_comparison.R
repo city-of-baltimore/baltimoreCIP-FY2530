@@ -11,7 +11,7 @@ kbl_comparison <- function(data,
                            ),
                            groupname_col = "agency_label",
                            digits = 0,
-                           widths = c("3.625in", "1.125in", "1.125in", "0.875in", "0.875in"),
+                           widths = c("3in", "1.125in", "1.125in", "0.875in", "0.875in"),
                            width_cols = c(2, 3, 4, 5, 6),
                            align = "llrrrr") {
   data |>

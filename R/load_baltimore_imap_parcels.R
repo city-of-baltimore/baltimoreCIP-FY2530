@@ -39,7 +39,7 @@ load_baltimore_imap_parcels <- function(data = "baltimore_imap_parcels",
       # matching in error
       acctid != "04090923503140"
     ) |>
-    trim_squish_across() |>
+    str_squish_across() |>
     sf::st_set_geometry("geometry")
 
   baltimore_imap_parcel_coords <- baltimore_imap_parcels |>

@@ -154,8 +154,8 @@ combine_cip_project_data <- function(
   request_data_join <- request_data |>
     rename_with_dictionary(dictionary = dictionary) |>
     left_join(project_data_join_cols,
-              by = join_by(project_code),
-              na_matches = "never"
+      by = join_by(project_code),
+      na_matches = "never"
     ) |>
     nest_by(project_code, .key = "request_data", .keep = TRUE)
 
@@ -327,24 +327,24 @@ load_cip_report_data <- function(
 
   cip_data |>
     filter_cip_data() |>
-  # format_level_cols() |>
-  # left_join_asset_data(
-  #   asset_xwalk = asset_xwalk,
-  #   asset_parcels = asset_parcels
-  # ) |>
+    # format_level_cols() |>
+    # left_join_asset_data(
+    #   asset_xwalk = asset_xwalk,
+    #   asset_parcels = asset_parcels
+    # ) |>
     mutate(
-      project_desc = str_replace_na(project_desc, "---")
+      project_desc = str_replace_na(project_desc, "")
     ) |>
-  relocate(
-    agency_label,
-    project_code,
-    project_name,
-    project_desc,
-    total_amt,
-    location,
-    request_data,
-    location_data,
-    recommendation_data,
-    .before = everything()
-  )
+    relocate(
+      agency_label,
+      project_code,
+      project_name,
+      project_desc,
+      total_amt,
+      location,
+      request_data,
+      location_data,
+      recommendation_data,
+      .before = everything()
+    )
 }

@@ -92,7 +92,7 @@ format_adaptive_project_data <- function(data,
     derive_account_type_col() |>
     # Create reserve_type and project_type_short variables
     derive_project_type_short_col() |>
-    trim_squish_across() |>
+    str_squish_across() |>
     # FIXME: This should not be needed here
     distinct() |>
     # mutate(

@@ -57,21 +57,21 @@ format_dgs_asset_list <- function(
     mutate(
       agency_abb = controlling_agency
     ) |>
-    trim_squish_across() |>
+    str_squish_across() |>
     format_asset_coords() |>
     format_asset_block_lot() |>
     derive_demolished_col() |>
     flag_asset_start_end_year() |>
     format_asset_name() |>
     format_asset_type_label() |>
-    trim_squish_across()
+    str_squish_across()
 
   if (!is.null(additional_data)) {
     if (!is.list(additional_data)) {
       additional_data <- list(additional_data)
     }
 
-    additional_data <- convert_sf_list_to_df_list(additional_data)
+    additional_data <- sf_list_to_df_list(additional_data)
 
     asset_data_formatted <- purrr::list_rbind(
       c(
@@ -81,6 +81,11 @@ format_dgs_asset_list <- function(
       names_to = names_to
     )
   }
+
+  # FIXME: Adjust this section to get coordinates from parcel data for the
+  # assets that are do not have lon/lat values
+  asset_data_formatted <- asset_data_formatted |>
+    filter(!is.na(lon) & !is.na(lat))
 
   asset_data_formatted <- sf::st_as_sf(
     asset_data_formatted,
@@ -124,7 +129,7 @@ format_dgs_asset_list <- function(
         by = join_by(asset_id)
       ) |>
       sf::st_as_sf() |>
-      trim_squish_across()
+      str_squish_across()
   }
 
   # return(asset_data_formatted)
@@ -147,7 +152,7 @@ format_dgs_asset_list <- function(
     ) |>
     mutate(
       asset_agency_label = case_when(
-        asset_occupant == "POLICE DEPT."  ~ "Baltimore City Police Department",
+        asset_occupant == "POLICE DEPT." ~ "Baltimore City Police Department",
         asset_occupant == "FIRE DEPT." ~ "Baltimore City Fire Department",
         responsible_agency == "POLICE DEPT." ~ "Baltimore City Police Department",
         responsible_agency == "FIRE DEPT." ~ "Baltimore City Fire Department",

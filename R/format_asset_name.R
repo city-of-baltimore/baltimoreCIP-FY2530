@@ -60,5 +60,5 @@ format_asset_name <- function(asset_data) {
       " \\(MOVED OUT 2021\\)"
     )
   ) |>
-    trim_squish_across()
+    str_squish_across()
 }
