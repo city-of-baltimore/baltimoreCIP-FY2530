@@ -2,7 +2,8 @@
 #'
 load_dhcd_iia <- function(
     ...,
-    url = "https://geodata.baltimorecity.gov/egis/rest/services/Housing/dmxFocusAreas/MapServer/0",
+    url = "https://services5.arcgis.com/U5lRs16ODaohcqOy/ArcGIS/rest/services/INSPIRE_IIA_Dashboard/FeatureServer/1",
+    # url = "https://geodata.baltimorecity.gov/egis/rest/services/Housing/dmxFocusAreas/MapServer/0",
     crs = 3857) {
   impact_investment_areas_src <- arcgislayers::arc_read(
     url = url,
