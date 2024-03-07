@@ -6,14 +6,17 @@
 #' @inheritParams getdata::rename_with_xwalk
 rename_with_xwalk <- function(x,
                               xwalk,
-                              xwalk_cols = c("new_name", "name")) {
+                              xwalk_cols = c("new_name", "name"),
+                              strict = FALSE) {
   if (is.data.frame(xwalk)) {
     xwalk <- xwalk |>
       select(all_of(xwalk_cols)) |>
-      # filter(!is.na(.data[[xwalk_cols[[1]]]])) |>
       deframe() |>
-      as.list() #|>
-    # vctrs::list_drop_empty()
+      as.list()
+  }
+
+  if (!strict) {
+    xwalk <- xwalk[xwalk %in% names(x)]
   }
 
   x <- dplyr::rename_with(
