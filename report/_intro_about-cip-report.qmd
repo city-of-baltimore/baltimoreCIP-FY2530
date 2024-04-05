@@ -15,27 +15,31 @@ The goal of this report is to facilitate internal and external review of the cit
 
 ### Report organization
 
-The report is organized into sections by agency. Each section starts with an agency overview:
+The report is organized into sections by agency. Each section starts with an agency overview including:
 
 -   A description of the agency and the agency’s typical capital projects
--   A summary table of projects and detailed project profiles with `r cip_singular` in this 6-year program
-
+-   A summary table of projects and detailed project profiles with `r cip_singular` within this 6-year program
 ```{r}
+#| eval: !expr cip_singular == "request"
 #| output: asis
-if (cip_singular == "request") {
-  cat("-   A summary table of projects identified as an agency priority for future requests and brief project profiles")
-}
+cat("-   A summary table of projects identified as an agency priority for future requests and brief project profiles")
 ```
 
-For each detailed project profile, the report includes:
+Following the agency overview, the report provides a detailed profile of projects `r cip_verb` for funding within this 6-year program. For each detailed project profile, the report includes:
 
 -   A project code and name
--   A project type (one of State of Good Repair, Modernization, New Asset, Community/Economic Development, Replacement, or (if type is not provided by an agency) not specified)
+-   A project type: State of Good Repair, Modernization, New Asset, Community/Economic Development, or Replacement (or Unspecified if an agency has not provided a type)
 -   A location description
 -   A table showing `r cip_plural` by source for the next 6 years (FY25-FY30)
 -   A table showing estimated project costs
 
-Project requests from the Department of Public Works are organized by Bureau and Division (corresponding to project Cost Center) and project requests from the Department of General Services are organized by the agency using the project asset. Other agency projects are organized by Cost Center.
+Project `r cip_plural` from the Department of Public Works are organized by Bureau and Division (corresponding to project Cost Center) and project requests from the Department of General Services are organized by the agency using the project asset. Other agency projects are organized by Cost Center.
+
+```{r}
+#| eval: !expr cip_singular == "recommendation"
+#| output: asis
+cat("The report also includes an appendix that compares the initial agency requests published in January with the Planning Commission recommendations published in March.")
+```
 
 #### Project locations
 

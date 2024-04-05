@@ -1,39 +1,10 @@
-## Summary
-
-The Capital Improvement Program is a six-year plan for funding capital projects by City agencies. The program is updated and adopted each year as part of the Baltimore City Budget.
-
-::: {layout="[ 55, 45 ]"}
-<div>
-
-Baltimore City agencies requested capital funding for more than four hundred projects detailed project profiles organized by agency. Agencies also shared information on 150 priority projects that could be funded if additional capital funds are made available. In total, agencies requested more than \$2.8 billion in funds for construction, repair, modernization, and other improvements. The requests identify more than two hundred different buildings, parks, and other public assets as planned locations for this investment.
-
-</div>
-
-<div>
-
 ```{r}
-#| fig-cap: !expr glue("Project {cip_plural} with locations in {params$title_short}")
-
-# plot_project_locations
-plot_location_data(report_data, size = 1.85)
-```
-
-</div>
-:::
-
-This report is prepared by the Baltimore City Department of Planning and published in advance of the Baltimore City Planning Commission review of agency requests each year. The goal of this report is to support the Planning Commission in the review and approval of the program and to share this important information with residents across the city and region.
-
-For questions, please contact the Department of Planning at 410-396-PLAN (7526) or visit the Department website at `r qto_external_link("https://planning.baltimorecity.gov", "")`.
-
-{{< pagebreak >}}
-
-```{r}
-#| eval: true
 # Must have functions
 # - vec_fmt_currency_plain
 # - fmt_currency_plain
 # - cols_label_ext
-report_data[[cip_data_col]] |>
+
+gt_summary_table_source <- report_data[[cip_data_col]] |>
   purrr::list_rbind() |>
   filter(!is.na(request_id)) |>
   mutate(
@@ -101,10 +72,8 @@ report_data[[cip_data_col]] |>
       "Total ", cip_verb, " capital funds by year and source category"
     )
   )
-```
 
-```{r}
-report_data[[cip_data_col]] |>
+gt_summary_table_agency <- report_data[[cip_data_col]] |>
   purrr::list_rbind() |>
   # FIXME: Rename request_id column with more general column name
   filter(!is.na(request_id)) |>
@@ -157,6 +126,70 @@ report_data[[cip_data_col]] |>
       "Total ", cip_verb, " capital funds by year and agency"
     )
   )
+
+pull_from_gt_grand_summary <- function(gt_object, ...) {
+  extract_summary(gt_object) |>
+    pluck("summary_df_data_list", "::GRAND_SUMMARY") |>
+    pull(...)
+}
+
+fy_from_gt <- function(gt_object, fy_col = "fy_total", suffixing = TRUE, ...) {
+  gt::vec_fmt_currency(
+    pull_from_gt_grand_summary(gt_object, .data[[fy_col]]),
+    suffixing = suffixing,
+    ...
+  )
+}
+```
+
+
+## Summary
+
+The Capital Improvement Program is a six-year plan for funding capital projects by City agencies. The program is updated and adopted each year as part of the Baltimore City Budget.
+
+::: {layout="[ 50, 50 ]"}
+<div>
+
+Baltimore City agencies requested capital funding for more than four hundred projects detailed project profiles organized by agency. Agencies also shared information on 150 priority projects that could be funded if additional capital funds are made available. In total, agencies requested more than \$2.8 billion in funds for construction, repair, modernization, and other improvements. The requests identify more than two hundred different buildings, parks, and other public assets as planned locations for this investment.
+
+</div>
+
+<div>
+
+```{r}
+#| fig-cap: !expr glue("Project {cip_plural} with locations in {params$title_short}")
+
+# plot_project_locations
+size <- 1.8
+plot_location_data(report_data, size = size, stroke = size / 8)
+```
+
+</div>
+:::
+
+```{r}
+if (params$cip_type == "recommendation") {
+  summary_amt <- fy_from_gt(gt_summary_table_source)
+  summary_text <- glue("The Planning Commission is recommending {summary_amt} in funding over 6 years towards the requested projects.
+
+This report reflects the recommendations of the Baltimore City Planning Commission.")
+} else {
+  summary_text <- "This report is prepared by the Baltimore City Department of Planning and published in advance of the Baltimore City Planning Commission review of agency requests each year. The goal of this report is to support the Planning Commission in the review and approval of the program and to share this important information with residents across the city and region."
+}
+
+quartools::qto_block(summary_text)
+```
+
+For questions, please contact the Department of Planning at 410-396-PLAN (7526) or visit the Department website at `r qto_external_link("https://planning.baltimorecity.gov", "")`.
+
+{{< pagebreak >}}
+
+```{r}
+gt_summary_table_source
+```
+
+```{r}
+gt_summary_table_agency
 ```
 
 <!-- :::{.callout-note collapse=false appearance='simple' title='January 2024 Agency Presentations' icon=true} -->

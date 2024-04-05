@@ -57,7 +57,6 @@ qto_dl_prj_info(project)
 ```{r}
 #| eval: !expr has_prj_location
 #| layout-valign: top
-#| out-width: \\textwidth
 #| fig-align: center
 #| fig-width: 1.5
 #| fig-height: 1.75
@@ -90,12 +89,10 @@ gt_prj_est_cost(project)
 <div>
 
 ```{r}
-#| eval: !expr has_src_file
-#| fig-align: center
-#| fig-show: hold
-#| layout-valign: top
+#| eval: true
 # Plot a prepared image
-plot_src_image(src)
+# plot_src_image(src)
+quartools::qto_block(" ")
 ```
 
 </div>

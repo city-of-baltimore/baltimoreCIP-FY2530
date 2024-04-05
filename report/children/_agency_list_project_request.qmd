@@ -13,7 +13,6 @@ request_locations <- project_request_list[["location_data"]] |>
   sf::st_as_sf() |>
   dplyr::filter(!is.na(asset_id))
 
-
 has_request_locations <- nrow(request_locations) > 0
 
 missing_request_locations <- !has_request_locations
@@ -69,7 +68,7 @@ quartools::qto_heading(
 
 ```{r}
 gt_revenue_category_fy(
-  project_request_list$request_data,
+  project_request_list[[cip_data_col]],
   title = paste0(
     "Total ",
     agency[["agency_label_abb"]],

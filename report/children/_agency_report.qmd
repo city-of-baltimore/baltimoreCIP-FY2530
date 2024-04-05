@@ -1,7 +1,7 @@
 ```{r}
 #| eval: false
 agency_label <- "Department of Public Works"
-agency_label <- "Baltimore City Information Technology"
+# agency_label <- "Baltimore City Information Technology"
 agency_level <- 2
 agency <- agency_label
 data <- filter(report_data, .data[["agency_label"]] == agency)
@@ -32,6 +32,7 @@ data <- ungroup(data)
 
 # Subset data with requests
 if (FALSE) {
+  # FIXME: Rename project_request_list variable with a more general term
   project_request_list <- filter(
     data,
     has_requests
@@ -62,6 +63,11 @@ cip_plural <- paste0(cip_type, "s")
 cip_singular_title <- str_to_title(cip_singular)
 cip_plural_title <- str_to_title(cip_plural)
 
+cip_verb <- switch(cip_type,
+  "recommendation" = "recommended",
+  "request" = "requested"
+)
+
 n_projects <- nrow(data)
 n_requests <- nrow(project_request_list)
 n_additional <- nrow(project_additional_list)
@@ -85,7 +91,7 @@ qto_agency_overview(
 ```
 
 ```{r}
-#| eval: !expr n_additional > 0
+#| eval: false
 #| child: "report/children/_agency_list_project_additional.qmd"
 ```
 

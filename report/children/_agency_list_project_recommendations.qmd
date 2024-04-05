@@ -60,7 +60,7 @@ quartools::qto_heading("Project requests", level = agency_level + 1)
 
 ```{r}
 gt_revenue_category_fy(
-  project_request_list$request_data,
+  project_request_list[[cip_data_col]],
   title = paste0(
     "Total ",
     agency[["agency_label_abb"]],
@@ -104,7 +104,10 @@ qto_callout_agency_requests(
 #| fig-align: center
 #| fig-width: 2
 #| fig-height: 2
-plot_project_locations(project_request_list, size = 3, asset_data = )
+plot_project_locations(
+  project_request_list,
+  size = 3
+)
 ```
 
 </div>
