@@ -1,9 +1,0 @@
-format:
-  dopPDF-pdf:
-    keep-tex: false
-    toc-depth: 2
-
-execute:
-  echo: false
-  message: false
-  error: true

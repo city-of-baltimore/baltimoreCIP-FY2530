@@ -1,8 +1,16 @@
 project:
-  type: default
   output-dir: _output
   render:
-    - report_*.qmd
+    - report*.qmd
 
-metadata-files:
-  - _report.yml
+toc: true
+
+format:
+  dopPDF-pdf:
+    toc-depth: 2
+    keep-tex: true
+
+execute:
+  echo: false
+  message: false
+  error: true
