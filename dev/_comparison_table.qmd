@@ -1,0 +1,31 @@
+```{r}
+#| output: asis
+
+gt_comparison_data <- function(comparison_data, project_data, ...) {
+  comparison_data |>
+    left_join(
+      project_data |>
+        select(project_code, project_name, agency_label),
+      by = "project_code"
+    ) |>
+    filter(
+      fy_total_diff != 0
+    ) |>
+    gt::gt(
+      rowname_col = "project_code",
+      groupname_col = "agency_label",
+      rownames_to_stub = TRUE
+    ) |>
+    gt::fmt_currency(
+      columns = c(request, recommendation),
+      suffixing = "K"
+    ) # |>
+  # gt::as_latex()
+}
+
+gt_comparison_data(
+  comparison_data = data,
+  project_data = cip_project_details
+)
+```
+
