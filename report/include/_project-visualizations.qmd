@@ -1,0 +1,110 @@
+```{r}
+library(ggplot2)
+```
+
+```{r}
+#| label: Setup ggplot2 theme and helper functions
+
+theme_set(theme_minimal())
+```
+
+```{r}
+#| fig-cap: Capital projects by agency
+
+report_data |>
+  plot_project_count() +
+  pilot::scale_fill_pilot(aesthetics = c("fill", "color")) +
+  hrbrthemes::theme_ipsum_pub()
+```
+
+```{r}
+#| fig-cap: Capital projects by type
+report_data |>
+  plot_project_count(
+    y_label = "Project type",
+    y_col = "project_type",
+    .f = \(x){
+      fct_relevel(fct_infreq(x), "Unspecified type")
+    },
+    alpha = 0.85
+  )
+```
+
+```{r}
+#| fig-cap: Total request by agency
+report_data |>
+  summarise(
+    total_request_amt = sum(total_request_amt, na.rm = TRUE),
+    .by = agency_label
+  ) |>
+  ggplot() +
+  geom_col(
+    aes(
+      x = total_request_amt,
+      y = fct_reorder(agency_label, total_request_amt)
+    )
+  ) +
+  labs(
+    x = "Total request",
+    y = "Agency"
+  ) +
+  scale_x_continuous(labels = scales::label_currency())
+```
+
+```{r}
+#| fig-cap: Projects by priority level and agency
+report_data |>
+  mutate(
+    priority_level = factor(priority_level, c("Low", "Medium", "High"))
+  ) |>
+  count(
+    agency_label,
+    priority_level
+  ) |>
+  ggplot() +
+  geom_col(
+    aes(x = priority_level, y = n, fill = priority_level)
+  ) +
+  facet_wrap(~agency_label, scales = "free_y") +
+  pilot::scale_fill_pilot() +
+  guides(fill = "none") +
+  scale_y_continuous(
+    labels = scales::label_number(),
+    breaks = integer_breaks()
+  ) +
+  labs(
+    x = "Priority level",
+    y = "Agency"
+  )
+```
+
+```{r}
+#| fig-cap: Project request amount by agency
+#| eval: false
+
+# TODO: Decide if to keep or remove this plot
+report_data |>
+  ggplot() +
+  geom_point(
+    aes(y = total_request_amt, x = agency_label)
+  )
+```
+
+```{r}
+#| fig-cap: Project request amount by agency
+report_data |>
+  filter(!is.na(total_request_amt), total_request_amt > 0) |>
+  # TODO: Document the slicing process here
+  # slice_min(order_by = total_request_amt, prop = 0.9) |>
+  ggplot(aes(total_request_amt, y = agency_label)) +
+  geom_point(size = 3, alpha = 0.6) +
+  theme_flip +
+  aes(color = agency_label, fill = agency_label) +
+  guides(fill = "none", color = "none") +
+  pilot::scale_color_pilot() +
+  scale_x_log10(labels = scales::label_currency()) +
+  labs(
+    y = "Agency",
+    x = "Request amount"
+  )
+```
