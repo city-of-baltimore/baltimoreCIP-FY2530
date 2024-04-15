@@ -7,10 +7,12 @@ bind_cip_comparison_cols <- function(data,
                                      col_comparison = "recommendation") {
   data |>
     filter(
-      !is.na(.data[[col_reference]]) | !is.na(.data[[col_comparison]])
+      !is.na(.data[[col_reference]]) | !is.na(.data[[col_comparison]]),
+      !(is.na(.data[[col_reference]]) & (.data[[col_comparison]] == 0)),
+      !((.data[[col_reference]] == 0) & (.data[[col_comparison]] == 0))
     ) |>
     mutate(
-      is_new = is.na(.data[[col_reference]]),
+      # is_new = is.na(.data[[col_reference]]) | (.data[[col_reference]] == 0),
       "{col_comparison}" := tidyr::replace_na(.data[[col_comparison]], 0),
       fy_total_diff = .data[[col_comparison]] - .data[[col_reference]],
       fy_total_pct_diff = if_else(
@@ -24,10 +26,11 @@ bind_cip_comparison_cols <- function(data,
         fy_total_pct_diff
       ),
       diff_desc = case_when(
-        is_new ~ "Added funding",
-        fy_total_diff > 0 ~ "Increased funding",
-        .data[[col_reference]] > 0 & .data[[col_comparison]] == 0 ~ "No funding",
-        fy_total_diff < 0 ~ "Decreased funding",
+        (is.na(.data[[col_reference]]) | (.data[[col_reference]] == 0)) & .data[[col_comparison]] > 0 ~ "Add funding",
+        (is.na(.data[[col_reference]]) | (.data[[col_reference]] == 0)) & .data[[col_comparison]] < 0 ~ "Transfer funding",
+        fy_total_diff > 0 ~ "Increase funding",
+        .data[[col_reference]] > 0 & .data[[col_comparison]] == 0 ~ "Cut funding",
+        fy_total_diff < 0 ~ "Decrease funding",
         fy_total_diff == 0 ~ "No change"
       )
     )
