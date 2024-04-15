@@ -50,3 +50,40 @@ kbl_comparison <- function(data,
       rowname_col_label = ""
     )
 }
+
+
+kbl_comparison_list <- function(
+    comparison_summary,
+    project_details
+    ) {
+
+  comparison_summary |>
+  left_join(
+    select(
+      project_details,
+      all_of(c("project_code", "project_name", "agency_label"))
+    ),
+    by = join_by(project_code)
+  ) |>
+    filter(
+      fy_total_diff != 0
+    ) |>
+    select(
+      !c(is_new, diff_desc)
+    ) |>
+    relocate(
+      agency_label,
+      project_name,
+      .after = project_code
+    ) |>
+    nest_by(fy, .keep = FALSE) |>
+    purrr::pmap(
+      \(fy,
+        data) {
+        data |>
+          arrange(agency_label, project_code) |>
+          kbl_comparison()
+      }
+    )
+}
+

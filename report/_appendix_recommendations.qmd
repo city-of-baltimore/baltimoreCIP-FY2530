@@ -1,31 +1,9 @@
 ```{r}
-tbl_list <- cip_comparison_summary |>
-  left_join(
-    select(
-      cip_project_details,
-      all_of(c("project_code", "project_name", "agency_label"))
-    ),
-    by = join_by(project_code)
-  ) |>
-  filter(
-    fy_total_diff != 0
-  ) |>
-  select(
-    !c(is_new, diff_desc)
-  ) |>
-  relocate(
-    agency_label,
-    project_name,
-    .after = project_code
-  ) |>
-  nest_by(fy, .keep = FALSE) |>
-  purrr::pmap(
-    \(fy,
-      data) {
-      data |>
-        arrange(agency_label, project_code) |>
-        kbl_comparison()
-    }
+cip_pc_comparison_summary <- tar_read(cip_pc_comparison_summary)
+
+tbl_list <- kbl_comparison_list(
+  cip_pc_comparison_summary,
+  cip_project_details
   )
 ```
 
@@ -35,7 +13,9 @@ tbl_list <- cip_comparison_summary |>
 
 ::: {width=90%}
 
-The following tables show a comparison between the original agency request and the Planning Commission recommendation. The first table shows changes across the full 6-year program. The following tables show changes for each fiscal year. Note that a project may show a change in the fiscal years, but not show in the overall changes if the overall funding for the 6-year program remains the same. Changes in revenue source are not included in these tables.
+The following tables show a comparison between the original agency request and the Planning Commission recommendations adopted in on March 6, 2024.
+
+The first table shows changes across the full 6-year program. The following tables show changes for each fiscal year. Note that a project may show a change in the fiscal years, but not show in the overall changes if the overall funding for the 6-year program remains the same. Changes in revenue source are not included in these tables. No changes took places between the adoption of recommendations by the Planning Commission and the recommendations by the Board of Finance.
 
 ### FY 2025-2030 Overall Changes
 
