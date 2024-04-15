@@ -1,19 +1,19 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|79c0fb2b432ebd61|||||||||||||||
-adaptive_dictionary|stem|cc6d7e5b7a70d506|32252d344348e5b0|a0494a85f2158843|535266057||t19788.6159548824s||5043|qs|local|vector|||0.158||Could not resolve host sheets.googleapis.com
+.Random.seed|object|9a1a363f99056a29|||||||||||||||
+adaptive_dictionary|stem|cc6d7e5b7a70d506|32252d344348e5b0|a0494a85f2158843|535266057||t19819.1733267602s|55ce1cc799fe5c02|5043|qs|local|vector|||1.868||
 adaptive_dictionary_file|stem|7396ac8257df4654|1e023e622e58cf6e|ef46db3751d8e999|1891567899|_targets/user/data/reference/adaptive_dictionary.csv|t19745.6379344351s|760522f214522734|31181|file|local|vector|||0||
-agency_overviews|stem|187ef96424131d7b|fa103eea5d79ece9|a2af7f82fd25ddbb|367336010||t19788.614108547s|39a4b1cb58126780|10671|qs|local|vector|||0.976||
-agency_reference|stem|952d6640bf4e1ca5|09ff1f01d40da651|7a470561750bdc8b|1925525864||t19788.6161641332s|3b10dcdb13aa6e90|6875|qs|local|vector|||0.01||
+agency_overviews|stem|187ef96424131d7b|fa103eea5d79ece9|a2af7f82fd25ddbb|2137887862||t19822.204782356s|39a4b1cb58126780|10671|qs|local|vector|||0.377||
+agency_reference|stem|952d6640bf4e1ca5|09ff1f01d40da651|7a470561750bdc8b|-1630380813||t19822.2047888332s|3b10dcdb13aa6e90|6875|qs|local|vector|||0.015||
 arc_meta|function|d9006927f11c0546|||||||||||||||
-asset_agency_xwalk|stem|d52b56bf6bed1334|b8b7b4907e434cc8|de45f6a5e9b4bac7|240464995||t19788.6141915658s|c83ff10fb37b259c|581|qs|local|vector|||1.297||
-asset_list|stem|df0999394484cccf|94ff6c0a89be9aae|919235dc525f0cb8|-2096100232||t19789.5901782285s|8252b4c8d4d5ba53|285036|qs|local|vector|||2.218|1m22mDebug mode activated adding variables block_lot_ok, block_lot_pieces, andblock_lot_remainder.. attribute variables are assumed to be spatially constant throughout all geometries|
-asset_list_attributes_src|stem|5dd92eb60d46ad7b|07265cff86cccf3a|2c49f8811c59a48b|-41716764||t19788.6161825863s|b1e65b0c398d29f4|128141|qs|local|vector|||0.393||
-asset_list_attributes_src_file|stem|fe8c91a8d2720ca0|a728472d1357fe49|93be126433bc9947|-1749525458|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/DGS/AssetList-MCC-DGS-2022work.xlsx|t19767.710966179s|4ca910d73ee63067|2369949|file|local|vector|||0.001||
-asset_list_dictionary|stem|d6bbb4fafc3b0192|85cd0c8484df6b05|07826fe9ea6709f8|-3089345||t19788.6161522548s|7407341c49111fca|5774|qs|local|vector|||0.058||
+asset_agency_xwalk|stem|d52b56bf6bed1334|b8b7b4907e434cc8|de45f6a5e9b4bac7|190769298||t19819.1734127269s|c83ff10fb37b259c|581|qs|local|vector|||1.235||
+asset_list|stem|df0999394484cccf|94ff6c0a89be9aae|919235dc525f0cb8|-2077660488||t19822.2048423006s|8252b4c8d4d5ba53|285036|qs|local|vector|||2.063|Debug mode activated adding variables block_lot_ok, block_lot_pieces, andblock_lot_remainder.. attribute variables are assumed to be spatially constant throughout all geometries|
+asset_list_attributes_src|stem|5dd92eb60d46ad7b|07265cff86cccf3a|2c49f8811c59a48b|-1791693145||t19822.2048042331s|b1e65b0c398d29f4|128141|qs|local|vector|||0.351||
+asset_list_attributes_src_file|stem|fe8c91a8d2720ca0|a728472d1357fe49|93be126433bc9947|1774942103|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/DGS/AssetList-MCC-DGS-2022work.xlsx|t19767.710966179s|4ca910d73ee63067|2369949|file|local|vector|||0||
+asset_list_dictionary|stem|d6bbb4fafc3b0192|85cd0c8484df6b05|07826fe9ea6709f8|1957110735||t19819.1734133176s|7407341c49111fca|5774|qs|local|vector|||0.046||
 asset_list_map|stem||66c01010a9ac1d16|b1dde33410e04d37|-2109338420||t19786.7265030543s||0|qs|local|vector|||0.038||list object cannot be coerced to type double
-asset_list_src|stem|d15d690ae194f9fc|94d7ca8936edab45|53ad9640f4330a3d|1641142285||t19788.6161846138s|5cb300eb505eea54|118277|qs|local|vector|||0.168||
-asset_list_src_file|stem|fe8c91a8d2720ca0|a728472d1357fe49|93be126433bc9947|-1631232525|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/DGS/AssetList-MCC-DGS-2022work.xlsx|t19767.710966179s|4ca910d73ee63067|2369949|file|local|vector|||0||
-baltimore_bridges|stem|236c54460622733f|c3d97f91c2af7c7e|275b480761f55dca|-762757850||t19779.839110902s|46d15812ca8cd522|12892|qs|local|vector|||1.66||
+asset_list_src|stem|d15d690ae194f9fc|94d7ca8936edab45|53ad9640f4330a3d|-1374144702||t19822.2047886181s|5cb300eb505eea54|118277|qs|local|vector|||0.216||
+asset_list_src_file|stem|fe8c91a8d2720ca0|a728472d1357fe49|93be126433bc9947|-1475023486|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/DGS/AssetList-MCC-DGS-2022work.xlsx|t19767.710966179s|4ca910d73ee63067|2369949|file|local|vector|||0.001||
+baltimore_bridges|stem|236c54460622733f|c3d97f91c2af7c7e|275b480761f55dca|279417008||t19822.2046430929s|46d15812ca8cd522|12892|qs|local|vector|||2.204||
 baltimore_city|stem|9778152b5a7501a6|68641f9a9e879670|ef46db3751d8e999|-1800881707||t19786.7173800488s|aa4b28cd19784daa|145|rds|local|vector|||0.033||
 baltimore_city_basemap|stem||d8e5a395a9598594|ef46db3751d8e999|1655928699||t19786.7172251532s||0|qs|local|vector|||0.038||could not find function load_baltimore_city_basemap
 base_size|object|c476f3c65cb413c0|||||||||||||||
@@ -44,34 +44,42 @@ basemap_files_f23fb361|branch|2d0e5a44a2d08976|f31ddd97c04d447d|ef46db3751d8e999
 basemap_files_files|stem|d43b09dd4b4551b5|88715d750dbf5c8b|93be126433bc9947|-1122382236||t19786.7186746998s|175116648b33090c|292|rds|local|vector||basemap_files_files_c5071139*basemap_files_files_bea75f8e*basemap_files_files_33d2c94d*basemap_files_files_568df6e9*basemap_files_files_1a1d8d0a*basemap_files_files_d1d239cf*basemap_files_files_1d7b3d67*basemap_files_files_f9792f29*basemap_files_files_3f96f978*basemap_files_files_8a0ade38|0.038||
 basemap_prep|function|964fdb544d9d0491|||||||||||||||
 basemap_simplify|function|a2ff047744d74827|||||||||||||||
-bind_cip_comparison_cols|function|cd157db2c4bed48b|||||||||||||||
+bind_cip_comparison_cols|function|898a09bf690eae3b|||||||||||||||
 bind_comparison_cols|function|1076ff3ada480ba4|||||||||||||||
 bind_coords|function|6905934b31ae7ea1|||||||||||||||
 cache_baltimore_imap_parcels|function|8691928741154503|||||||||||||||
 check_kableExtra|function|7828bddae883dbd2|||||||||||||||
-cip_comparison_summary|stem|7a8e9056420cb466|ff806b334cc5babd|0f61de842199e1ce|-1393141306||t19788.6162291749s|2602b5aa1b0a5bde|16245|qs|local|vector|||0.234||
-cip_locations|stem|07a5d284f4f4ce5f|f0c62d7f68729950|aa4e1525c82e0c31|1771974495||t19788.6162264276s|d6d3463a541000c6|93250|qs|local|vector|||0.202||
-cip_project_details|stem|25c2c7557e4701a0|8651b9e57d2f8e28|07c55bdf2590acbc|-471546471||t19788.6161983783s|65fc6c642297cc09|429080|qs|local|vector|||1.135||
+cip_bof_comparison_summary|stem|d2e7ddc2b19cbfea|36ae8996a49cae0f|fb9b4dea22ab91bb|963825264||t19828.8231030162s|3fa2272bc4ebf6a3|8822|qs|local|vector|||0.112||
+cip_bof_recommendations|stem|b2647a04fefedd62|44f2695dfe922a10|02c8de71c47bd681|510644563||t19828.8227985333s|65bb35db8af55a40|15912|qs|local|vector|||0.033||
+cip_bof_recommendations_src|stem|585d57b6931179fc|2197d9a8a2a77712|b48ba13c1775981c|-755964910||t19823.108402303s|968173e48281bc13|27513|qs|local|vector|||0.122||
+cip_bof_recommendations_src_file|stem|3e6b2551caa4a4db|6cdd7ad55507f496|93be126433bc9947|-1138494359|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/Adaptive-Planning/Capital_Projects_-_Six-Year_CIP_BOF-Recommendations.xlsx|t19823.1067308027s|ae9a6eb1f339ded0|87738|file|local|vector|||0.026||
+cip_comparison_summary|stem|b94780222c6a6c88|ccd6b55ab9ec42fe|cf84fde29a25e4b1|-675932973||t19828.7467735304s|7d8159ce8fb969c5|14011|qs|local|vector|||0.103||
+cip_locations|stem|07a5d284f4f4ce5f|f0c62d7f68729950|6cb22c79b8d7ad40|937396978||t19822.2048458494s|d6d3463a541000c6|93250|qs|local|vector|||0.182||
+cip_pc_comparison_summary|stem|c5fffce439374c59|408eba69d364aeb7|6d48401e7e116267|1138254300||t19828.8231016502s|2ac6e23598210264|14303|qs|local|vector|||0.134||
+cip_pc_recommendations|stem|75588abea76eeacf|d56492e6f27c186b|c51db07b8c6d3a60|1917670273||t19828.8227975918s|e60d2f95b4ca201c|15754|qs|local|vector|||0.093||
+cip_pc_recommendations_src|stem|9189cbf43cd08255|b6d796f42c8974a0|428d4c75e3c111f3|-1885057141||t19828.7467710549s|1e09da2a83c84a33|27176|qs|local|vector|||0.12||
+cip_pc_recommendations_src_file|stem|ea224683a93b66ce|05aa7bafe410268a|93be126433bc9947|977292389|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/Adaptive-Planning/Capital_Projects_-_Six-Year_CIP_Recommendations.xlsx|t19788.601528825s|9a4e97451688d228|86800|file|local|vector|||0.032||
+cip_project_details|stem|25c2c7557e4701a0|8651b9e57d2f8e28|c8b55594565761b7|-571135643||t19822.2048182724s|65fc6c642297cc09|429080|qs|local|vector|||1.089||
 cip_project_details_path|stem|7afc08c816ed04b1|5ac57698428229e4|ef46db3751d8e999|1214539701|_targets/user/data/|t19777.2373653537s|e5e0123d49f2eb56|7099035|file_fast|local|vector|||0||
-cip_project_details_src|stem|b0dcc84afc4aaa90|9b94cd691b040139|dd545a55543af671|1962812957||t19788.6161774544s|381d5323ea731d10|403013|qs|local|vector|||1.082||
-cip_project_details_src_file|stem|5182c5d68377fd36|f0f5a1fd0168aa49|93be126433bc9947|184692065|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/Adaptive-Planning/Capital_Projects_-_Project_Details.xlsx|t19759.9113593245s|8beaa3422328dd40|1432684|file|local|vector|||0||
-cip_projects|stem|2db724b605db9737|6dc507533f92668e|f288ca774ee221b6|-468830840||t19788.6162382033s|e617ef948ba42c6a|506023|qs|local|vector|||0.742||
+cip_project_details_src|stem|b0dcc84afc4aaa90|9b94cd691b040139|dd545a55543af671|-894791588||t19822.2048000866s|381d5323ea731d10|403013|qs|local|vector|||0.959||
+cip_project_details_src_file|stem|5182c5d68377fd36|f0f5a1fd0168aa49|93be126433bc9947|-175129281|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/Adaptive-Planning/Capital_Projects_-_Project_Details.xlsx|t19759.9113593245s|8beaa3422328dd40|1432684|file|local|vector|||0||
+cip_projects|stem|2db724b605db9737|6dc507533f92668e|f288ca774ee221b6|820655482||t19822.2048553895s|e617ef948ba42c6a|506023|qs|local|vector|||0.791||
 cip_projects_combined|stem|2f3b4de266156d3a|c61c455f3cfc3556|f1a27a8b623231f9|519107121||t19786.7807473905s|e28f2808a2ccf24b|513375|qs|local|vector|||0.108||
 cip_recommendation_report|stem||18e30d6e72b8ce72|7b09c78db9f12b6c|-2142906830|report_cip_recommendations.pdf*report_cip_recommendations.qmd*report/_recommendations-FY2530.qmd*report/appendix_recommendations.log*report/appendix_recommendations.tex*report/appendix/_appendix_project-identifier.qmd*report/appendix/_appendix_recommendations.qmd*report/appendix/_appendix_report-creation.qmd*report/appendix/_appendix_updates.qmd*report/children/_agency_list_project_additional.qmd*report/children/_agency_list_project_recommendations.qmd*report/children/_agency_list_project_request.qmd*report/children/_agency_overview.qmd*report/children/_agency_recommendation_report.qmd*report/children/_agency_report_test.qmd*report/children/_agency_report.qmd*report/children/_project_additional.qmd*report/children/_project_recommended.qmd*report/children/_project_request.qmd*report/children/_related_plan.qmd*report/DOP_logo.png*report/include/_credits.qmd*report/include/_project-visualizations.qmd*report/intro/_intro_about-cip-report.qmd*report/intro/_intro_about-cip.qmd*report/intro/_intro_summary.qmd|t19786.9473529073s||0|file|local|vector|||||_paths_ missing files report_cip_recommendations.pdf
-cip_recommendations|stem|75588abea76eeacf|7208bb16dfc8673e|99beea13d34c9a45|-1409468049||t19788.6161989265s|e60d2f95b4ca201c|15754|qs|local|vector|||0.043||
+cip_recommendations|stem|d69d07a022b8c964|7208bb16dfc8673e|16f14c9e8b2361a5|-2140056913||t19828.6461282776s|6ff23f08933c7425|12117|qs|local|vector|||0.04||
 cip_recommendations_formatted|stem||148da82c8f428af8|7424214031575a42|889666109||t19776.9679645792s||0|qs|local|vector|||0.004||could not find function format_cip_report
-cip_recommendations_src|stem|9189cbf43cd08255|89fc729bc518fad7|f37c447b3326db45|-1839688027||t19788.6161779593s|1e09da2a83c84a33|27176|qs|local|vector|||0.04||
-cip_recommendations_src_file|stem|ea224683a93b66ce|05aa7bafe410268a|93be126433bc9947|-1867899092|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/Adaptive-Planning/Capital_Projects_-_Six-Year_CIP_Recommendations.xlsx|t19788.601528825s|9a4e97451688d228|86800|file|local|vector|||0.027||
-cip_report_data|stem|b25bf00659c07b4b|88794bf4e34dfc1e|7accfddbd8d1a6f8|1788640970||t19789.5901809415s|168c215371dd9f08|312723|qs|local|vector|||0.179||
-cip_requests|stem|37ac974d9da9c14a|34726d7cc3a22b6c|ee5db17b7999d9d1|-1406305985||t19788.6162238786s|f376723a65ff5af1|15139|qs|local|vector|||0.033||
+cip_recommendations_src|stem|9189cbf43cd08255|89fc729bc518fad7|f37c447b3326db45|1886633150||t19822.2047860397s|1e09da2a83c84a33|27176|qs|local|vector|||0.038||
+cip_recommendations_src_file|stem|ea224683a93b66ce|05aa7bafe410268a|93be126433bc9947|1555518832|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/Adaptive-Planning/Capital_Projects_-_Six-Year_CIP_Recommendations.xlsx|t19788.601528825s|9a4e97451688d228|86800|file|local|vector|||0.001||
+cip_report_data|stem|b096847968057c85|815d86620f16046c|e743c6d88b5a857b|1052679394||t19828.8231053159s|cbf3986729b2d061|330619|qs|local|vector|||0.138||
+cip_requests|stem|37ac974d9da9c14a|34726d7cc3a22b6c|b5d0ed86810529bf|-1976202484||t19828.8227980704s|f376723a65ff5af1|15139|qs|local|vector|||0.033||
 cip_requests_formatted|stem|08c2a704b159684b|0c78bf3763ad43a5|662b5e145855b6a0|-676990895||t19776.993902203s|a8928b0f5a062e26|21172|qs|local|vector|||0.187||
-cip_requests_src|stem|ad1177892a522cde|df43ec33e74bb9ae|0fa5115a0beae963|271410135||t19788.6161850714s|80d99f8f612b02b1|26372|qs|local|vector|||0.036||
-cip_requests_src_file|stem|5b528b940d93e315|50379f70d6f30b18|93be126433bc9947|1650299861|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/Adaptive-Planning/Capital_Projects_-_Six-Year_CIP_Requests.xlsx|t19759.8953547585s|653591af6a0d462a|83757|file|local|vector|||0.002||
+cip_requests_src|stem|ad1177892a522cde|df43ec33e74bb9ae|0fa5115a0beae963|634454870||t19822.2047855511s|80d99f8f612b02b1|26372|qs|local|vector|||0.208||
+cip_requests_src_file|stem|5b528b940d93e315|50379f70d6f30b18|93be126433bc9947|1035878086|/Users/elipousson/Projects/02_analysis/baltimoreCIP-FY2530/_targets/user/data/Adaptive-Planning/Capital_Projects_-_Six-Year_CIP_Requests.xlsx|t19759.8953547585s|653591af6a0d462a|83757|file|local|vector|||0.001||
 cli_alert_new_col|function|d5a93570a2381611|||||||||||||||
 cols_label_ext|function|1a82ff1957730a5d|||||||||||||||
 cols_width_ext|function|086e4fa7be725af7|||||||||||||||
 combine_asset_data|function|3ccf3388d920a40c|||||||||||||||
-combine_cip_project_data|function|5b156faf9facfa5c|||||||||||||||
+combine_cip_project_data|function|08a1119bdc61ee04|||||||||||||||
 comparison_summary|function|8e293e2b909d04c5|||||||||||||||
 convert_to_coords|function|0ee1b8d07d18b7d4|||||||||||||||
 count_distinct_not_in|function|7bb6749ffcf9e4c4|||||||||||||||
@@ -82,13 +90,13 @@ derive_location_asset_id_col|function|95006cabcff293d1|||||||||||||||
 derive_project_type_short_col|function|070db3b8a58c4bef|||||||||||||||
 dgs_asset_list|stem|9d64f377e5d15003|f49d8b0ed15d90e2|a1c59961684fb0f3|-640537807||t19787.6343762822s|025a0451f1478de2|275371|qs|local|vector|||2.072|1m22mDebug mode activated adding variables block_lot_ok, block_lot_pieces, andblock_lot_remainder.. attribute variables are assumed to be spatially constant throughout all geometries|
 dictionary_to_xwalk|function|7ed3a591931a9048|||||||||||||||
-dot_intersections|stem|3916a8c053bc4d08|7f2d99bfc684d1aa|b67e4ffdc241d5e6|-220849302||t19788.6161647774s|c6b5cf4fca3cc5f8|1548|qs|local|vector|||0.051||
-dot_location|stem|6e4611ed9109f703|3fd29f4915e68c82|2c86420588bd1a74|-990266139||t19794.7931134498s|5f98479fa5cbc35b|31881|qs|local|vector|||0.128||
+dot_intersections|stem|3916a8c053bc4d08|7f2d99bfc684d1aa|ef105c8d26c5eb9f|1739623641||t19822.2047831019s|c6b5cf4fca3cc5f8|1548|qs|local|vector|||0.052||
+dot_location|stem|6e4611ed9109f703|3fd29f4915e68c82|d2c2202a530ad83d|1439922029||t19822.2047779582s|5f98479fa5cbc35b|31881|qs|local|vector|||0.075||
 filter_cip_data|function|e607a11e9500bd93|||||||||||||||
 flag_asset_start_end_year|function|fedf5d499028048d|||||||||||||||
 fmt_currency_plain|function|1114b09111d6b2e6|||||||||||||||
 format_account_type|function|b01933c1b0fae726|||||||||||||||
-format_adaptive_cip_data|function|47969bed657bf82b|||||||||||||||
+format_adaptive_cip_data|function|9fea53fd84d1acdd|||||||||||||||
 format_adaptive_project_data|function|8035360db936595b|||||||||||||||
 format_adaptive_project_details|function|f98a5788df95cdee|||||||||||||||
 format_asset_admin_id|function|8a41091c94533c89|||||||||||||||
@@ -100,7 +108,7 @@ format_asset_list|function|4667e9492bdd1b50|||||||||||||||
 format_asset_name|function|2efb6d114dffa4ad|||||||||||||||
 format_asset_name_short|function|315c06872c757eab|||||||||||||||
 format_asset_type_label|function|9f1f4d0ff1ed6819|||||||||||||||
-format_cip_cols|function|d5bcfa09f0d5dda7|||||||||||||||
+format_cip_cols|function|603003d1174d6818|||||||||||||||
 format_cip_funding|function|caf62e71f41c8e45|||||||||||||||
 format_cip_funding_data|function|a10aeadbfd28d4f0|||||||||||||||
 format_cip_request_data|function|caf62e71f41c8e45|||||||||||||||
@@ -128,10 +136,10 @@ get_asset_by_id|function|2f8502ded863412b|||||||||||||||
 get_file_info|function|f0314baba64ddc50|||||||||||||||
 group_by_col|function|f0757e0dcf62a1a5|||||||||||||||
 gt_prj_est_cost|function|4aaba2c96494ddf3|||||||||||||||
-gt_prj_fy_requests|function|f154b825632be6cf|||||||||||||||
-gt_revenue_category_fy|function|7b0ea1fb4759fcd3|||||||||||||||
+gt_prj_fy_requests|function|9ffdd58ad7e4f6bb|||||||||||||||
+gt_revenue_category_fy|function|94b666f7746bb41a|||||||||||||||
 gt_simple|function|a41ca902d189eb85|||||||||||||||
-impact_investment_areas|stem|594ebb83d31b728a|7e2c8e5b25ca319c|91abfb0d5831aced|1557299449||t19788.6159410956s|d91c71649f7fa0d2|18125|qs|local|vector|||1.191||
+impact_investment_areas|stem|594ebb83d31b728a|7e2c8e5b25ca319c|91abfb0d5831aced|-1327601469||t19822.2046619396s|d91c71649f7fa0d2|18125|qs|local|vector|||1.625||
 intersects_baltimore_city|function|85909e6ec9ff99d5|||||||||||||||
 is_st_intersects|function|7066c15c92041eb1|||||||||||||||
 join_agency_reference|function|3c79a040f98d332d|||||||||||||||
@@ -153,10 +161,10 @@ load_baltimore_city|function|19b44a0ee6e6f143|||||||||||||||
 load_baltimore_imap_parcels|function|cf5107bce72cbfca|||||||||||||||
 load_baltimore_msa_basemap_water|function|fab1cba494ad8f74|||||||||||||||
 load_cip_project_locations|function|610cf837e68e58cc|||||||||||||||
-load_cip_report_data|function|28fab6409ca37b9f|||||||||||||||
+load_cip_report_data|function|a9587a999b897829|||||||||||||||
 load_dhcd_iia|function|335158f2ff452820|||||||||||||||
 load_dot_intersections|function|b2b0cd3c186fe8a9|||||||||||||||
-load_dot_locations|function|5a6b5cc201811bda|||||||||||||||
+load_dot_locations|function|840ee57932e489d0|||||||||||||||
 load_osm_asset_data|function|3858923cf1329ac6|||||||||||||||
 load_packages|function|d6c61180982b1b9b|||||||||||||||
 locator_basemap_theme|function|ea4e1c99fe15710a|||||||||||||||
@@ -165,26 +173,28 @@ n_what|function|ffaa3df928eb40db|||||||||||||||
 name_file|stem||f49dc3644f799812|ef46db3751d8e999|1589986600||t19777.2111531727s||0|file|local|vector|||0.02||object command not found
 nest_by_project_code|function|584d23aa7e594f9f|||||||||||||||
 nest_project_locations|function|d10130dc0bea18eb|||||||||||||||
-osm_asset_data|stem|bd52649d1e8a5186|1e2abcf7ddcd43a1|0ff426c2ff375e5b|-1116055572||t19788.6161515495s|8d3b2976875d7ae3|9847|qs|local|vector|||16.986||
-p_hierarchy_xwalks|stem|a7c3f019f47ec205|6a842cb0bd171743|6bb6bd23d65753b5|678025950||t19788.6140971493s|73e54f099eba1f9d|899|qs|local|vector|||4.586||
+osm_asset_data|stem|bd52649d1e8a5186|1e2abcf7ddcd43a1|0ff426c2ff375e5b|1871052666||t19822.2047769554s|8d3b2976875d7ae3|9847|qs|local|vector|||9.933||
+p_hierarchy_xwalks|stem|a7c3f019f47ec205|6a842cb0bd171743|6bb6bd23d65753b5|-1575093979||t19819.1733579914s|73e54f099eba1f9d|899|qs|local|vector|||2.689||
 path_user_data|function|a5a72b6a96ee1690|||||||||||||||
 perc|function|5a5d671cad9d0c57|||||||||||||||
-pivot_cip_fy_wider|function|fb6ab2c26df30b4a|||||||||||||||
+pivot_cip_fy_wider|function|238a1906aae866c3|||||||||||||||
 pivot_cip_requests_wider|function|fb6ab2c26df30b4a|||||||||||||||
 pivot_fy_longer|function|93dd86fc4053161c|||||||||||||||
 pivot_requests_wider|function|fb6ab2c26df30b4a|||||||||||||||
 pivot_revenue_wider|function|e27607e1c5d8b0d0|||||||||||||||
 plot_agency_project_map|function|5961ab248f90fc2c|||||||||||||||
-plot_baltimore_city_locator_map|function|fac9619248ee105a|||||||||||||||
-plot_baltimore_msa_locator_map|function|76dd0a1917d3270d|||||||||||||||
-plot_location_data|function|6b82711e0ca74403|||||||||||||||
-plot_prj_locator_map|function|5080cda387ad4ef2|||||||||||||||
-plot_project_locations|function|306b7b72be1887a7|||||||||||||||
+plot_baltimore_city_locator_map|function|73ba06fccc1ebfcc|||||||||||||||
+plot_baltimore_msa_locator_map|function|ddc32a8a47b2257c|||||||||||||||
+plot_location_data|function|bbc78fe2052b0597|||||||||||||||
+plot_prj_locator_map|function|5b5e89ca09976b2d|||||||||||||||
+plot_project_locations|function|73add4077afa528d|||||||||||||||
 plot_src_image|function|17a70c1f5701ceef|||||||||||||||
 possibly_group_possibly_drop|function|d49ffb5f9633526a|||||||||||||||
 prep_project_locations|function|03c771efa79b9fda|||||||||||||||
-project_data_corrections|stem|78d23e249e3183d0|11ed71846b319151|3e3a632c5fb0f435|1686353091||t19788.6141180176s|7bbbd16aef916073|2079|qs|local|vector|||0.816||
-project_detail_updates|stem|9ade62b988e279e7|453d01eea2c13ae7|f87945ce2edd3c66|1895277705||t19788.6161638712s|a17158c318ceec9c|17469|qs|local|vector|||0.999||
+prep_to_combine_projects|function|52dbf77caf2823bf|||||||||||||||
+project_data_corrections|stem|78d23e249e3183d0|11ed71846b319151|3e3a632c5fb0f435|706850115||t19819.1733619152s|7bbbd16aef916073|2079|qs|local|vector|||0.334||
+project_detail_updates|stem|9ade62b988e279e7|453d01eea2c13ae7|f87945ce2edd3c66|-1385135102||t19819.1733699021s|a17158c318ceec9c|17469|qs|local|vector|||0.687||
+pull_distinct_project_code|function|9091c2ff593fdf54|||||||||||||||
 pull_location_data|function|51c9d407473b1ada|||||||||||||||
 qmd|stem|1712ab5c02b05f66|726e8873c4c61489|7b09c78db9f12b6c|-1311367288|_output*report_cip_recommendations.qmd*_quarto.yml|t19786.9275738159s|0bc14aed554b56da|2804|file|local|vector|||75.527||
 qto_agency_overview|function|bcc8b6f59cdfc305|||||||||||||||
@@ -217,8 +227,8 @@ rename_cip_financial_data|function|f9f859ead98a19f9|||||||||||||||
 rename_with_dictionary|function|a3512ce5f2604f73|||||||||||||||
 rename_with_xwalk|function|a880afaa77594c83|||||||||||||||
 report_cip_recommendations|stem||84ad9835a3d2e949|7b09c78db9f12b6c|925626038|2024-03-04_FY2530_CIP-Recommendation-Report.pdf*report_cip_recommendations.qmd|t19786.9349751733s||0|file|local|vector|||||_paths_ missing files report_cip_recommendations.pdf
-report_qmd|stem|47faca6b6e3978a2|20994399c812e457|6904a44ebda65645|55636694|_output*report_cip_recommendations.qmd*_quarto.yml*R/bind_cip_comparison_cols.R*R/bind_coords.R*R/cache_baltimore_imap_parcels.R*R/cli_alert_new_col.R*R/cols_label_ext.R*R/cols_width_ext.R*R/combine_asset_data.R*R/convert_sf_list_to_df_list.R*R/convert_to_coords.R*R/derive_account_type_col.R*R/derive_demolished_col.R*R/derive_fiscal_year_col.R*R/derive_location_asset_id_col.R*R/derive_project_type_short_col.R*R/dictionary_to_xwalk.R*R/dictionary.R*R/flag_asset_start_end_year.R*R/fmt_currency_plain.R*R/format_adaptive_cip_data.R*R/format_adaptive_project_data.R*R/format_asset_admin_id.R*R/format_asset_block_lot.R*R/format_asset_coords.R*R/format_asset_name_short.R*R/format_asset_name.R*R/format_asset_type_label.R*R/format_cip_cols.R*R/format_code_name_cols.R*R/format_dgs_asset_list.R*R/format_fgs_fund_cols.R*R/format_fund_grant_s_purpose_code_cols.R*R/format_imap_parcel_block_lot.R*R/format_p_hierarchy_cols.R*R/format_p_manager_cols.R*R/format_p_owner_cols.R*R/format_prj_data.R*R/format_project_locations.R*R/format_project_name.R*R/format_revenue_category_name_xwalk.R*R/format_workday_names.R*R/gt_prj_est_cost.R*R/gt_prj_fy_requests.R*R/gt_revenue_category_fy.R*R/gt_simple.R*R/join_agency_reference.R*R/join_project_locations.R*R/kbl_agency_projects.R*R/kbl_comparison.R*R/kbl_summary.R*R/kbl_tbl.R*R/knit_children.R*R/left_join_coalesce.R*R/load_agency_reference.R*R/load_asset_agency_xwalk.R*R/load_baltimore_basemap.R*R/load_baltimore_bridge_inventory.R*R/load_baltimore_city.R*R/load_baltimore_imap_parcels.R*R/load_cip_project_locations.R*R/load_cip_report_data.R*R/load_dhcd_iia.R*R/load_dot_intersections.R*R/load_osm_asset_data.R*R/load_revenue_definitions.R*R/locator_basemap_theme.R*R/n_what.R*R/nest_by_project_code.R*R/nest_project_locations.R*R/packages.R*R/path_user_data.R*R/perc.R*R/pivot_cip_fy_wider.R*R/plot_baltimore_city_locator_map.R*R/plot_baltimore_msa_locator_map.R*R/plot_DOT_FY25_location_map.R*R/plot_location_data.R*R/plot_prj_locator_map.R*R/plot_project_locations.R*R/prep_DOT_FY2025_location_data.R*R/prep_project_locations.R*R/pull_location_data.R*R/qto_agency_overview.R*R/qto_callout_agency_additional.R*R/qto_callout_agency_requests.R*R/qto_dl_prj_info.R*R/qto_external_link.R*R/read_adaptive_dictionary.R*R/read_agency_overviews.R*R/read_asset_list_dictionary.R*R/read_baltimore_dot_bridges.R*R/read_basemap_data.R*R/read_basemap_rds.R*R/read_imap_maryland_bridges.R*R/read_p_hierarchy_xwalks.R*R/read_project_data_corrections.R*R/read_project_detail_updates.R*R/read_revenue_definitions.R*R/read_sheet_ext.R*R/read_sheets_subset.R*R/rename_with_dictionary.R*R/rename_with_xwalk.R*R/scratch-dot-map-codeblocks.R*R/st_join_mapbaltimore.R*R/str_extract_agency_contract_id.R*R/str_extract_bridge_asset_id.R*R/str_extract_cip_number.R*R/str_extract_cost_center_code.R*R/str_extract_legacy_proj_num.R*R/str_extract_number.R*R/str_extract_project_code.R*R/str_extract_spend_category_code.R*R/str_remove_trim.R*R/str_squish_across.R*R/summarise_cip_comparison.R*R/tar_arcgis_url.R*R/update_asset_names.R*R/vec_fmt_currency_plain.R*R/where_in_sql.R*R/write_user_csv.R*report/_appendix_project-identifier.qmd*report/_appendix_recommendations.qmd*report/_appendix_report-creation.qmd*report/_appendix_updates.qmd*report/_intro_about-cip-report.qmd*report/_intro_about-cip.qmd*report/_intro_summary.qmd*report/_recommendations-FY2530.qmd*report/children/_agency_list_project_additional.qmd*report/children/_agency_list_project_recommendations.qmd*report/children/_agency_list_project_request.qmd*report/children/_agency_overview.qmd*report/children/_agency_recommendation_report.qmd*report/children/_agency_report_test.qmd*report/children/_agency_report.qmd*report/children/_project_additional.qmd*report/children/_project_recommended.qmd*report/children/_project_request.qmd*report/children/_related_plan.qmd*report/include/_credits.qmd*report/include/_project-visualizations.qmd|t19794.7964104496s|4f3d9090d1251355|53344261|file|local|vector|||284.652||
-report_xwalks|stem|cb41ab15b644d2a9|5c5690c76ec22268|3ba3f80806261f2b|-1370997116||t19788.6141765082s|88a0ab32188b903a|22049|qs|local|vector|||5.05||
+report_qmd|stem|6d90c3969e60c29d|82dac3661e8f4ee1|10414d5f71a33932|-1421695845|_output*report_cip_recommendations.qmd*_quarto.yml*R/bind_cip_comparison_cols.R*R/bind_coords.R*R/cache_baltimore_imap_parcels.R*R/cli_alert_new_col.R*R/cols_label_ext.R*R/cols_width_ext.R*R/combine_asset_data.R*R/convert_sf_list_to_df_list.R*R/convert_to_coords.R*R/derive_account_type_col.R*R/derive_demolished_col.R*R/derive_fiscal_year_col.R*R/derive_location_asset_id_col.R*R/derive_project_type_short_col.R*R/dictionary_to_xwalk.R*R/dictionary.R*R/flag_asset_start_end_year.R*R/fmt_currency_plain.R*R/format_adaptive_cip_data.R*R/format_adaptive_project_data.R*R/format_asset_admin_id.R*R/format_asset_block_lot.R*R/format_asset_coords.R*R/format_asset_name_short.R*R/format_asset_name.R*R/format_asset_type_label.R*R/format_cip_cols.R*R/format_code_name_cols.R*R/format_dgs_asset_list.R*R/format_fgs_fund_cols.R*R/format_fund_grant_s_purpose_code_cols.R*R/format_imap_parcel_block_lot.R*R/format_p_hierarchy_cols.R*R/format_p_manager_cols.R*R/format_p_owner_cols.R*R/format_prj_data.R*R/format_project_locations.R*R/format_project_name.R*R/format_revenue_category_name_xwalk.R*R/format_workday_names.R*R/gt_prj_est_cost.R*R/gt_prj_fy_requests.R*R/gt_revenue_category_fy.R*R/gt_simple.R*R/join_agency_reference.R*R/join_project_locations.R*R/kbl_agency_projects.R*R/kbl_comparison.R*R/kbl_summary.R*R/kbl_tbl.R*R/knit_children.R*R/left_join_coalesce.R*R/load_agency_reference.R*R/load_asset_agency_xwalk.R*R/load_baltimore_basemap.R*R/load_baltimore_bridge_inventory.R*R/load_baltimore_city.R*R/load_baltimore_imap_parcels.R*R/load_cip_project_locations.R*R/load_cip_report_data.R*R/load_dhcd_iia.R*R/load_dot_intersections.R*R/load_osm_asset_data.R*R/load_revenue_definitions.R*R/locator_basemap_theme.R*R/n_what.R*R/nest_by_project_code.R*R/nest_project_locations.R*R/packages.R*R/path_user_data.R*R/perc.R*R/pivot_cip_fy_wider.R*R/plot_baltimore_city_locator_map.R*R/plot_baltimore_msa_locator_map.R*R/plot_DOT_FY25_location_map.R*R/plot_location_data.R*R/plot_prj_locator_map.R*R/plot_project_locations.R*R/prep_DOT_FY2025_location_data.R*R/prep_project_locations.R*R/pull_location_data.R*R/qto_agency_overview.R*R/qto_callout_agency_additional.R*R/qto_callout_agency_requests.R*R/qto_dl_prj_info.R*R/qto_external_link.R*R/read_adaptive_dictionary.R*R/read_agency_overviews.R*R/read_asset_list_dictionary.R*R/read_baltimore_dot_bridges.R*R/read_basemap_data.R*R/read_basemap_rds.R*R/read_imap_maryland_bridges.R*R/read_p_hierarchy_xwalks.R*R/read_project_data_corrections.R*R/read_project_detail_updates.R*R/read_revenue_definitions.R*R/read_sheet_ext.R*R/read_sheets_subset.R*R/rename_with_dictionary.R*R/rename_with_xwalk.R*R/scratch-dot-map-codeblocks.R*R/st_join_mapbaltimore.R*R/str_extract_agency_contract_id.R*R/str_extract_bridge_asset_id.R*R/str_extract_cip_number.R*R/str_extract_cost_center_code.R*R/str_extract_legacy_proj_num.R*R/str_extract_number.R*R/str_extract_project_code.R*R/str_extract_spend_category_code.R*R/str_remove_trim.R*R/str_squish_across.R*R/summarise_cip_comparison.R*R/update_asset_names.R*R/vec_fmt_currency_plain.R*R/where_in_sql.R*R/write_user_csv.R*report/_appendix_project-identifier.qmd*report/_appendix_recommendations.qmd*report/_appendix_report-creation.qmd*report/_appendix_updates.qmd*report/_intro_about-cip-report.qmd*report/_intro_about-cip.qmd*report/_intro_summary.qmd*report/children/_agency_list_project_additional.qmd*report/children/_agency_list_project_recommendations.qmd*report/children/_agency_list_project_request.qmd*report/children/_agency_overview.qmd*report/children/_agency_recommendation_report.qmd*report/children/_agency_report_test.qmd*report/children/_agency_report.qmd*report/children/_project_additional.qmd*report/children/_project_recommended.qmd*report/children/_project_request.qmd*report/children/_related_plan.qmd*report/include/_credits.qmd*report/include/_project-visualizations.qmd|t19828.8271112157s|1e7dc95a392b81e6|94691692|file|local|vector|||346.133||
+report_xwalks|stem|9803ddfa09b8eee4|5c5690c76ec22268|3ba3f80806261f2b|-339694919||t19819.1733983144s|5751fcf2bf160e6c|22043|qs|local|vector|||2.452||
 revenue_category_name_xwalk|stem|2323980a6b23ef14|92de354f0770d6df|ef46db3751d8e999|2114756977||t19776.9679644804s||1187|qs|local|vector|||0.028||could not find function load_revenue_category_name_xwalk
 revenue_category_name_xwalk_file|stem|aa6768b36ca173ea|332cdc64154f503b|ef46db3751d8e999|-1774540900|_targets/user/data/reference/revenue_category_name_xwalk.csv|t19733.2658465914s|8a7c557de32adfd5|2925|file|local|vector|||0||
 select_project_cols|function|e204f6392ce1b51e|||||||||||||||
@@ -236,7 +246,8 @@ str_extract_spend_category_code|function|d40aac561ff1b884|||||||||||||||
 str_remove_trim|function|6da25b1dd2c2891e|||||||||||||||
 str_squish_across|function|38cd017bd7250999|||||||||||||||
 sum_round|function|e25c764e4767d1e8|||||||||||||||
-summarise_cip_comparison|function|0b13cc8b024c3e6c|||||||||||||||
+summarise_cip_comparison|function|75229b6aca9f0b8d|||||||||||||||
+summarise_cip_fy_comparison|function|591f1ca90d0b1dad|||||||||||||||
 tar_arcgis_url|function|1679f44321bff0ec|||||||||||||||
 tar_asset_list_dictionary|function|16b9ef68a49def33|||||||||||||||
 tar_file_read_user_data|function|75b4bddbd7040f7b|||||||||||||||
