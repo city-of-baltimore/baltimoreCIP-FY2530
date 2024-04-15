@@ -86,12 +86,16 @@ filter_cip_data <- function(cip_data) {
 combine_cip_project_data <- function(
     project_data,
     request_data,
-    recommendation_data,
+    pc_recommendation_data = NULL,
+    bof_recommendation_data = NULL,
     location_data = NULL,
     current_fy_col = "fy2025",
     summary_col = "total_amt",
     fy_total_col = "fy_total",
     cip_type = "recommendation",
+    request_data_col = "request_data",
+    pc_recommendation_data_col = "pc_recommendation_data",
+    bof_recommendation_data_col = "recommendation_data",
     dictionary) {
   # Rename columns
   project_details <- project_data
@@ -100,9 +104,11 @@ combine_cip_project_data <- function(
     select(project_code, agency_label, agency_short_name)
 
   cip_type <- arg_match(cip_type, c("recommendation", "request"))
+
   summary_data <- request_data
   if (cip_type == "recommendation") {
-    summary_data <- recommendation_data
+    # FIXME: Document this pattern
+    summary_data <- bof_recommendation_data %||% pc_recommendation_data
   }
 
   summary_data_join <- summary_data |>
@@ -112,21 +118,17 @@ combine_cip_project_data <- function(
       .by = project_code
     )
 
-  is_recommended_project <- recommendation_data |>
-    filter(
+  is_recommended_project <- summary_data |>
+    pull_distinct_project_code(
       !is.na(.data[[fy_total_col]]),
       .data[[fy_total_col]] > 0 | .data[[fy_total_col]] < 0
-    ) |>
-    distinct(project_code) |>
-    pull(project_code)
+    )
 
   is_requested_project <- request_data |>
-    filter(
+    pull_distinct_project_code(
       !is.na(.data[[fy_total_col]]),
       .data[[fy_total_col]] > 0 | .data[[fy_total_col]] < 0
-    ) |>
-    distinct(project_code) |>
-    pull(project_code)
+    )
 
   # Subset data to create the has_grant_source column
   is_grant_source_request <- request_data |>
@@ -138,26 +140,33 @@ combine_cip_project_data <- function(
 
   # Subset data to create has_requests_2025 column
   is_current_fy_request <- request_data |>
-    filter(
+    pull_distinct_project_code(
       !is.na(.data[[current_fy_col]]),
       .data[[current_fy_col]] > 0
-    ) |>
-    distinct(project_code) |>
-    pull(project_code)
-
-  # Nest recommendation data
-  recommendation_data_join <- recommendation_data |>
-    rename_with_dictionary(dictionary = dictionary) |>
-    left_join(project_data_join_cols, by = join_by(project_code), na_matches = "never") |>
-    nest_by(project_code, .key = "recommendation_data", .keep = TRUE)
+    )
 
   request_data_join <- request_data |>
-    rename_with_dictionary(dictionary = dictionary) |>
-    left_join(project_data_join_cols,
-      by = join_by(project_code),
-      na_matches = "never"
-    ) |>
-    nest_by(project_code, .key = "request_data", .keep = TRUE)
+    prep_to_combine_projects(
+      y = project_data_join_cols,
+      dictionary = dictionary,
+      .key = request_data_col
+    )
+
+  # Nest recommendation data
+  pc_recommendation_data_join <- pc_recommendation_data |>
+    prep_to_combine_projects(
+      y = project_data_join_cols,
+      dictionary = dictionary,
+      .key = pc_recommendation_data_col
+    )
+
+  # Nest recommendation data
+  bof_recommendation_data_join <- bof_recommendation_data |>
+    prep_to_combine_projects(
+      y = project_data_join_cols,
+      dictionary = dictionary,
+      .key = bof_recommendation_data_col
+    )
 
   project_data_join <- project_data |>
     # Rename columns based on dictionary
@@ -202,7 +211,13 @@ combine_cip_project_data <- function(
       na_matches = "never"
     ) |>
     left_join(
-      recommendation_data_join,
+      pc_recommendation_data_join,
+      by = join_by(project_code),
+      relationship = "one-to-one",
+      na_matches = "never"
+    ) |>
+    left_join(
+      bof_recommendation_data_join,
       by = join_by(project_code),
       relationship = "one-to-one",
       na_matches = "never"
@@ -226,6 +241,34 @@ combine_cip_project_data <- function(
 
   # Save project_requests
   project_data_combined
+}
+
+
+#' Filter a data frame and then pull a distinct vector of project codes
+pull_distinct_project_code <- function(x, ...) {
+  x |>
+    dplyr::filter(...) |>
+    dplyr::distinct(project_code) |>
+    dplyr::pull(project_code)
+}
+
+#' Rename an input data frame based on a dictionary and join to a second data
+#' frame then nest by project code
+prep_to_combine_projects <- function(
+    x,
+    y,
+    dictionary,
+    .key,
+    na_matches = "never",
+    .keep = TRUE) {
+  x |>
+    rename_with_dictionary(dictionary = dictionary) |>
+    dplyr::left_join(
+      y,
+      by = join_by(project_code),
+      na_matches = na_matches
+    ) |>
+    dplyr::nest_by(project_code, .key = .key, .keep = .keep)
 }
 
 
@@ -316,12 +359,14 @@ load_cip_report_data <- function(
     project_data,
     request_data,
     # FIXME: This has not yet been updated to combine recommendation data
-    recommendation_data,
+    pc_recommendation_data,
+    bof_recommendation_data,
     dictionary) {
   cip_data <- combine_cip_project_data(
     project_data = project_data,
     request_data = request_data,
-    recommendation_data = recommendation_data,
+    pc_recommendation_data = pc_recommendation_data,
+    bof_recommendation_data = bof_recommendation_data,
     dictionary = dictionary
   )
 
