@@ -8,6 +8,7 @@ gt_summary_table_source <- report_data[[cip_data_col]] |>
   purrr::list_rbind() |>
   filter(!is.na(request_id)) |>
   mutate(
+    # FIXME: Double-check if this work around is still needed
     budget_category_sort = if_else(
       budget_category == "Utility Revenue" &
         fund_grant_special_purpose_name == "9965 FND Parking Facilities Capital Project Fund",
@@ -170,9 +171,11 @@ plot_location_data(report_data, size = size, stroke = size / 8)
 ```{r}
 if (params$cip_type == "recommendation") {
   summary_amt <- fy_from_gt(gt_summary_table_source)
-  summary_text <- glue("The Planning Commission is recommending {summary_amt} in funding over 6 years towards the requested projects.
+  recommendation_org_short <- "Board of Finance"
+  recommendation_org <- paste0("Baltimore City ", recommendation_org_short)
+  recommendation_date <- "March 2024"
 
-This report reflects the recommendations of the Baltimore City Planning Commission.")
+  summary_text <- glue("The {recommendation_org_short} is recommending {summary_amt} in funding over 6 years towards the requested projects. This report reflects the recommendations of the {recommendation_org} as of {recommendation_date}.")
 } else {
   summary_text <- "This report is prepared by the Baltimore City Department of Planning and published in advance of the Baltimore City Planning Commission review of agency requests each year. The goal of this report is to support the Planning Commission in the review and approval of the program and to share this important information with residents across the city and region."
 }
