@@ -26,7 +26,7 @@ bind_cip_comparison_cols <- function(data,
       diff_desc = case_when(
         is_new ~ "Added funding",
         fy_total_diff > 0 ~ "Increased funding",
-        .data[[col_comparison]] == 0 ~ "No funding",
+        .data[[col_reference]] > 0 & .data[[col_comparison]] == 0 ~ "No funding",
         fy_total_diff < 0 ~ "Decreased funding",
         fy_total_diff == 0 ~ "No change"
       )
