@@ -41,14 +41,19 @@ tar_option_set(
 )
 
 options(
-  clustermq.scheduler = "multicore",
+  # clustermq.scheduler = "multicore",
   readr.show_col_types = FALSE,
-  gargle_oauth_email = "eli.pousson@baltimorecity.gov"
+  gargle_oauth_email = "eli.pousson@baltimorecity.gov",
+  fy_cols = paste0("fy", 2026:2030),
+  tbl_fy_cols = c(paste0("fy_", c(2025:2030)), "fy_total"),
+  tbl_fy_labels = c(paste0("FY", c(25:30)), "Total ($K)")
 )
 
-future::plan(future.callr::callr)
+# future::plan(future.callr::callr)
 
-tar_source()
+suppressMessages(
+  tar_source()
+)
 
 tar_plan(
   # Read Adaptive Planning report data dictionary
@@ -113,7 +118,7 @@ tar_plan(
 
   # Read Capital Projects - Six-Year CIP (Recommendations) - Report
   tar_file_read(
-    cip_recommendations_src,
+    cip_pc_recommendations_src,
     path_user_data(
       "Adaptive-Planning",
       "Capital_Projects_-_Six-Year_CIP_Recommendations.xlsx"
@@ -122,16 +127,43 @@ tar_plan(
   ),
 
   # Format recommendation data
-  cip_recommendations = format_adaptive_cip_data(
-    data = cip_recommendations_src,
+  cip_pc_recommendations = format_adaptive_cip_data(
+    data = cip_pc_recommendations_src,
     dictionary = adaptive_dictionary,
     revenue_category_name_xwalk = report_xwalks[["revenue_category_name_xwalk"]]
   ),
 
   # Compare CIP request data and recommendation data
-  cip_comparison_summary = summarise_cip_comparison(
-    request_data = cip_requests,
-    recommendation_data = cip_recommendations
+  cip_pc_comparison_summary = summarise_cip_comparison(
+    reference_data = cip_requests,
+    comparison_data = cip_pc_recommendations,
+    nm = c("Request", "Recommendation"),
+    names_to = "report",
+    fy_cols = getOption("fy_cols")
+  ),
+
+  # Read Capital Projects - Six-Year CIP (BOF Recommendations) - Report
+  tar_file_read(
+    cip_bof_recommendations_src,
+    path_user_data(
+      "Adaptive-Planning",
+      "Capital_Projects_-_Six-Year_CIP_BOF-Recommendations.xlsx"
+    ),
+    read_xlsx(file = !!.x)
+  ),
+
+  # Read Capital Projects - Six-Year CIP (BOF Recommendations) - Report
+  cip_bof_recommendations = format_adaptive_cip_data(
+    data = cip_bof_recommendations_src,
+    dictionary = adaptive_dictionary,
+    revenue_category_name_xwalk = report_xwalks[["revenue_category_name_xwalk"]]
+  ),
+  cip_bof_comparison_summary = summarise_cip_comparison(
+    reference_data = cip_pc_recommendations,
+    comparison_data = cip_bof_recommendations,
+    nm = c("PC", "BOF"),
+    names_to = "report",
+    fy_cols = getOption("fy_cols")
   ),
 
   # Read source asset list attributes
@@ -203,7 +235,8 @@ tar_plan(
   cip_report_data = load_cip_report_data(
     project_data = cip_projects,
     request_data = cip_requests,
-    recommendation_data = cip_recommendations,
+    pc_recommendation_data = cip_pc_recommendations,
+    bof_recommendation_data = cip_bof_recommendations,
     dictionary = adaptive_dictionary
   ),
 
@@ -211,6 +244,7 @@ tar_plan(
   tar_quarto(
     report_qmd,
     path = getwd(),
+    quiet = FALSE,
     extra_files = c(
       # Monitor includes and child documents
       fs::dir_ls(
