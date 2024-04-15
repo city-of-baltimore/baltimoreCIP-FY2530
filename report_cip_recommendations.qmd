@@ -66,11 +66,7 @@ report_xwalks <- tar_read(report_xwalks, store = store_path)
 
 cip_requests <- tar_read(cip_requests, store = store_path)
 
-# cip_recommendations <- tar_read(cip_recommendations, store = store_path)
-
 cip_recommendations <- tar_read(cip_bof_recommendations)
-
-cip_comparison_summary <- tar_read(cip_comparison_summary, store = store_path)
 
 cip_project_details <- tar_read(cip_project_details, store = store_path)
 
