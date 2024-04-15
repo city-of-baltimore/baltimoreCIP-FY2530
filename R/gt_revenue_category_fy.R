@@ -3,13 +3,18 @@
 #'
 #' This takes a list column of data frames
 gt_revenue_category_fy <- function(data,
-                                   title = "Total agency requests by source") {
+                                   title = "Total agency requests by source",
+                                   tbl_fy_cols = getOption(
+                                     "tbl_fy_cols",
+                                     c(paste0("fy_", c(2025:2030)), "fy_total")
+                                    ),
+                                   tbl_fy_labels = getOption(
+                                     "tbl_fy_labels",
+                                     c(paste0("FY", c(25:30)), "Total ($K)")
+                                     )
+                                   ) {
   data <- data |>
     purrr::list_rbind()
-
-  if (!has_name(data, "request_id")) {
-    return("Table not working!!")
-  }
 
   data |>
     filter(!is.na(request_id)) |>
@@ -46,13 +51,11 @@ gt_revenue_category_fy <- function(data,
     cols_label_ext(
       columns = c(
         "budget_category",
-        paste0("fy_", c(2025:2030)),
-        "fy_total"
+        tbl_fy_cols
       ),
       labels = c(
         "Source",
-        paste0("FY", c(25:30)),
-        "Total ($K)"
+        tbl_fy_labels
       )
     ) |>
     fmt_currency_plain(

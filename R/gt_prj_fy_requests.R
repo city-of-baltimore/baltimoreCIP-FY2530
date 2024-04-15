@@ -16,6 +16,14 @@ gt_prj_fy_requests <- function(data,
                                textwidth = 10,
                                title = "Recommendations by source",
                                request_source_col = "revenue_category_name_short",
+                               tbl_fy_cols = getOption(
+                                 "tbl_fy_cols",
+                                 c("fy_total", paste0("fy_", c(2025:2030)))
+                              ),
+                               tbl_fy_labels = getOption(
+                                 "tbl_fy_labels",
+                                 c("Total ($K)", paste0(prefix, c(25:30)))
+                                 ),
                                rowname_col = request_source_col) {
   if (vctrs::is_list_of(data) && has_length(data, 1)) {
     data <- data[[1]]
@@ -23,12 +31,12 @@ gt_prj_fy_requests <- function(data,
 
   stopifnot(is.data.frame(data))
 
-  fy_cols <- paste0("fy_", c(2025:2030))
+  fy_cols <- tbl_fy_cols
 
   labels <- labels %||%
     set_names(
-      c("Source", "Total ($K)", paste0(prefix, c(25:30))),
-      c(request_source_col, "fy_total", fy_cols)
+      c("Source", tbl_fy_labels),
+      c(request_source_col, fy_cols)
     )
 
   footnote <- NULL
