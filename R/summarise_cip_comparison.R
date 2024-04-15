@@ -85,7 +85,7 @@ summarise_cip_fy_comparison <- function(data,
   ) |>
     pivot_cip_fy_wider() |>
     bind_cip_comparison_cols(
-      col_reference = report_cols[[1]],
-      col_comparison = report_cols[[2]]
+      col_reference = col_reference,
+      col_comparison = col_comparison
     )
 }
