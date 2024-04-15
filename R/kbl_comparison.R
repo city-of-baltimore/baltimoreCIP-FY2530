@@ -51,13 +51,14 @@ kbl_comparison <- function(data,
     )
 }
 
-
+#' Create a list of kbl tables using `kbl_comparison()`
 kbl_comparison_list <- function(
     comparison_summary,
     project_details
     ) {
 
   comparison_summary |>
+    # Join project details to summary comparison
   left_join(
     select(
       project_details,
@@ -65,17 +66,20 @@ kbl_comparison_list <- function(
     ),
     by = join_by(project_code)
   ) |>
+    # Filter to meaningful comparison values
     filter(
-      fy_total_diff != 0
+      is.na(fy_total_diff) | fy_total_diff != 0
     ) |>
+    # Drop unused columns
     select(
-      !c(is_new, diff_desc)
+      !any_of(c("is_new", "diff_desc"))
     ) |>
     relocate(
       agency_label,
       project_name,
       .after = project_code
     ) |>
+    # Nest by fiscal year then make comparison tables
     nest_by(fy, .keep = FALSE) |>
     purrr::pmap(
       \(fy,
