@@ -4,10 +4,11 @@
 format_cip_cols <- function(data,
                             revenue_category_name_xwalk,
                             drop_no_amt = TRUE,
+                            fy_cols = paste0("fy", 2025:2030),
                             .before = NULL) {
   stopifnot(all(tibble::has_name(data, c(
     "revenue_category_code", "revenue_category_name",
-    "r_account_code", "r_account_name"
+    "r_account_code", "r_account_name", "request_id"
   ))))
 
   revenue_category_name_xwalk <- format_revenue_category_name_xwalk(
@@ -26,14 +27,7 @@ format_cip_cols <- function(data,
       r_account_name = str_remove_trim(r_account_name, paste0(r_account_code, ":"))
     ) |>
     tidyr::replace_na(
-      list(
-        fy2025 = 0,
-        fy2026 = 0,
-        fy2027 = 0,
-        fy2028 = 0,
-        fy2029 = 0,
-        fy2030 = 0
-      )
+      replace = rep_named(fy_cols, list(0))
     ) |>
     mutate(
       # FIXME: Add SO link where I found this solution
@@ -63,17 +57,14 @@ format_cip_cols <- function(data,
   # Identify records with no request
   data_no_amt <- filter(
     data,
-    fy2025 == 0,
-    fy2026 == 0,
-    fy2027 == 0,
-    fy2028 == 0,
-    fy2029 == 0,
-    fy2030 == 0
+    if_all(all_of(fy_cols), \(x) {
+      x == 0
+    })
   )
 
   data |>
     mutate(
-      has_no_request_amt = request_id %in% data_no_amt$request_id
+      has_no_request_amt = request_id %in% data_no_amt[["request_id"]]
     ) |>
     filter(
       !has_no_request_amt
