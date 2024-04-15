@@ -16,7 +16,8 @@ plot_baltimore_msa_locator_map <- function(
     mask_unit = "mi",
     basemap = NULL) {
   basemap <- basemap %||%
-    read_basemap_rds("baltimore_msa_locator_basemap")
+    read_basemap_rds("24510_msa_basemap")
+    # read_basemap_rds("baltimore_msa_locator_basemap")
 
   baltimore_city_buffers_poly <- read_basemap_rds("baltimore_city_buffers_poly")
   baltimore_msa_counties <- read_basemap_rds("baltimore_msa_counties")

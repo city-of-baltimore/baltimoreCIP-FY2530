@@ -14,7 +14,10 @@ plot_baltimore_city_locator_map <- function(data = NULL,
                                             location = "centroid",
                                             limit_bbox = TRUE,
                                             ...) {
-  basemap <- basemap %||% read_basemap_rds("baltimore_locator_basemap")
+  # basemap <- basemap %||% read_basemap_rds("baltimore_locator_basemap")
+  # TODO: Updated 2024-04-11 to fill in
+  basemap <- basemap %||% read_basemap_rds("24510_county_basemap")
+
   # FIXME: Making boundaries into a parameter only works if the basemap supports
   # a boundaries parameter
   boundaries <- boundaries %||% read_basemap_rds("community_areas")
