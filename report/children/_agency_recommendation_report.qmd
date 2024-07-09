@@ -308,7 +308,8 @@ project_recommendation_list |>
     .input = here("report", "children", "_project_recommended.qmd"),
     .params = list2(
       project_level = agency_level + 2,
-      internal_report = internal_report
+      internal_report = internal_report # ,
+      # "cip_location_plots" = cip_location_plots
     )
   )
 ```

@@ -19,11 +19,11 @@ gt_prj_fy_requests <- function(data,
                                tbl_fy_cols = getOption(
                                  "tbl_fy_cols",
                                  c("fy_total", paste0("fy_", c(2025:2030)))
-                              ),
+                               ),
                                tbl_fy_labels = getOption(
                                  "tbl_fy_labels",
                                  c("Total ($K)", paste0(prefix, c(25:30)))
-                                 ),
+                               ),
                                rowname_col = request_source_col) {
   if (vctrs::is_list_of(data) && has_length(data, 1)) {
     data <- data[[1]]

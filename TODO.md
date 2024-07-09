@@ -1,0 +1,7 @@
+- Relocate report Qmd back into a subfolder
+- Use tar_options_set to set the path to the source using here
+- Swap the code in targets to render the specific document
+- Figure out which helper functions are actually used by the report and which are not
+- Standardize naming conventions for functions
+- Clean up new issues with the MSA and city basemap
+  - Gray urbanized area and 

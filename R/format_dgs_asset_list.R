@@ -64,7 +64,8 @@ format_dgs_asset_list <- function(
     flag_asset_start_end_year() |>
     format_asset_name() |>
     format_asset_type_label() |>
-    str_squish_across()
+    str_squish_across() |>
+    update_asset_names()
 
   if (!is.null(additional_data)) {
     if (!is.list(additional_data)) {
@@ -135,6 +136,9 @@ format_dgs_asset_list <- function(
   # return(asset_data_formatted)
 
   asset_data_formatted |>
+    filter(
+      !sf::st_is_empty(geometry)
+    ) |>
     format_asset_admin_id() |>
     select(!county) |>
     left_join(

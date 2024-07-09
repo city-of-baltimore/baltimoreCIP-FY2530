@@ -1,14 +1,43 @@
 ---
 title: "Baltimore City FY25-30 Capital Improvement Program"
 author: "Baltimore City Department of Planning"
-output-file: "FY2530_CIP-Recommendation-Report_v5.pdf"
+output-file: "FY2530_CIP-BOE-Recommendation-Report.pdf"
 date: last-modified
 papersize: letter
+execute: 
+  error: true
+  eval: false
 params:
   cip_type: "recommendation"
-  stage: "BOF"
+  stage: "BOE"
   title_short: "FY25-30 CIP Report"
 ---
+
+```{r}
+library(targets)
+library(here)
+# store_path <- here(targets::tar_config_get("store"))
+# store_path <- targets::tar_config_get("store")
+
+# tar_option_set(
+#   store = here(tar_config_get("store"))
+# )
+
+# FIXME: Check if all of the following are required or if any can be dropped
+report_xwalks <- tar_read(report_xwalks)
+
+cip_project_details <- tar_read(cip_project_details)
+
+cip_pc_comparison_summary <- tar_read(cip_pc_comparison_summary)
+
+asset_list <- tar_read(asset_list)
+
+agency_reference <- tar_read(agency_reference)
+
+report_data <- tar_read(cip_report_data)
+
+# cip_location_plots <- tar_read(cip_location_plots)
+```
 
 ```{r}
 suppressPackageStartupMessages(
@@ -25,16 +54,21 @@ options(
   tbl_fy_labels = c(paste0("FY", c(25:30)), "Total ($K)")
 )
 
-cip_singular <- params$cip_type
-cip_plural <- paste0(params$cip_type, "s")
-cip_singular_title <- str_to_title(cip_singular)
-cip_plural_title <- str_to_title(cip_plural)
-cip_data_col <- paste0(cip_singular, "_data")
+cip_term <- switch(params$stage,
+  "Agency" = "request",
+  "recommendation"
+)
 
-cip_verb <- switch(cip_singular,
+cip_verb <- switch(cip_term,
   "request" = "requested",
   "recommendation" = "recommended"
 )
+
+cip_singular <- cip_term
+cip_plural <- paste0(cip_term, "s")
+cip_singular_title <- str_to_title(cip_singular)
+cip_plural_title <- str_to_title(cip_plural)
+cip_data_col <- paste0(cip_singular, "_data")
 
 report_org_name <- switch(params$stage,
   "Agency" = "Agencies",
@@ -56,25 +90,24 @@ report_org_abb <- switch(params$stage,
   "BOE" = "BOE",
   "CC" = "CC"
 )
-```
 
-```{r}
-store_path <- here(targets::tar_config_get("store"))
+recommendation_date <- "April 2024"
 
-# FIXME: Check if all of the following are required or if any can be dropped
-report_xwalks <- tar_read(report_xwalks, store = store_path)
+stage_filename <- switch(params$stage,
+  "Agency" = "Capital_Projects_-_Six-Year_CIP_Requests.xlsx",
+  "PC" = "Capital_Projects_-_Six-Year_CIP_PC-Recommendations.xlsx",
+  "BOF" = "Capital_Projects_-_Six-Year_CIP_BOF-Recommendations.xlsx",
+  "BOE" = "Capital_Projects_-_Six-Year_CIP_BOE-Recommendations.xlsx",
+  "CC" = "Capital_Projects_-_Six-Year_CIP_CC-Capital-Budget.xlsx"
+)
 
-cip_requests <- tar_read(cip_requests, store = store_path)
-
-cip_recommendations <- tar_read(cip_bof_recommendations)
-
-cip_project_details <- tar_read(cip_project_details, store = store_path)
-
-asset_list <- tar_read(asset_list, store = store_path)
-
-agency_reference <- tar_read(agency_reference, store = store_path)
-
-report_data <- tar_read(cip_report_data)
+cip_recommendations <- switch(params$stage,
+  # "Agency" = "Capital_Projects_-_Six-Year_CIP_Requests.xlsx",
+  "PC" = tar_read(cip_pc_recommendations),
+  "BOF" = tar_read(cip_bof_recommendations),
+  "BOE" = tar_read(cip_boe_recommendations) # ,
+  # "CC" = "Capital_Projects_-_Six-Year_CIP_CC-Capital-Budget.xlsx"
+)
 ```
 
 ```{r}
@@ -110,14 +143,15 @@ report_data |>
     .params = list2(
       agency_reference = agency_reference,
       agency_level = 2,
-      internal_report = FALSE
+      internal_report = FALSE # ,
+      # cip_location_plots = cip_location_plots
     )
   )
 ```
 
 # Appendices
 
-{{< include report/_appendix_recommendations.qmd >}}
+<!-- {{< include report/_appendix_recommendations.qmd >}} -->
 
 {{< include report/_appendix_project-identifier.qmd >}}
 

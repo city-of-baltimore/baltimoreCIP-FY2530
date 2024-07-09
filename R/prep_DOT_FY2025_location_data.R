@@ -1,5 +1,3 @@
-# source(here::here("R", "setup.R"))
-
 load_dot_locations <- function() {
   file_list <- list(
     "Footways/Alleys" = path_user_data(

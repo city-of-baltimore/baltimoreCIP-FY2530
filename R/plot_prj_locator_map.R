@@ -46,7 +46,7 @@ plot_prj_locator_map <- function(data = NULL,
       sf::st_as_sf() |>
       dplyr::filter(!is.na(asset_id))
 
-    return(data)
+    # return(data)
 
     if (nrow(data) == 0) {
       return(invisible(NULL))
@@ -61,12 +61,12 @@ plot_prj_locator_map <- function(data = NULL,
 
   # Remove empty geometries
   data <- data |>
-    filter(!sf::st_is_empty(geometry))
+    filter(!sf::st_is_empty(data))
 
   needs_msa_map <- !all(data[[county_col]] %in% "Baltimore city") # ||
   # !all(intersects_baltimore_city(data))
 
-  if (needs_regional_map) {
+  if (needs_msa_map) {
     msa_map <- plot_baltimore_msa_locator_map(
       data,
       size = size,

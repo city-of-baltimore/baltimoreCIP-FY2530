@@ -62,6 +62,7 @@ qto_dl_prj_info(project)
 #| fig-height: 1.75
 # Show project locator map
 # FIXME: Plotting the locator map like this does not use the multiple location values
+# cip_location_plots[[project[["project_code"]]]]
 plot_location_data(data = project_locations)
 ```
 

@@ -1,0 +1,228 @@
+---
+title: "Data Review"
+output-file: "FY2530_CIP-Data-Review"
+execute: 
+  echo: false
+  error: true
+  message: false
+---
+
+```{r}
+library(targets)
+library(DataExplorer)
+suppressPackageStartupMessages(library(tidyverse))
+library(naniar)
+library(epoxy)
+
+tar_source()
+```
+
+```{r}
+adaptive_dictionary <- tar_read(adaptive_dictionary)
+
+adaptive_dictionary_grouped <- adaptive_dictionary |>
+  nest_by(group)
+
+report_dictionary <- adaptive_dictionary |>
+  filter(
+    group %in% c(
+      "Organization",
+      "Project Detail",
+      "Cost estimates",
+      "Scoring"
+    ),
+    !is.na(adaptive_export_name)
+  )
+
+drop_cols <- c(
+  "Cost Center Code", "PGroup Code", "PHierarchy1 Code", "PHierarchy2 Code",
+  "PRiskLevel Code", "PPriority Code", "PImportance Code", "PMeasuresofSuccess Code",
+  "Image"
+)
+
+factor_cols <- c(
+  "PRiskLevel Name", "PPriority Name", "PImportance Name", "PMeasuresofSuccess Name"
+)
+
+require_cols <- report_dictionary |>
+  filter(
+    required == "Required for all projects"
+  ) |>
+  pull(adaptive_export_name)
+
+
+public_cols <- report_dictionary |>
+  filter(
+    show_project_profile == "Show"
+  ) |>
+  pull(adaptive_export_name)
+```
+
+
+```{r}
+cip_boe_recommendations <- tar_read(cip_boe_recommendations)
+
+fy25_cip_boe_recommendations <- cip_boe_recommendations |>
+  dplyr::filter(
+    fy2025 > 0
+  )
+```
+
+
+# Dictionary
+
+```{r}
+report_dictionary |>
+  mutate(
+    show_icon = case_match(
+      show_project_profile,
+      "Show" ~ "eye",
+      "Hide" ~ "eye-slash"
+    ),
+    required_icon = case_match(
+      required,
+      "Other (see notes)" ~ "asterisk",
+      "Optional for FY25" ~ "calendar",
+      "Required for priority projects only" ~ "circle-up",
+      "Required for all projects" ~ "circle-exclamation"
+    ),
+    required = case_match(
+      required,
+      "Other (see notes)" ~ "Other",
+      "Optional for FY25" ~ "Optional in FY25",
+      "Required for priority projects only" ~ "Priority projects only",
+      "Required for all projects" ~ "All projects"
+    )
+  ) |>
+  select(group, adaptive_export_name, display_label, show_icon, required_icon, required) |>
+  group_by(group) |>
+  filter(!is.na(display_label)) |>
+  gt::gt(
+    row_group_as_column = TRUE,
+    rowname_col = "adaptive_export_name"
+  ) |>
+  gt::cols_merge(c(required_icon, required)) |>
+  gt::sub_missing() |>
+  gt::fmt_icon(
+    columns = c(show_icon, required_icon)
+  )
+```
+
+# Review
+
+## Overview
+
+Data is filtered to only the project records with a description or a priority value.
+
+For the general review, empty columns are dropped, along with:
+
+-   Problem statement
+-   Objective
+-   Scope columns
+-   Justification columns
+-   Duplicative columns
+-   Unused drop columns `r epoxy("{.and {drop_cols}}")`
+
+```{r}
+project_src <- tar_read(cip_project_details_src)
+
+project_src_data <- project_src |>
+  filter(!is.na(`PPriority Name`) | !is.na(`PDescription Name`)) |>
+  janitor::remove_empty("cols") |>
+  select(
+    any_of(
+      c(
+        # "PHierarchy1 Name",
+        report_dictionary$adaptive_export_name
+      )
+    )
+  ) |>
+  select(
+    !c(
+      ends_with("Justification"),
+      starts_with("PDescription"),
+      starts_with("PProjectOverview"),
+      starts_with("PProblemStatement"),
+      starts_with("PObjective"),
+      contains("Scope"),
+      any_of(drop_cols)
+    )
+  ) |>
+  mutate(
+    across(
+      all_of(factor_cols),
+      factor
+    )
+  )
+
+
+project_src |>
+  # filter(!is.na(`PPriority Name`) | !is.na(`PDescription Name`)) |>
+  filter(
+    `Project Code` %in% cip_boe_recommendations$project_code
+  ) |>
+  select(
+    `PHierarchy1 Name`,
+    `Estimated Duration`
+  ) |>
+  vis_miss(
+    facet = `PHierarchy1 Name`
+  )
+```
+
+## Overview
+
+```{r}
+#| output: asis
+#| eval: false
+
+# TODO: This isn't working
+map(
+  adaptive_dictionary_grouped$data[1:4],
+  \(dt) {
+    skimr::skim(dt)
+  }
+)
+```
+
+```{r}
+skimr::skim(project_src_data)
+```
+
+```{r}
+visdat::vis_dat(project_src_data)
+```
+
+```{r}
+visdat::vis_miss(project_src_data, sort_miss = TRUE)
+```
+
+### Public columns
+
+```{r}
+project_src |>
+  filter(
+    !is.na(`PPriority Name`) | !is.na(`PDescription Name`)
+    # `PPriority Name` == "1-High"
+  ) |>
+  select(
+    `PHierarchy1 Name`,
+    any_of(public_cols)
+    # contains("Scope Name")
+  ) |>
+  select(!Image) |>
+  # mutate(
+  #
+  # )
+  vis_miss(
+    facet = `PHierarchy1 Name`
+  )
+```
+
+## Recommended changes
+
+-   Related plan needs to be a controlled field
+-   Mandate needs to be a controlled field
+-   Operating impact needs validation
+-   Agencies need training on operating impact
+-   Project type should be required and public

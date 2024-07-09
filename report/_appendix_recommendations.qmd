@@ -1,15 +1,15 @@
-```{r}
-cip_pc_comparison_summary <- tar_read(cip_pc_comparison_summary)
-
-tbl_list <- kbl_comparison_list(
-  cip_pc_comparison_summary,
-  cip_project_details
-  )
-```
-
 \blandscape
 
 ## Requests and Recommendations Comparison
+
+```{r}
+# tbl_list <- kbl_comparison_list(
+#   comparison_summary = cip_pc_comparison_summary,
+#   project_details = cip_project_details
+# )
+
+tbl_list <- tar_read(kbl_cip_comparison_list)
+```
 
 ::: {width=90%}
 
@@ -19,43 +19,43 @@ The first table shows changes across the full 6-year program. The following tabl
 
 ### FY 2025-2030 Overall Changes
 
-`r tbl_list[[2]]`
+`r tbl_list[["FY2025-FY2030"]]`
 
 {{< pagebreak >}}
 
 ### FY 2025 Changes
 
-`r tbl_list[[1]]`
+`r tbl_list[["FY2025"]]`
 
 {{< pagebreak >}}
 
 ### FY 2026 Changes
 
-`r tbl_list[[3]]`
+`r tbl_list[["FY2026"]]`
 
 {{< pagebreak >}}
 
 ### FY 2027 Changes
 
-`r tbl_list[[4]]`
+`r tbl_list[["FY2027"]]`
 
 {{< pagebreak >}}
 
 ### FY 2028 Changes
 
-`r tbl_list[[5]]`
+`r tbl_list[["FY2028"]]`
 
 {{< pagebreak >}}
 
 ### FY 2029 Changes
 
-`r tbl_list[[6]]`
+`r tbl_list[["FY2029"]]`
 
 {{< pagebreak >}}
 
 ### FY 2030 Changes
 
-`r tbl_list[[7]]`
+`r tbl_list[["FY2030"]]`
 
 :::
 

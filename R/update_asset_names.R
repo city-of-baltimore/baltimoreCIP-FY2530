@@ -5,10 +5,8 @@ update_asset_names <- function(asset_data, update_data = NULL) {
   )
 
   if (is.null(update_data)) {
-    update_data <- tarchetypes::tar_file_read(
-      asset_name_updates,
-      "asset_name_updates.csv",
-      read = readr::read_csv(file = !!.x, show_col_types = FALSE)
+    update_data <- readr::read_csv(
+      file = path_user_data("reference", "asset_name_updates.csv"), show_col_types = FALSE
     ) |>
       select(asset_id = id, name_update, name_alt, year_built_update)
   }

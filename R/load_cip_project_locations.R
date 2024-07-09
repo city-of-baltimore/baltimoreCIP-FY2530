@@ -5,6 +5,7 @@ load_cip_project_locations <- function(
     asset_data,
     project_asset_xwalk,
     agency_reference,
+    additional_data = NULL,
     nested = TRUE) {
   project_locations <- project_data |>
     select(
@@ -33,7 +34,19 @@ load_cip_project_locations <- function(
         select(agency_label, agency_short_name),
       by = join_by(agency_label),
       na_matches = "never"
+    ) |>
+    bind_rows(
+      additional_data
     )
+
+  if (inherits(project_locations, "sf")) {
+    # print("project_locations is an sf object!")
+
+    project_locations <- project_locations |>
+      filter(
+        !sf::st_is_empty(geometry)
+      )
+  }
 
   if (!nested) {
     return(project_locations)

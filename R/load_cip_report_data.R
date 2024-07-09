@@ -49,16 +49,17 @@
 join_recommendation_data <- function(
     cip_data,
     recommendation_data,
-    dictionary) {
+    dictionary,
+    .key = "recommendation_data") {
   recommendation_data <- recommendation_data |>
     rename_with_dictionary(
       dictionary = dictionary
-    )
+    ) |>
+    nest_by(project_code, .key = .key, .keep = TRUE)
 
   cip_data |>
     left_join(
-      recommendation_data |>
-        nest_by(project_code, .key = "recommendation_data", .keep = TRUE),
+      recommendation_data,
       by = join_by(project_code)
     )
 }
@@ -71,9 +72,12 @@ filter_cip_data <- function(cip_data) {
       p_status_name %in% c(
         "Approved",
         "Pending Approval",
-        # FIXME: Reserve status is only included temporarily due to miscoding of 2 projects
+        # FIXME: Reserve status is only included temporarily due to miscoding of
+        # 2 projects
         "Reserve"
       ),
+      # FIXME: Double-check that has_requests and has_recommendations are both
+      # still good criteria
       (!is.na(project_desc) & !is.na(priority_level)) | has_requests | has_recommendations
     )
 }

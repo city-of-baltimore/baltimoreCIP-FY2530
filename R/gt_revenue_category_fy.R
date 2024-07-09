@@ -7,12 +7,11 @@ gt_revenue_category_fy <- function(data,
                                    tbl_fy_cols = getOption(
                                      "tbl_fy_cols",
                                      c(paste0("fy_", c(2025:2030)), "fy_total")
-                                    ),
+                                   ),
                                    tbl_fy_labels = getOption(
                                      "tbl_fy_labels",
                                      c(paste0("FY", c(25:30)), "Total ($K)")
-                                     )
-                                   ) {
+                                   )) {
   data <- data |>
     purrr::list_rbind()
 

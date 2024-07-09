@@ -1,16 +1,17 @@
 #' Format project details report data from Adaptive Planning
 #'
 format_adaptive_project_data <- function(data,
-                                         dictionary,
-                                         project_detail_updates,
-                                         project_data_corrections,
-                                         report_xwalks,
-                                         p_hierarchy_xwalks,
+                                         dictionary = NULL,
+                                         project_detail_updates = NULL,
+                                         project_data_corrections = NULL,
+                                         report_xwalks = NULL,
+                                         p_hierarchy_xwalks = NULL,
                                          agency_reference = NULL) {
   project_details_source <- data
   adaptive_dictionary <- dictionary
   # FIXME: The filename should be a parameter
   project_details_filename <- "Capital_Projects_-_Project_Details.xlsx"
+
   location_updates <- project_detail_updates[["location_updates"]]
   project_name_updates <- project_detail_updates[["project_name_updates"]]
   project_desc_updates <- project_detail_updates[["project_desc_updates"]]

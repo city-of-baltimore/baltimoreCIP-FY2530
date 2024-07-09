@@ -1,149 +1,3 @@
-```{r}
-# Must have functions
-# - vec_fmt_currency_plain
-# - fmt_currency_plain
-# - cols_label_ext
-
-gt_summary_table_source <- report_data[[cip_data_col]] |>
-  purrr::list_rbind() |>
-  filter(!is.na(request_id)) |>
-  mutate(
-    # FIXME: Double-check if this work around is still needed
-    budget_category_sort = if_else(
-      budget_category == "Utility Revenue" &
-        fund_grant_special_purpose_name == "9965 FND Parking Facilities Capital Project Fund",
-      22,
-      budget_category_sort
-    ),
-    budget_category = if_else(
-      budget_category == "Utility Revenue" &
-        fund_grant_special_purpose_name == "9965 FND Parking Facilities Capital Project Fund",
-      "Other",
-      budget_category
-    )
-  ) |>
-  summarise(
-    budget_category_sort = min(budget_category_sort),
-    across(
-      starts_with("fy_"),
-      \(x) {
-        sum(x, na.rm = TRUE)
-      }
-    ),
-    .by = c(budget_category)
-  ) |>
-  arrange(budget_category_sort) |>
-  select(!budget_category_sort) |>
-  ungroup() |>
-  gt(
-    rowname_col = "budget_category"
-  ) |>
-  grand_summary_rows(
-    columns = starts_with("fy_"),
-    fns = list(
-      "Total ($M)" ~ sum(., na.rm = TRUE)
-    ),
-    fmt = list(~ fmt(
-      data = .,
-      columns = starts_with("fy_"),
-      fns = \(x){
-        vec_fmt_currency_plain(x, scale_by = 0.000001, decimals = 1)
-      }
-    ))
-  ) |>
-  cols_label_ext(
-    columns = c(
-      "budget_category",
-      paste0("fy_", c(2025:2030)),
-      "fy_total"
-    ),
-    labels = c(
-      "Source",
-      paste0("FY", c(25:30)),
-      "Total ($M)"
-    )
-  ) |>
-  fmt_currency_plain(
-    columns = starts_with("fy_"),
-    scale_by = 0.000001,
-    decimals = 1
-  ) |>
-  tab_header(
-    paste0(
-      "Total ", cip_verb, " capital funds by year and source category"
-    )
-  )
-
-gt_summary_table_agency <- report_data[[cip_data_col]] |>
-  purrr::list_rbind() |>
-  # FIXME: Rename request_id column with more general column name
-  filter(!is.na(request_id)) |>
-  summarise(
-    across(
-      starts_with("fy_"),
-      \(x) {
-        sum(x, na.rm = TRUE)
-      }
-    ),
-    .by = c(agency_short_name)
-  ) |>
-  arrange(agency_short_name) |>
-  ungroup() |>
-  gt(
-    rowname_col = "agency_short_name"
-  ) |>
-  grand_summary_rows(
-    columns = starts_with("fy_"),
-    fns = list(
-      "Total ($M)" ~ sum(., na.rm = TRUE)
-    ),
-    fmt = list(~ fmt(
-      data = .,
-      columns = starts_with("fy_"),
-      fns = \(x){
-        vec_fmt_currency_plain(x, scale_by = 0.000001, decimals = 1)
-      }
-    ))
-  ) |>
-  cols_label_ext(
-    columns = c(
-      "agency_short_name",
-      paste0("fy_", c(2025:2030)),
-      "fy_total"
-    ),
-    labels = c(
-      "Agency",
-      paste0("FY", c(25:30)),
-      "Total ($M)"
-    )
-  ) |>
-  fmt_currency_plain(
-    columns = starts_with("fy_"),
-    scale_by = 0.000001,
-    decimals = 1
-  ) |>
-  tab_header(
-    paste0(
-      "Total ", cip_verb, " capital funds by year and agency"
-    )
-  )
-
-pull_from_gt_grand_summary <- function(gt_object, ...) {
-  extract_summary(gt_object) |>
-    pluck("summary_df_data_list", "::GRAND_SUMMARY") |>
-    pull(...)
-}
-
-fy_from_gt <- function(gt_object, fy_col = "fy_total", suffixing = TRUE, ...) {
-  gt::vec_fmt_currency(
-    pull_from_gt_grand_summary(gt_object, .data[[fy_col]]),
-    suffixing = suffixing,
-    ...
-  )
-}
-```
-
-
 ## Summary
 
 The Capital Improvement Program is a six-year plan for funding capital projects by City agencies. The program is updated and adopted each year as part of the Baltimore City Budget.
@@ -162,24 +16,34 @@ Baltimore City agencies requested capital funding for more than four hundred pro
 
 # plot_project_locations
 size <- 1.8
-plot_location_data(report_data, size = size, stroke = size / 8)
+plot_location_data(report_data, size = size, stroke = size / 10)
 ```
 
 </div>
 :::
 
 ```{r}
-if (params$cip_type == "recommendation") {
-  summary_amt <- fy_from_gt(gt_summary_table_source)
-  recommendation_org_short <- "Board of Finance"
-  recommendation_org <- paste0("Baltimore City ", recommendation_org_short)
-  recommendation_date <- "March 2024"
+# Read pre-generated summary tables
+summary_tables <- tar_read(summary_tables)
 
-  summary_text <- glue("The {recommendation_org_short} is recommending {summary_amt} in funding over 6 years towards the requested projects. This report reflects the recommendations of the {recommendation_org} as of {recommendation_date}.")
-} else {
+# Pull summary table showing requests/recommendations by source
+gt_summary_tab_source <- summary_tables[["table_source"]]
+
+# Pull summary table showing requests/recommendations by agency
+gt_summary_tab_agency <- summary_tables[["table_agency"]]
+```
+
+
+```{r}
+# Prep summary text
+if (cip_term == "recommendation") {
+  summary_amt <- fy_from_gt(gt_summary_tab_source)
+  summary_text <- glue("The {report_org_name_long} is recommending {summary_amt} in funding over six years towards the requested projects. This report reflects the recommendations of the {report_org_name} as of {recommendation_date}.")
+} else if (cip_term == "request") {
   summary_text <- "This report is prepared by the Baltimore City Department of Planning and published in advance of the Baltimore City Planning Commission review of agency requests each year. The goal of this report is to support the Planning Commission in the review and approval of the program and to share this important information with residents across the city and region."
 }
 
+# Display summary text
 quartools::qto_block(summary_text)
 ```
 
@@ -188,11 +52,13 @@ For questions, please contact the Department of Planning at 410-396-PLAN (7526) 
 {{< pagebreak >}}
 
 ```{r}
-gt_summary_table_source
+# Display summary table by source
+gt_summary_tab_source
 ```
 
 ```{r}
-gt_summary_table_agency
+# Display summary table by agency
+gt_summary_tab_agency
 ```
 
 <!-- :::{.callout-note collapse=false appearance='simple' title='January 2024 Agency Presentations' icon=true} -->

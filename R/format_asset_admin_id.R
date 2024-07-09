@@ -5,7 +5,6 @@
 format_asset_admin_id <- function(asset_data) {
   check_names(asset_data, must.include = c("asset_id", "asset_name"))
 
-
   asset_data |>
     mutate(
       school_id = str_extract(
