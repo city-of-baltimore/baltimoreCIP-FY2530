@@ -1,5 +1,0 @@
----
-title: Placeholder Quarto Document
----
-
-This is a placeholder document for trouble-shooting.
