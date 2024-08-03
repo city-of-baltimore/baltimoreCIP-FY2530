@@ -1,19 +1,21 @@
-plot_baltimore_city_locator_map <- function(data = NULL,
-                                            size = 3,
-                                            shape = 21,
-                                            fill = "black",
-                                            alpha = 1,
-                                            color = "white",
-                                            stroke = (size / 7) + 0.1,
-                                            # stroke = (size / 4) + 0.3,
-                                            border_color = "gray10", # "#00415F",
-                                            border_linewidth = 0.4,
-                                            project_layer = NULL,
-                                            basemap = NULL,
-                                            boundaries = NULL,
-                                            location = "centroid",
-                                            limit_bbox = TRUE,
-                                            ...) {
+#' Plot a Baltimore City locator map
+plot_baltimore_city_locator_map <- function(
+    data = NULL,
+    size = 3,
+    shape = 21,
+    fill = "black",
+    alpha = 1,
+    color = "white",
+    stroke = (size / 7) + 0.1,
+    # stroke = (size / 4) + 0.3,
+    border_color = "gray10", # "#00415F",
+    border_linewidth = 0.4,
+    project_layer = NULL,
+    basemap = NULL,
+    boundaries = NULL,
+    location = "centroid",
+    limit_bbox = TRUE,
+    ...) {
   # basemap <- basemap %||% read_basemap_rds("baltimore_locator_basemap")
   # TODO: Updated 2024-04-11 to fill in
   basemap <- basemap %||% read_basemap_rds("24510_county_basemap")

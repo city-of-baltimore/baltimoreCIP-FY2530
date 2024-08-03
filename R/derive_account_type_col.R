@@ -1,7 +1,8 @@
-## ---- format_account_type
+#' Derive an account type column value based on the project name
+#'
+#' This function also strips the "active" suffix from the project name.
 derive_account_type_col <- function(data) {
   check_names(data, must.include = "project_name")
-
   cli_alert_new_col("account_type", "project_name")
 
   mutate(

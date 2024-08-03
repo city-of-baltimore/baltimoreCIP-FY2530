@@ -1,17 +1,14 @@
-## ---- gt_prj_est_cost
-# Used by _project_report.qmd
+#' Create a gt table with estimated cost columns
+#'
+#' Created a formatted gt table with project estimated cost columns.
+#'
+#' @inheritParams gt::tab_header
+#' @param name_col,value_col Passed to `names_to` and `values_to` arguments of
+#'   [tidyr::pivot_longer()]
 gt_prj_est_cost <- function(data,
                             title = "Estimated costs",
                             name_col = "Cost type",
                             value_col = "Estimate") {
-  # sum_if_any <- function(x, na.rm = TRUE) {
-  #   if (all(is.na(x))) {
-  #     return(NA)
-  #   }
-  #
-  #   sum(x, na.rm = na.rm)
-  # }
-
   data |>
     select(
       starts_with("est_cost")

@@ -1,3 +1,4 @@
+#' Format the revenue category name crosswalk data frame
 format_revenue_category_name_xwalk <- function(xwalk) {
   xwalk |>
     filter(
