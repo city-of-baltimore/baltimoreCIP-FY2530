@@ -37,8 +37,8 @@ summarise_cip_comparison <- function(
   fy_total_summary <- combined_data |>
     summarise_cip_fy_comparison(
       fy_col = "fy_total",
-      col_reference = report_cols[[1]],
-      col_comparison = report_cols[[2]]
+      reference_col = report_cols[[1]],
+      comparison_col = report_cols[[2]]
     )
 
   # Summarise comparison for each fiscal year
@@ -48,8 +48,8 @@ summarise_cip_comparison <- function(
       combined_data |>
         summarise_cip_fy_comparison(
           fy_col = fy_col,
-          col_reference = report_cols[[1]],
-          col_comparison = report_cols[[2]]
+          reference_col = report_cols[[1]],
+          comparison_col = report_cols[[2]]
         )
     }
   )
@@ -74,8 +74,8 @@ summarise_cip_comparison <- function(
 #' Input data must have columns named "project_code" and "report"
 summarise_cip_fy_comparison <- function(data,
                                         fy_col,
-                                        col_reference,
-                                        col_comparison) {
+                                        reference_col,
+                                        comparison_col) {
   data |>
     summarise(
       "{fy_col}" := sum(.data[[fy_col]]),
@@ -84,7 +84,7 @@ summarise_cip_fy_comparison <- function(data,
     ) |>
     pivot_cip_fy_wider() |>
     bind_cip_comparison_cols(
-      col_reference = col_reference,
-      col_comparison = col_comparison
+      reference_col = reference_col,
+      comparison_col = comparison_col
     )
 }
