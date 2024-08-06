@@ -58,7 +58,7 @@ if (FALSE) {
   cip_type <- "recommendation"
 }
 
-
+# FIXME: Isn't this handled at the top level
 cip_singular <- cip_type
 cip_plural <- paste0(cip_type, "s")
 cip_singular_title <- str_to_title(cip_singular)

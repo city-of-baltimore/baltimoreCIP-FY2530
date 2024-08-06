@@ -8,13 +8,8 @@
 # - nest_by_project_code
 # - knit_children
 
-request_locations <- project_request_list[["location_data"]] |>
-  purrr::list_rbind() |>
-  sf::st_as_sf() |>
-  dplyr::filter(
-    !is.na(asset_id),
-    !sf::st_is_empty(geometry)
-  )
+request_locations <- project_request_list |>
+  pull_location_data()
 
 has_request_locations <- nrow(request_locations) > 0
 
@@ -125,7 +120,9 @@ plot_location_data(
 :::
 
 ```{r}
+#| eval: true
 # Show table of projects with requests
+# TODO: Replace kableExtra with gt
 kbl_agency_projects(
   data = project_request_tbl_data,
   groupname_col = groupname_col
@@ -139,7 +136,6 @@ kbl_agency_projects(
 # Walk through agency projects with requests
 
 project_level <- agency_level + 2
-internal_report <- FALSE
 
 project_request_list |>
   nest_by_project_code() |>
@@ -147,9 +143,7 @@ project_request_list |>
     project,
     .input = here("report", "children", "_project_request.qmd"),
     .params = list2(
-      "project_level" = project_level,
-      "internal_report" = internal_report # ,
-      # "cip_location_plots" = cip_location_plots
+      "project_level" = project_level
     )
   )
 ```

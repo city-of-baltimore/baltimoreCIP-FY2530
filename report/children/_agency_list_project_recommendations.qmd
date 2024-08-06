@@ -8,7 +8,9 @@
 # - nest_by_project_code
 # - knit_children
 
-has_request_locations <- any(!is.na(project_request_list[["location_asset_id"]]))
+project_location_data <- pull_location_data(project_request_list)
+
+has_request_locations <- nrow(project_location_data) > 0
 
 missing_request_locations <- !has_request_locations
 
@@ -69,7 +71,6 @@ gt_revenue_category_fy(
 )
 ```
 
-
 ```{r}
 #| eval: !expr missing_request_locations
 # Show agency callout
@@ -105,7 +106,7 @@ qto_callout_agency_requests(
 #| fig-width: 2
 #| fig-height: 2
 plot_project_locations(
-  project_request_list,
+  data = project_request_list,
   size = 3
 )
 ```
@@ -139,9 +140,7 @@ cat("{{< pagebreak >}}")
 ```{r}
 #| output: asis
 # Walk through agency projects with requests
-
 project_level <- agency_level + 2
-internal_report <- FALSE
 
 project_request_list |>
   nest_by_project_code() |>
@@ -149,9 +148,7 @@ project_request_list |>
     project,
     .input = here("report", "children", "_project_request.qmd"),
     .params = list2(
-      "project_level" = project_level,
-      "internal_report" = internal_report # ,
-      # "cip_location_plots" = cip_location_plots
+      "project_level" = project_level
     )
   )
 ```
