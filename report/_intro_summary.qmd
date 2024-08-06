@@ -5,7 +5,7 @@ The Capital Improvement Program is a six-year plan for funding capital projects 
 ::: {layout="[ 50, 50 ]"}
 <div>
 
-Baltimore City agencies requested capital funding for more than four hundred projects detailed project profiles organized by agency. Agencies also shared information on 150 priority projects that could be funded if additional capital funds are made available. In total, agencies requested more than \$2.8 billion in funds for construction, repair, modernization, and other improvements. The requests identify more than two hundred different buildings, parks, and other public assets as planned locations for this investment.
+Baltimore City agencies requested capital funding for more than four hundred projects. Agencies also shared information on 150 priority projects that could be funded if additional capital funds are made available. In total, agencies requested more than \$2.8 billion in funds for construction, repair, modernization, and other improvements. The requests identify more than two hundred different buildings, parks, and other public assets as planned locations for this investment.
 
 </div>
 
@@ -22,6 +22,20 @@ plot_location_data(report_data, size = size, stroke = size / 10)
 </div>
 :::
 
+The review and approval process for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program:
+
+- On January 12, 2024, the Department of Planning published agency requests and priority projects. Agencies formally presented requests to the Planning Commission on January 18 and 25.
+- On March 7, 2024, the Planning Commission approved recommendations for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program.
+- On March 25, 2024 the Board of Finance reviewed and approved the Planning Commission's recommendations, with a few administrative changes related to the finalization of the Pimlico Community Development Authority's spending plan and new notices of grant receipt.
+- On May 1, 2024, the Board of Estimates reviewed and approved the Planning Commission recommendations, with administrative changes and the report from the Board of Finance.
+- On June 24, 2024, the Baltimore City Council adopted the Ordinance of Estimates for the Fiscal Year Ending June 30, 2025. The adopted  FY 2025 Capital Budget is unchanged from the recommendations approved by the Board of Estimates.
+
+Notable changes to the Capital Improvement Program following the initial approval by the Planning Commission included:
+
+- Adjustments  based on the finalized spending plan for [Pimlico Local Impact Aid](https://planning.baltimorecity.gov/about-pimlico-community-development-authority) for projects using the revenue source RC0663 Pimlico Local Impact Grant – Capital.
+- Adding the recent award of a $6 million grant for Druid Park Lake Drive to PRJ002908 Druid Park Lake Drive Complete Streets Reconstruction.
+- Adding private funds committed by the Enoch Pratt Free Library for construction of a new library in the Park Heights community.
+
 ```{r}
 # Read pre-generated summary tables
 summary_tables <- tar_read(summary_tables)
@@ -36,10 +50,18 @@ gt_summary_tab_agency <- summary_tables[["table_agency"]]
 
 ```{r}
 # Prep summary text
-if (cip_term == "recommendation") {
+if (params$stage == "Ordinance") {
+  summary_amt <- pull_from_gt_grand_summary(gt_summary_tab_source, "fy_total")
+  curr_fy_amt <- pull_from_gt_grand_summary(gt_summary_tab_source, "fy_2025")
+  out_fy_amt <- summary_amt - curr_fy_amt
+
+  summary_text <- epoxy::epoxy("The adopted Ordinance of Estimates allocates {.dollar {curr_fy_amt}} in funding through the FY2025 Capital Budget. In addition, the final Capital Improvement Program recommends {.dollar {out_fy_amt}} in funding for the other five years of the capital program for a total of {.dollar {summary_amt}}. This report reflects the approved Capital Improvement Program and {report_org_name} adopted budget as of {recommendation_date}.")
+} else if (cip_term == "recommendation") {
   summary_amt <- fy_from_gt(gt_summary_tab_source)
   summary_text <- glue("The {report_org_name_long} is recommending {summary_amt} in funding over six years towards the requested projects. This report reflects the recommendations of the {report_org_name} as of {recommendation_date}.")
-} else if (cip_term == "request") {
+}
+
+if (cip_term == "request") {
   summary_text <- "This report is prepared by the Baltimore City Department of Planning and published in advance of the Baltimore City Planning Commission review of agency requests each year. The goal of this report is to support the Planning Commission in the review and approval of the program and to share this important information with residents across the city and region."
 }
 
