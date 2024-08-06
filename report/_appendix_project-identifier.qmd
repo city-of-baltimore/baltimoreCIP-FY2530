@@ -31,6 +31,7 @@ To help agency staff or City residents compare projects in this report to prior 
 #     )
 #   ) |>
 #   group_by(agency_label) |>
+# # TODO: Replace kableExtra with gt
 #   kbl_tbl(
 #     rowname_col = "project_code",
 #     widths = paste0(c(2.5, 2.5), "in"),
@@ -129,6 +130,7 @@ agency_contract_requests |>
   ) |>
   group_by(agency_label) |>
   arrange(agency_contract_id, .by_group = TRUE) |>
+  # TODO: Replace kableExtra with gt
   kbl_tbl(
     rowname_col = "agency_contract_id",
     rowname_col_label = "Contract number",
