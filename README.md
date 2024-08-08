@@ -31,7 +31,6 @@ This repository holds the code used to combine Capital Improvement Program data 
 - [baltimoreCIP](https://github.com/city-of-baltimore/baltimoreCIP/): Program and location data from 2008 to 2024.
 - [baltimoreCIP-Workday-EIB](https://github.com/city-of-baltimore/baltimoreCIP-Workday-EIB/): Reproducible pipeline used to transform the Adaptive Planning data for loading into Workday.
 
-
 ## Organization
 
 Supporting functions for this pipeline are located in the `R` folder. The source data is stored in the un-tracked folder `_targets/user/data` and can be provided to authorized users where appropriate.
@@ -40,4 +39,4 @@ As of August 2024, this project includes exports from the “Capital Projects - 
 
 ## Usage
 
-To run this pipeline, add the required data files to `_targets/user/data` and then run `targets::tar_make()`. The output files are stored in the `_output` folder.
+To run this pipeline, add the required data files to `_targets/user/data` and then run `targets::tar_make()`. The output files are stored in the `docs` folder.

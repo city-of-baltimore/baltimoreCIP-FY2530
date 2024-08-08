@@ -1,6 +1,6 @@
 project:
   type: default
-  output-dir: _output
+  output-dir: docs
 
 execute:
   echo: false
