@@ -24,17 +24,17 @@ plot_location_data(report_data, size = size, stroke = size / 10)
 
 The review and approval process for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program included these key decisions:
 
-- On January 12, 2024, the Department of Planning published agency requests and priority projects. Agencies formally presented requests to the Planning Commission on January 18 and 25.
-- On March 7, 2024, the Planning Commission approved recommendations for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program.
-- On March 25, 2024 the Board of Finance reviewed and approved the Planning Commission's recommendations, with a few administrative changes related to the finalization of the Pimlico Community Development Authority's spending plan and new notices of grant receipt.
-- On May 1, 2024, the Board of Estimates reviewed and approved the Planning Commission recommendations, with administrative changes and the report from the Board of Finance.
-- On June 24, 2024, the Baltimore City Council adopted the Ordinance of Estimates for the Fiscal Year Ending June 30, 2025. The adopted  FY 2025 Capital Budget is unchanged from the recommendations approved by the Board of Estimates.
+-   On January 12, 2024, the Department of Planning published agency requests and priority projects. Agencies formally presented requests to the Planning Commission on January 18 and 25.
+-   On March 7, 2024, the Planning Commission approved recommendations for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program.
+-   On March 25, 2024 the Board of Finance reviewed and approved the Planning Commission's recommendations, with a few administrative changes related to the finalization of the Pimlico Community Development Authority's spending plan and new notices of grant receipt.
+-   On May 1, 2024, the Board of Estimates reviewed and approved the Planning Commission recommendations, with administrative changes and the report from the Board of Finance.
+-   On June 24, 2024, the Baltimore City Council adopted the Ordinance of Estimates for the Fiscal Year Ending June 30, 2025. The adopted FY 2025 Capital Budget is unchanged from the recommendations approved by the Board of Estimates.
 
 Notable changes to the Capital Improvement Program following the initial approval by the Planning Commission included:
 
-- Adjustments  based on the finalized spending plan for [Pimlico Local Impact Aid](https://planning.baltimorecity.gov/about-pimlico-community-development-authority) for projects using the revenue source RC0663 Pimlico Local Impact Grant – Capital.
-- Adding the recent award of a $6 million grant for Druid Park Lake Drive to PRJ002908 Druid Park Lake Drive Complete Streets Reconstruction.
-- Adding private funds committed by the Enoch Pratt Free Library for construction of a new library in the Park Heights community.
+-   Adjustments based on the finalized spending plan for [Pimlico Local Impact Aid](https://planning.baltimorecity.gov/about-pimlico-community-development-authority) for projects using the revenue source RC0663 Pimlico Local Impact Grant – Capital.
+-   Adding the recent award of a \$6 million grant for Druid Park Lake Drive to PRJ002908 Druid Park Lake Drive Complete Streets Reconstruction.
+-   Adding private funds committed by the Enoch Pratt Free Library for construction of a new library in the Park Heights community.
 
 ```{r}
 # Read pre-generated summary tables
@@ -47,7 +47,6 @@ gt_summary_tab_source <- summary_tables[["table_source"]]
 gt_summary_tab_agency <- summary_tables[["table_agency"]]
 ```
 
-
 ```{r}
 # Prep summary text
 if (params$stage == "Ordinance") {
@@ -56,12 +55,12 @@ if (params$stage == "Ordinance") {
   out_fy_amt <- summary_amt - curr_fy_amt
 
   summary_text <- epoxy::epoxy("The adopted Ordinance of Estimates allocates {.dollar {curr_fy_amt}} in funding through the FY2025 Capital Budget. In addition, the final Capital Improvement Program recommends {.dollar {out_fy_amt}} in funding for the other five years of the capital program for a total of {.dollar {summary_amt}}. This report reflects the approved Capital Improvement Program and {report_org_name} adopted budget as of {recommendation_date}.")
-} else if (cip_term == "recommendation") {
+} else if (params$stage != "Requests") {
   summary_amt <- fy_from_gt(gt_summary_tab_source)
   summary_text <- glue("The {report_org_name_long} is recommending {summary_amt} in funding over six years towards the requested projects. This report reflects the recommendations of the {report_org_name} as of {recommendation_date}.")
 }
 
-if (cip_term == "request") {
+if (params$stage == "Requests") {
   summary_text <- "This report is prepared by the Baltimore City Department of Planning and published in advance of the Baltimore City Planning Commission review of agency requests each year. The goal of this report is to support the Planning Commission in the review and approval of the program and to share this important information with residents across the city and region."
 }
 
@@ -84,14 +83,23 @@ gt_summary_tab_agency
 ```
 
 <!-- :::{.callout-note collapse=false appearance='simple' title='January 2024 Agency Presentations' icon=true} -->
+
 <!-- -   Baltimore City Information Technology: [Slides](https://planning.baltimorecity.gov/sites/default/files/BCIT%20FY25%20CIP%20Presentation%203.pdf) -->
+
 <!-- -   Department of General Services: [Slides](https://planning.baltimorecity.gov/sites/default/files/FY25%20DGS%20CIP%20Planning%20Presentation%201.17.24_Final%20(1).pdf)  -->
+
 <!-- -   Bureau of Solid Waste (Public Works): [Slides](https://planning.baltimorecity.gov/sites/default/files/FY%2025%20CIP%20Presentation%20-%20BSW%20(Final).pdf)  -->
+
 <!-- -   Water, Wastewater, and Stormwater Utilities (Public Works): [Slides](https://planning.baltimorecity.gov/sites/default/files/FY%2025%20CIP%20Presentation%20-%20BW&WW%20(Final).pdf)  -->
+
 <!-- -   Department of Transportation: [Slides](https://planning.baltimorecity.gov/sites/default/files/DRAFT_BCDOT%20FY25-30%20CIP%20Presentation%20(Jan%2018%202024).pdf)  -->
+
 <!-- -   Department of Recreation and Parks: [Slides](https://planning.baltimorecity.gov/sites/default/files/BCRP%20FY25%20CIP%20Presentation.pdf) -->
+
 <!-- -   Department of Housing & Community Development: [Slides](https://planning.baltimorecity.gov/sites/default/files/DHCD%20CIP%20Presentation%20FY25%20-%20F30.pdf) -->
+
 <!-- -   Baltimore Development Corporation: [Slides](https://planning.baltimorecity.gov/sites/default/files/BDC_CIP_FY25-30%20Presentation.pdf)  -->
+
 <!-- ::: -->
 
 {{< pagebreak >}}
