@@ -1,23 +1,10 @@
-# Created by use_targets().
-# Follow the comments below to fill in this target script.
-# Then follow the manual to check and run the pipeline:
-#   https://books.ropensci.org/targets/walkthrough.html#inspect-the-pipeline
-
-# Load packages required to define the pipeline:
+# Load packages ----
 library(targets)
-library(tarchetypes) # Load other packages as needed.
-library(readr)
-library(openxlsx2)
+library(tarchetypes)
 
-suppressPackageStartupMessages(
-  library(here)
-)
+# Options ----
 
-suppressPackageStartupMessages(
-  library(dplyr)
-)
-
-# Set target options
+## Set targets options ----
 tar_option_set(
   tidy_eval = TRUE,
   packages = c(
@@ -30,6 +17,7 @@ tar_option_set(
     "janitor",
     "naniar",
     "purrr",
+    "openxlsx2",
     "readr",
     "rlang",
     "sf",
@@ -40,218 +28,197 @@ tar_option_set(
   format = "qs"
 )
 
+## Set additional options ----
 options(
-  # clustermq.scheduler = "multicore",
   readr.show_col_types = FALSE,
   gargle_oauth_email = "eli.pousson@baltimorecity.gov",
+  current_report_stage = "Ordinance",
+  current_report_filename = "FY25-30_CIP-Ordinance-Report.pdf",
+  current_report_title_short = "FY25-30 CIP Report",
   fy_cols = paste0("fy", 2025:2030),
   tbl_fy_cols = c(paste0("fy_", c(2025:2030)), "fy_total"),
   tbl_fy_labels = c(paste0("FY", c(25:30)), "Total ($K)")
 )
 
-# future::plan(future.callr::callr)
+tar_source()
 
-suppressMessages(
-  tar_source()
+if (FALSE) {
+  download_fy2530_report_references()
+}
+
+report_reference_files <- rlang::set_names(
+  fs::dir_ls(path_tar_user(), glob = "*.csv"),
+  fs::path_ext_remove(
+    fs::path_file(
+      fs::dir_ls(path_tar_user(), glob = "*.csv")
+    )
+  )
 )
 
-tar_plan(
-  # Read Adaptive Planning report data dictionary
-  adaptive_dictionary = read_adaptive_dictionary(),
-  asset_list_dictionary = read_asset_list_dictionary(),
-  report_xwalks = read_sheets_subset(
-    url = "https://docs.google.com/spreadsheets/d/1LFjKUq_OgrrvZeXC5rZ9jgqZtqltnG8NLG9NDplvMtg/edit?usp=sharing",
-    pattern = "_xwalk$"
+report_stages <- read_curr_fy_report_stages(
+  curr_stage = getOption("current_report_stage")
+)
+
+# targets pipeline ----
+
+## Load setup data ----
+setup_cip_report <- tar_plan(
+
+  # Read reference CSV files downloaded w/ download_fy2530_report_references
+  report_references = purrr::map(
+    report_reference_files,
+    readr::read_csv
   ),
+  report_stage_reference = report_references[["fy2530_report_stages"]],
+  curr_report_stage_reference = report_stage_reference |>
+    dplyr::filter(
+      stage == getOption("current_report_stage")
+    )
+)
 
-  # Read agency overviews
-  agency_overviews = read_agency_overviews(),
-
-  # Load agency reference data
-  agency_reference = load_agency_reference(agency_overviews),
-
-  # Load asset agency crosswalk
-  asset_agency_xwalk = load_asset_agency_xwalk(),
-
-  # Load Baltimore bridge inventory
-  baltimore_bridges = load_baltimore_bridge_inventory(),
-
-  # Load Impact Investment Areas
-  impact_investment_areas = load_dhcd_iia(),
-
-  # Load supplementary data from OpenStreetMap
-  osm_asset_data = load_osm_asset_data(),
-
-  # Load DOT intersections
-  dot_intersections = load_dot_intersections(report_xwalks[["project_asset_xwalk"]]),
-  dot_location = load_dot_locations(),
-
-  # Read project detail updates information
-  project_detail_updates = read_project_detail_updates(),
-  project_data_corrections = read_project_data_corrections(),
-  p_hierarchy_xwalks = read_p_hierarchy_xwalks(),
+## Load CIP Program data ----
+load_cip_program <- tar_plan(
 
   # List Capital Projects - Six-Year CIP files
   tar_files(
     cip_program_files,
-    path_user_data(
+    path_tar_user(
       "Adaptive-Planning",
-      c(
-        "Capital_Projects_-_Six-Year_CIP_Requests.xlsx",
-        "Capital_Projects_-_Six-Year_CIP_PC-Recommendations.xlsx",
-        "Capital_Projects_-_Six-Year_CIP_BOE-Recommendations.xlsx",
-        "Capital_Projects_-_Six-Year_CIP_BOF-Recommendations.xlsx"
-      )
+      report_stages$filename
     )
   ),
 
-  # Read Capital Projects - Six-Year CIP
+  # Read Capital Projects - Six-Year CIP reports
   tar_target(
     cip_program_data,
     purrr::map(
       purrr::set_names(
         cip_program_files,
-        c("Requests", "PC", "BOE", "BOF")
+        c("Requests", "PC", "BOE", "BOF", "Ordinance")
       ),
       \(x) {
+        if (!fs::file_exists(x)) {
+          return(NULL)
+        }
+
         x |>
           readxl::read_xlsx() |>
           format_adaptive_cip_data(
-            dictionary = adaptive_dictionary,
-            revenue_category_name_xwalk = report_xwalks[["revenue_category_name_xwalk"]]
+            dictionary = report_references[["adaptive_dictionary"]],
+            revenue_category_name_xwalk = report_references[["revenue_category_name_xwalk"]]
           )
       }
     )
   ),
-  cip_requests = cip_program_data[["Requests"]],
-  cip_pc_recommendations = cip_program_data[["PC"]],
-  cip_bof_recommendations = cip_program_data[["BOF"]],
-  cip_boe_recommendations = cip_program_data[["BOE"]],
+  cip_program_report_stage = cip_program_data[[getOption("current_report_stage")]]
+)
 
+
+# Compare CIP budget at different stages ----
+# TODO: These comparisons are not currently executed but should be made
+# available in a separate supplement
+compare_cip_stages <- tar_plan(
   # Compare CIP request data and recommendation data
   cip_pc_comparison_summary = summarise_cip_comparison(
-    reference_data = cip_requests,
-    comparison_data = cip_pc_recommendations,
-    nm = c("Request", "Recommendation"),
+    reference_data = cip_program_data[["Requests"]],
+    comparison_data = cip_program_data[["PC"]],
+    nm = c("Request", "PC"),
     names_to = "report",
     fy_cols = getOption("fy_cols")
   ),
   cip_bof_comparison_summary = summarise_cip_comparison(
-    reference_data = cip_pc_recommendations,
-    comparison_data = cip_bof_recommendations,
+    reference_data = cip_program_data[["PC"]],
+    comparison_data = cip_program_data[["BOF"]],
     nm = c("PC", "BOF"),
     names_to = "report",
     fy_cols = getOption("fy_cols")
   ),
+  cip_ordinance_comparison_summary = summarise_cip_comparison(
+    reference_data = cip_program_data[["PC"]],
+    comparison_data = cip_program_data[["Ordinance"]],
+    nm = c("PC", "Ordinance"),
+    names_to = "report",
+    fy_cols = getOption("fy_cols")
+  )
+)
 
-  # # Read source asset list attributes
-  # tar_file_read(
-  #   asset_list_src,
-  #   command = path_user_data("DGS", "AssetList-MCC-DGS-2022work.xlsx"),
-  #   read = readxl::read_xlsx(path = !!.x, sheet = "MCC-ASSETS")
-  # ),
-  #
-  # # Read source asset list attributes
-  # tar_file_read(
-  #   asset_list_attributes_src,
-  #   command = path_user_data("DGS", "AssetList-MCC-DGS-2022work.xlsx"),
-  #   read = readxl::read_xlsx(path = !!.x, sheet = "OtherDATA-FMS")
-  # ),
-  #
-  # # Format asset list
-  asset_list = format_dgs_asset_list(
-    asset_data = asset_list_src,
-    attributes_data = asset_list_attributes_src,
-    dictionary = asset_list_dictionary |>
-      filter(!is.na(clean_name)),
-    data_sheet = "MCC-ASSETS",
-    attributes_sheet = "OtherDATA-FMS",
-    agency_reference = agency_reference,
-    additional_data = list(
-      impact_investment_areas,
-      baltimore_bridges,
-      osm_asset_data,
-      dot_intersections
-    ),
-    asset_agency_xwalk = asset_agency_xwalk
+## Load CIP Project location data ----
+load_cip_locations <- tar_plan(
+  # See <https://github.com/city-of-baltimore/baltimore-assets>
+  tar_file_read(
+    baltimore_asset_list,
+    command = path_tar_user("spatial", "Baltimore-City_Asset-List.gpkg"),
+    read = read_sf_data(!!.x)
   ),
-  #
+  # See <https://github.com/city-of-baltimore/baltimore-assets>
+  tar_file_read(
+    additional_asset_locations,
+    command = path_tar_user("spatial", "Baltimore-City_Additional-Locations.gpkg"),
+    read = read_sf_data(!!.x)
+  ),
+
+  # Load prepared DOT location data (specific to current fiscal year)
+  curr_fy_dot_locations = load_dot_locations(
+    project_asset_xwalk = report_references[["project_asset_xwalk"]]
+  ),
+
+  # Load additional CIP project locations (specific to current fiscal year)
+  tar_file_read(
+    curr_fy_additional_locations,
+    # FIXME: Switch this source to a GeoPackage file for consistency
+    command = path_tar_user("spatial", "FY2025-CIP-Additions.geojson"),
+    read = read_sf_data(!!.x) |>
+      dplyr::filter(
+        # FIXME: Remove duplicate locations or combine outside of this pipeline
+        !(project_code %in% curr_fy_dot_locations$project_code)
+      )
+  ),
+  asset_list = dplyr::bind_rows(
+    baltimore_asset_list,
+    additional_asset_locations,
+    curr_fy_dot_locations,
+    curr_fy_additional_locations
+  )
+)
+
+load_cip_project_details <- tar_plan(
+
   # Read Capital Projects - Project Details - Report
   tar_file_read(
     cip_project_details_src,
-    command = path_user_data("Adaptive-Planning", "Capital_Projects_-_Project_Details.xlsx"),
-    read = readxl::read_xlsx(path = !!.x)
-  ),
-  tar_quarto(
-    baltimoreCIP_qto,
-    path = here::here(),
-    quiet = FALSE,
-    error = "continue"
+    command = path_tar_user(
+      "Adaptive-Planning",
+      "Capital_Projects_-_Project_Details",
+      ext = "xlsx"
+    ),
+    read = readxl::read_xlsx(
+      path = !!.x,
+    )
   ),
 
-  # # Format project data
+  # Format project details using the dictionary and crosswalk files
   cip_project_details = format_adaptive_project_data(
     data = cip_project_details_src,
-    project_detail_updates = project_detail_updates,
-    project_data_corrections = project_data_corrections,
-    dictionary = adaptive_dictionary,
-    report_xwalks = report_xwalks,
-    p_hierarchy_xwalks = p_hierarchy_xwalks,
-    agency_reference = agency_reference
-  ),
-  cip_additional_locations = path_user_data("FY2025-CIP-Additions.geojson") |>
-    sf::read_sf() |>
-    sf::st_transform(crs = 3857),
-  #
-  # Format project location data
-  # cip_locations = load_cip_project_locations(
-  #   project_data = cip_project_details,
-  #   asset_data = asset_list,
-  #   project_asset_xwalk = report_xwalks[["project_asset_xwalk"]],
-  #   agency_reference = agency_reference,
-  #   additional_data = dplyr::bind_rows(
-  #     dot_location,
-  #     dplyr::filter(
-  #       cip_additional_locations,
-  #       !(project_code %in% dot_location$project_code)
-  #     )
-  #   )
-  # ),
-  #
-  # # cip_location_plots = purrr::map(
-  # #   set_names(
-  # #     cip_locations[["location_data"]],
-  # #     cip_locations[["project_code"]]
-  # #   ),
-  # #   \(data) {
-  # #     data <- sf::st_as_sf(data)
-  # #
-  # #     if (all(sf::st_is_empty(data))) {
-  # #       return(NULL)
-  # #     }
-  # #
-  # #     plot_location_data(data)
-  # #   }
-  # # ),
-  #
-  # cip_projects = join_project_locations(
-  #   project_data = cip_project_details,
-  #   location_data = cip_locations
-  # ),
-  #
-  # # Combine into a single report data frame
-  # cip_report_data = load_cip_report_data(
-  #   project_data = cip_projects,
-  #   request_data = cip_requests,
-  #   pc_recommendation_data = cip_pc_recommendations,
-  #   bof_recommendation_data = cip_bof_recommendations,
-  #   dictionary = adaptive_dictionary
-  # ),
-  # summary_tables = gt_group_summary_tables(
-  #   report_data = cip_report_data,
-  #   cip_verb = "recommended",
-  #   cip_data_col = "recommendation_data"
-  # ),
+    project_detail_updates = format_project_detail_updates(
+      report_references[["project_detail_updates"]]
+    ),
+    project_exclusions = c(
+      # FIXME: Only 3 of these excluded projects are flagged as "cancelled" -
+      # other projects may need to be updated in Workday
+      "PRJ000480", "PRJ003034", "PRJ001889", "PRJ002842", "PRJ002840",
+      "PRJ003203", "PRJ003035", "PRJ003241", "PRJ003154", "PRJ003237",
+      "PRJ003239"
+    ),
+    dictionary = report_references[["adaptive_dictionary"]],
+    report_xwalks = report_references,
+    agency_reference = report_references[["agency_reference"]]
+  )
+
+  # TODO: Add agency_contract_xwalk to an appendix
+  # agency_contract_xwalk = get_agency_contract_xwalk(cip_project_details),
+
+  # TODO: Restore appendix w/ kbl_cip_comparison_list +
+  # kbl_appendix_report_identifier as a separate supplement
   # kbl_cip_comparison_list = kbl_comparison_list(
   #   comparison_summary = cip_pc_comparison_summary,
   #   project_details = cip_project_details
@@ -259,41 +226,84 @@ tar_plan(
   # kbl_appendix_report_identifier = kbl_project_identifier(
   #   cip_report_data
   # ),
-  #
-  # # Render Quarto project
-  # # tar_quarto(
-  # #   report_qmd,
-  # #   path = here::here("report", "report_cip_recommendations.qmd"),
-  # #   quiet = FALSE,
-  # #   error = "continue",
-  # #   extra_files = c(
-  # #     # Monitor includes and child documents
-  # #     fs::dir_ls(
-  # #       path = "report",
-  # #       recurse = TRUE,
-  # #       type = "file",
-  # #       glob = "*.qmd"
-  # #     ),
-  # #     # Monitor table and plot scripts
-  # #     fs::dir_ls(
-  # #       path = "R",
-  # #       type = "file",
-  # #       pattern = "^gt_|^kbl_|^plot_"
-  # #     )
-  # #   )
-  # # ),
-  #
-  #
-  # csa_mhhi = load_baltimore_csa_mhhi(),
-  # csa_paa = load_baltimore_csa_paa()
-  #
-  #
-  # # tar_target(
-  # #   report_qmd_cover,
-  # #   combine_pdf_cover(
-  # #    input = here::here("_output/FY2530_CIP-Recommendation-Report_v5.pdf"),
-  # #    cover = here::here("files/FY2530_CIP-BOE-Recommendation-Report_cover.pdf"),
-  # #    output = "_output/FY2530_CIP-Recommendation-Report_with-cover.pdf"
-  # #   )
-  # # )
+)
+
+prep_cip_report_data <- tar_plan(
+
+  # Format project location data
+  cip_locations = load_cip_project_locations(
+    project_data = cip_project_details,
+    asset_data = asset_list,
+    project_asset_xwalk = report_references[["project_asset_xwalk"]],
+    agency_reference = report_references[["agency_reference"]]
+  ),
+  cip_projects = join_project_locations(
+    project_data = cip_project_details,
+    location_data = cip_locations
+  ),
+
+  # Combine into a single report data frame
+  cip_report_data = load_cip_report_data(
+    project_data = cip_projects,
+    request_data = cip_program_data[["Requests"]],
+    pc_recommendation_data = cip_program_data[["PC"]],
+    report_stage_data = cip_program_report_stage,
+    dictionary = report_references[["adaptive_dictionary"]]
+  ),
+
+  # Prep summary tables
+  # TODO: Check if there is any benefit to rendering this in the targets
+  # pipeline instead of inline
+  summary_tables = gt_group_summary_tables(
+    report_data = cip_report_data,
+    cip_verb = "recommended",
+    cip_data_col = "recommendation_data"
+  )
+)
+
+# TODO: Refactor to use `tarchetypes::tar_quarto` if possible
+# NOTE: Using `quarto::quarto_render` instead of tarchetypes::tar_quarto
+# simplifies the process of setting a custom directory and output filename
+# Issues w/ this report include:
+# - attempting to execute these targets before the dependencies are rendered (run tar_make twice to address this)
+# - not detecting changes to the Quarto documents or supporting files (use tar_delete() to address this)
+render_cip_report <- tar_plan(
+  # Render Quarto project
+  tar_target(
+    report_qmd,
+    quarto::quarto_render(
+      input = here::here("report.qmd"),
+      output_file = getOption("current_report_filename"),
+      quiet = FALSE,
+      execute_params = list(
+        stage = getOption("current_report_stage"),
+        title_short = getOption("current_report_title_short")
+      )
+    ),
+    error = "continue"
+  ),
+  tar_target(
+    report_site_qmd,
+    quarto::quarto_render(
+      input = here::here("index.qmd"),
+      metadata_file = "_site.yml",
+      output_file = "index.html",
+      execute_params = list(
+        stage = getOption("current_report_stage"),
+        title_short = getOption("current_report_title_short")
+      ),
+      quiet = FALSE
+    ),
+    error = "continue"
+  )
+)
+
+# Execute the combined target specifications
+tar_plan(
+  setup_cip_report,
+  load_cip_locations,
+  load_cip_program,
+  load_cip_project_details,
+  prep_cip_report_data,
+  render_cip_report
 )
