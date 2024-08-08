@@ -69,6 +69,7 @@ combine_cip_project_data <- function(
     summary_data <- report_stage_data %||% pc_recommendation_data
   }
 
+  # Summarize total amount by project code
   summary_data_join <- summary_data |>
     filter(!is.na(.data[[fy_total_col]])) |>
     summarise(
@@ -76,12 +77,14 @@ combine_cip_project_data <- function(
       .by = project_code
     )
 
+  # Pull project codes for projects with a non-zero total
   is_recommended_project <- summary_data |>
     pull_distinct_project_code(
       !is.na(.data[[fy_total_col]]),
       .data[[fy_total_col]] > 0 | .data[[fy_total_col]] < 0
     )
 
+  # Pull project codes for projects with a non-zero total for request data
   is_requested_project <- request_data |>
     pull_distinct_project_code(
       !is.na(.data[[fy_total_col]]),
@@ -90,11 +93,9 @@ combine_cip_project_data <- function(
 
   # Subset data to create the has_grant_source column
   is_grant_source_request <- request_data |>
-    filter(
+    pull_distinct_project_code(
       revenue_category_name_short %in% c("State Grant", "Fed. Grant")
-    ) |>
-    distinct(project_code) |>
-    pull(project_code)
+    )
 
   # Subset data to create has_requests_2025 column
   is_current_fy_request <- request_data |>
@@ -108,13 +109,6 @@ combine_cip_project_data <- function(
       y = project_data_join_cols,
       dictionary = dictionary,
       .key = request_data_col
-    )
-
-  report_stage_data |>
-    prep_to_combine_projects(
-      y = project_data_join_cols,
-      dictionary = dictionary,
-      .key = pc_recommendation_data_col
     )
 
   # Nest recommendation data
@@ -192,7 +186,10 @@ prep_to_combine_projects <- function(
     na_matches = "never",
     .keep = TRUE) {
   x |>
-    rename_with_dictionary(dictionary = dictionary) |>
+    janitor::clean_names() |>
+    rename_with_dictionary(
+      dictionary = dictionary
+    ) |>
     dplyr::left_join(
       y,
       by = join_by(project_code),
