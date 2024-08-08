@@ -7,7 +7,6 @@ format_adaptive_project_data <- function(
     project_detail_updates = NULL,
     project_exclusions = NULL,
     report_xwalks = NULL,
-    p_hierarchy_xwalks = NULL,
     agency_reference = NULL) {
   project_details_source <- data
 
@@ -20,8 +19,6 @@ format_adaptive_project_data <- function(
       impact_on_operating_budget = as.character(impact_on_operating_budget)
     )
 
-  p_hierarchy1_xwalk <- p_hierarchy_xwalks[["p_hierarchy1_xwalk"]]
-  p_hierarchy2_xwalk <- p_hierarchy_xwalks[["p_hierarchy2_xwalk"]]
 
   ## ---- format_project_details
   project_details_formatted <- project_details_source |>
@@ -49,7 +46,7 @@ format_adaptive_project_data <- function(
     format_prj_data() |>
     # Format workday hierarchy
     format_p_hierarchy_cols(
-      p_hierarchy_xwalks = p_hierarchy_xwalks
+      p_hierarchy_xwalks = report_xwalks[c("p_hierarchy1_xwalk", "p_hierarchy2_xwalk")]
     ) |>
     format_workday_names() |>
     mutate(
@@ -212,3 +209,4 @@ format_adaptive_project_with_dictionary <- function(
       )
     )
 }
+
