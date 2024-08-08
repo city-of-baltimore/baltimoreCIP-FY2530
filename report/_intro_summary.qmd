@@ -1,6 +1,6 @@
 ## Summary
 
-The Capital Improvement Program is a six-year plan for funding capital projects by City agencies. The program is updated and adopted each year as part of the Baltimore City Budget.
+The Capital Improvement Program is a six-year plan for funding capital projects by City agencies. The program is updated each year and the program's first year is adopted as the capital component of the Ordinance of Estimates, the City’s budget bill.
 
 ::: {layout="[ 50, 50 ]"}
 <div>
@@ -22,7 +22,7 @@ plot_location_data(report_data, size = size, stroke = size / 10)
 </div>
 :::
 
-The review and approval process for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program:
+The review and approval process for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program included these key decisions:
 
 - On January 12, 2024, the Department of Planning published agency requests and priority projects. Agencies formally presented requests to the Planning Commission on January 18 and 25.
 - On March 7, 2024, the Planning Commission approved recommendations for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program.
