@@ -18,14 +18,26 @@ The goal of this report is to facilitate internal and external review of the cit
 The report is organized into sections by agency. Each section starts with an agency overview including:
 
 -   A description of the agency and the agency’s typical capital projects
--   A summary table of projects and detailed project profiles with `r cip_singular` within this 6-year program
+-   A summary table of projects and detailed project profiles with `r cip_singular` 
+
 ```{r}
-#| eval: !expr cip_singular == "request"
 #| output: asis
-cat("-   A summary table of projects identified as an agency priority for future requests and brief project profiles")
+
+if (params$stage == "Ordinance") {
+  cat(
+    "-   A summary table of projects and detailed project profiles with the adopted FY25 Capital Budget and approved program for outer years"
+  )
+} else if (params$stage == "Requests") {
+  cat("-   A summary table of projects and detailed project profiles with the agency requests for the 6-year program")
+  cat("-   A summary table of projects identified as an agency priority for future requests and brief project profiles")
+} else {
+  cat(
+    "-   A summary table of projects and detailed project profiles with the 6-year program as approved"
+  )
+}
 ```
 
-Following the agency overview, the report provides a detailed profile of projects `r cip_verb` for funding within this 6-year program. For each detailed project profile, the report includes:
+Following the agency overview, the report provides a detailed profile of projects included in this 6-year program. For each detailed project profile, the report includes:
 
 -   A project code and name
 -   A project type: State of Good Repair, Modernization, New Asset, Community/Economic Development, Replacement, or Unspecified (if a type is not provided)
@@ -42,7 +54,7 @@ Capital funding (including design, planning, and implementation costs) associate
 For projects that are specific to one or more physical locations, the profile also includes a locator map showing the project location and, for projects within the City, the Community Statistical Area where the project is located. It is important to remember, however, that projects often provide critical services or benefits for residents beyond the surrounding neighborhood. The Department of Planning prepares a separate distribution analysis to evaluate the distributional equity of investments included in the proposed Capital Improvement Program.
 
 ::: {.callout-tip logo="false" title="Explore project locations online" appearance="simple"}
-You can explore prior project locations [in this online webmap](https://www.arcgis.com/home/item.html?id=657321dbfda24a06bec5cc0d5e69ebfa). Department of Planning staff expect to provide an updated online webmap for FY2025-30 requests in early 2024.
+You can explore prior project locations [from FY2018 to FY2024 in this online webmap](https://www.arcgis.com/home/item.html?id=657321dbfda24a06bec5cc0d5e69ebfa).
 :::
 
 {{< pagebreak >}}
@@ -55,43 +67,9 @@ The detail table listing `r cip_singular` amounts by source and fiscal year incl
 
 ```{r}
 #| tbl-colwidths: [0.1, 0.4, 0.35]
-
-# Requires cols_width_ext function
-
-sources_abb <- report_xwalks[["revenue_category_name_xwalk"]] |>
-  select(
-    all_of(
-      c(
-        "budget_category",
-        "revenue_category_label",
-        "revenue_category_name_short",
-        "exclude_flag"
-      )
-    )
-  ) |>
-  filter(
-    is.na(exclude_flag),
-    !is.na(budget_category)
-  ) |>
-  select(!exclude_flag)
-
-sources_abb |>
-  gt(
-    groupname_col = "budget_category",
-    row_group_as_column = TRUE
-  ) |>
-  cols_label(
-    revenue_category_label ~ "Funding source",
-    revenue_category_name_short ~ "Abbreviation"
-  ) |>
-  cols_width_ext(
-    columns = c("budget_category", "revenue_category_label", "revenue_category_name_short"),
-    widths = c(0.25, 0.4, 0.35),
-    textwidth = 5
-  ) |>
-  tab_header(
-    title = "Capital funding source names with abbreviations"
-  )
+gt_revenue_category_reference(
+  report_references[["revenue_category_name_xwalk"]]
+)
 ```
 
 Reader should note that the total request for FY25-30 may not match the total cost estimate due to several reasons. The project may be supported by another non-city funding source (e.g. a contribution from a philanthropic partner) or an agency may be in the process of funding a project over a longer period than the six-year program. Programmatic items, such as road resurfacing or façade improvement grants, may exclude estimated costs as the amount of work the agency is able to support depends largely on the amount of funding made available.
