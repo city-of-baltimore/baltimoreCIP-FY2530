@@ -11,6 +11,7 @@ plot_project_locations <- function(data,
                                    asset_data = NULL) {
   if (has_name(data, "location_data")) {
     data <- purrr::list_rbind(data$location_data)
+    data <- sf::st_as_sf(data)
 
     if (is_empty(data)) {
       return(invisible(NULL))
@@ -29,7 +30,7 @@ plot_project_locations <- function(data,
       )
   }
 
-  if (!inherits_any(data, "sf")) {
+  if (!inherits_any(data, "sf") && !is.null(asset_data)) {
     data <- asset_data |>
       filter(
         .data[["asset_id"]] %in% data[["asset_id"]]
