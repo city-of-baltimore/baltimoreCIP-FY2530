@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Baltimore City FY25-30 Capital Improvement Program Report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Baltimore City FY25-30 Capital Improvement Program Report</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- badges: start -->
+<p><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" class="img-fluid" alt="License: MIT"></a> <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" class="img-fluid" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></p>
+<!-- badges: end -->
+<p>This page provides access to the <a href="FY25-30_CIP-Ordinance-Report.pdf">FY25-30 CIP Report</a> which is also available through <a href="https://planning.baltimorecity.gov/planning-capital-improvement/maps">the Baltimore City Department of Planning website</a>. The code used to create the report is published as an <a href="https://github.com/city-of-baltimore/baltimoreCIP-FY2530">open-source repository on the City of Baltimore GitHub account</a>.</p>
+<p>For questions about the Capital Improvement Program, please contact Kristen Ahearn, Capital Improvement Program Planner with the Department of Planning, at kristen.ahearn@baltimorecity.gov.</p>
+<p>For questions about the code used to produce this report, please contact Eli Pousson, Data Lead with the Department of Planning, at eli.pousson@baltimorecity.gov.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This project is built using {targets} and {tarchetypes}: two R packages designed to support the reproducible analytical pipelines (RAPs). For more information on {targets}, see <a href="https://books.ropensci.org/targets/">The {targets} R package user manual</a>.</p>
+</div>
+</div>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>The Capital Improvement Program is a six-year plan for funding capital projects by City agencies. The program is updated each year and the program’s first year is adopted as the capital component of the Ordinance of Estimates, the City’s budget bill.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[ 50, 50 ]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p>Baltimore City agencies requested capital funding for more than four hundred projects. Agencies also shared information on 150 priority projects that could be funded if additional capital funds are made available. In total, agencies requested more than $2.8 billion in funds for construction, repair, modernization, and other improvements. The requests identify more than two hundred different buildings, parks, and other public assets as planned locations for this investment.</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Project recommendations with locations in FY25-30 CIP Report</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The review and approval process for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program included these key decisions:</p>
+<ul>
+<li>On January 12, 2024, the Department of Planning published agency requests and priority projects. Agencies formally presented requests to the Planning Commission on January 18 and 25.</li>
+<li>On March 7, 2024, the Planning Commission approved recommendations for the FY 2025 Capital Budget and the FY 2025-2030 Capital Improvement Program.</li>
+<li>On March 25, 2024 the Board of Finance reviewed and approved the Planning Commission’s recommendations, with a few administrative changes related to the finalization of the Pimlico Community Development Authority’s spending plan and new notices of grant receipt.</li>
+<li>On May 1, 2024, the Board of Estimates reviewed and approved the Planning Commission recommendations, with administrative changes and the report from the Board of Finance.</li>
+<li>On June 24, 2024, the Baltimore City Council adopted the Ordinance of Estimates for the Fiscal Year Ending June 30, 2025. The adopted FY 2025 Capital Budget is unchanged from the recommendations approved by the Board of Estimates.</li>
+</ul>
+<p>Notable changes to the Capital Improvement Program following the initial approval by the Planning Commission included:</p>
+<ul>
+<li>Adjustments based on the finalized spending plan for <a href="https://planning.baltimorecity.gov/about-pimlico-community-development-authority">Pimlico Local Impact Aid</a> for projects using the revenue source RC0663 Pimlico Local Impact Grant – Capital.</li>
+<li>Adding the recent award of a $6 million grant for Druid Park Lake Drive to PRJ002908 Druid Park Lake Drive Complete Streets Reconstruction.</li>
+<li>Adding private funds committed by the Enoch Pratt Free Library for construction of a new library in the Park Heights community.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<p>The adopted Ordinance of Estimates allocates $732,454,157 in funding through the FY2025 Capital Budget. In addition, the final Capital Improvement Program recommends $3,056,975,136 in funding for the other five years of the capital program for a total of $3,789,429,293. This report reflects the approved Capital Improvement Program and City Council adopted budget as of June 2024.</p>
+</div>
+</div>
+<p>For questions, please contact the Department of Planning at 410-396-PLAN (7526) or visit the Department website at <a href="https://planning.baltimorecity.gov">planning.baltimorecity.gov</a>.</p>
+<div style="page-break-after: always;"></div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fjirdaglkw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fjirdaglkw table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#fjirdaglkw thead, #fjirdaglkw tbody, #fjirdaglkw tfoot, #fjirdaglkw tr, #fjirdaglkw td, #fjirdaglkw th {
+  border-style: none;
+}
+
+#fjirdaglkw p {
+  margin: 0;
+  padding: 0;
+}
+
+#fjirdaglkw .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#fjirdaglkw .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#fjirdaglkw .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#fjirdaglkw .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#fjirdaglkw .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#fjirdaglkw .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#fjirdaglkw .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#fjirdaglkw .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#fjirdaglkw .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#fjirdaglkw .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#fjirdaglkw .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#fjirdaglkw .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#fjirdaglkw .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#fjirdaglkw .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#fjirdaglkw .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjirdaglkw .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#fjirdaglkw .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#fjirdaglkw .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#fjirdaglkw .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjirdaglkw .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#fjirdaglkw .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjirdaglkw .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#fjirdaglkw .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjirdaglkw .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fjirdaglkw .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjirdaglkw .gt_left {
+  text-align: left;
+}
+
+#fjirdaglkw .gt_center {
+  text-align: center;
+}
+
+#fjirdaglkw .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#fjirdaglkw .gt_font_normal {
+  font-weight: normal;
+}
+
+#fjirdaglkw .gt_font_bold {
+  font-weight: bold;
+}
+
+#fjirdaglkw .gt_font_italic {
+  font-style: italic;
+}
+
+#fjirdaglkw .gt_super {
+  font-size: 65%;
+}
+
+#fjirdaglkw .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#fjirdaglkw .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#fjirdaglkw .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#fjirdaglkw .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#fjirdaglkw .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#fjirdaglkw .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#fjirdaglkw .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="FY25" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY25</th>
+<th id="FY26" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY26</th>
+<th id="FY27" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY27</th>
+<th id="FY28" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY28</th>
+<th id="FY29" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY29</th>
+<th id="FY30" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY30</th>
+<th id="Total ($M)" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Total ($M)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Local Discretionary</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2025">$104.3</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2026">$141.3</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2027">$141.3</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2028">$156.3</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2029">$156.3</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2030">$186.3</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_total">$886.1</td>
+</tr>
+<tr class="even">
+<td id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Highway User Revenue</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2025">$90.0</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2026">$94.1</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2027">$91.0</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2028">$24.7</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2029">$20.6</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2030">$16.4</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_total">$336.8</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Utility-Related</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2025">$378.0</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2026">$493.2</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2027">$341.5</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2028">$360.7</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2029">$176.5</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2030">$142.1</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_total">$1,891.9</td>
+</tr>
+<tr class="even">
+<td id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">State and Federal</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2025">$160.1</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2026">$100.3</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2027">$128.8</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2028">$94.3</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2029">$95.5</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2030">$95.5</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_total">$674.6</td>
+</tr>
+<tr class="odd">
+<td id="grand_summary_stub_1" class="gt_row gt_left gt_stub gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Total ($M)</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2025">$732.5</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2026">$829.0</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2027">$702.7</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2028">$636.0</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2029">$449.0</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2030">$440.3</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_total">$3,789.4</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="jveddymsho" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jveddymsho table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#jveddymsho thead, #jveddymsho tbody, #jveddymsho tfoot, #jveddymsho tr, #jveddymsho td, #jveddymsho th {
+  border-style: none;
+}
+
+#jveddymsho p {
+  margin: 0;
+  padding: 0;
+}
+
+#jveddymsho .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jveddymsho .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#jveddymsho .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jveddymsho .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jveddymsho .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jveddymsho .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jveddymsho .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jveddymsho .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jveddymsho .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jveddymsho .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jveddymsho .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jveddymsho .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jveddymsho .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#jveddymsho .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#jveddymsho .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jveddymsho .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jveddymsho .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jveddymsho .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jveddymsho .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jveddymsho .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jveddymsho .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jveddymsho .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#jveddymsho .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jveddymsho .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jveddymsho .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jveddymsho .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jveddymsho .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jveddymsho .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jveddymsho .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jveddymsho .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jveddymsho .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jveddymsho .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jveddymsho .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jveddymsho .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jveddymsho .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jveddymsho .gt_left {
+  text-align: left;
+}
+
+#jveddymsho .gt_center {
+  text-align: center;
+}
+
+#jveddymsho .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jveddymsho .gt_font_normal {
+  font-weight: normal;
+}
+
+#jveddymsho .gt_font_bold {
+  font-weight: bold;
+}
+
+#jveddymsho .gt_font_italic {
+  font-style: italic;
+}
+
+#jveddymsho .gt_super {
+  font-size: 65%;
+}
+
+#jveddymsho .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#jveddymsho .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jveddymsho .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#jveddymsho .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#jveddymsho .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jveddymsho .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jveddymsho .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="8" class="gt_heading gt_title gt_font_normal gt_bottom_border">Total recommended capital funds by year and agency</th>
+</tr>
+<tr class="odd gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="FY25" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY25</th>
+<th id="FY26" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY26</th>
+<th id="FY27" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY27</th>
+<th id="FY28" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY28</th>
+<th id="FY29" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY29</th>
+<th id="FY30" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FY30</th>
+<th id="Total ($M)" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Total ($M)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Baltimore Development</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2025">$2.9</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2026">$3.0</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2027">$3.0</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2028">$1.9</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2029">$1.9</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_2030">$1.9</td>
+<td class="gt_row gt_right" headers="stub_1_1 fy_total">$14.8</td>
+</tr>
+<tr class="even">
+<td id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Convention Center</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2025">$0.2</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2026">$0.2</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2027">$3.0</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2028">$4.9</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2029">$2.4</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_2030">$5.9</td>
+<td class="gt_row gt_right" headers="stub_1_2 fy_total">$16.7</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Finance</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2025">($3.6)</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2026">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2027">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2028">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2029">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_2030">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_3 fy_total">($3.6)</td>
+</tr>
+<tr class="even">
+<td id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">General Services</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2025">$14.9</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2026">$26.3</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2027">$18.4</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2028">$51.1</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2029">$43.5</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_2030">$29.9</td>
+<td class="gt_row gt_right" headers="stub_1_4 fy_total">$184.3</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_5" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Housing</td>
+<td class="gt_row gt_right" headers="stub_1_5 fy_2025">$76.0</td>
+<td class="gt_row gt_right" headers="stub_1_5 fy_2026">$54.8</td>
+<td class="gt_row gt_right" headers="stub_1_5 fy_2027">$54.8</td>
+<td class="gt_row gt_right" headers="stub_1_5 fy_2028">$23.8</td>
+<td class="gt_row gt_right" headers="stub_1_5 fy_2029">$24.9</td>
+<td class="gt_row gt_right" headers="stub_1_5 fy_2030">$25.9</td>
+<td class="gt_row gt_right" headers="stub_1_5 fy_total">$260.1</td>
+</tr>
+<tr class="even">
+<td id="stub_1_6" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Information Technology</td>
+<td class="gt_row gt_right" headers="stub_1_6 fy_2025">$14.2</td>
+<td class="gt_row gt_right" headers="stub_1_6 fy_2026">$7.0</td>
+<td class="gt_row gt_right" headers="stub_1_6 fy_2027">$7.0</td>
+<td class="gt_row gt_right" headers="stub_1_6 fy_2028">$14.5</td>
+<td class="gt_row gt_right" headers="stub_1_6 fy_2029">$14.5</td>
+<td class="gt_row gt_right" headers="stub_1_6 fy_2030">$14.5</td>
+<td class="gt_row gt_right" headers="stub_1_6 fy_total">$71.7</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_7" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Mayor's Office</td>
+<td class="gt_row gt_right" headers="stub_1_7 fy_2025">$2.5</td>
+<td class="gt_row gt_right" headers="stub_1_7 fy_2026">$10.3</td>
+<td class="gt_row gt_right" headers="stub_1_7 fy_2027">$21.3</td>
+<td class="gt_row gt_right" headers="stub_1_7 fy_2028">$24.2</td>
+<td class="gt_row gt_right" headers="stub_1_7 fy_2029">$31.9</td>
+<td class="gt_row gt_right" headers="stub_1_7 fy_2030">$37.5</td>
+<td class="gt_row gt_right" headers="stub_1_7 fy_total">$127.8</td>
+</tr>
+<tr class="even">
+<td id="stub_1_8" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Parking Authority</td>
+<td class="gt_row gt_right" headers="stub_1_8 fy_2025">$3.4</td>
+<td class="gt_row gt_right" headers="stub_1_8 fy_2026">$4.2</td>
+<td class="gt_row gt_right" headers="stub_1_8 fy_2027">$2.6</td>
+<td class="gt_row gt_right" headers="stub_1_8 fy_2028">$3.1</td>
+<td class="gt_row gt_right" headers="stub_1_8 fy_2029">$2.3</td>
+<td class="gt_row gt_right" headers="stub_1_8 fy_2030">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_8 fy_total">$15.6</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_9" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Planning</td>
+<td class="gt_row gt_right" headers="stub_1_9 fy_2025">$0.2</td>
+<td class="gt_row gt_right" headers="stub_1_9 fy_2026">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_9 fy_2027">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_9 fy_2028">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_9 fy_2029">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_9 fy_2030">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_9 fy_total">$0.2</td>
+</tr>
+<tr class="even">
+<td id="stub_1_10" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Pratt Library</td>
+<td class="gt_row gt_right" headers="stub_1_10 fy_2025">$12.8</td>
+<td class="gt_row gt_right" headers="stub_1_10 fy_2026">$0.0</td>
+<td class="gt_row gt_right" headers="stub_1_10 fy_2027">$1.3</td>
+<td class="gt_row gt_right" headers="stub_1_10 fy_2028">$0.8</td>
+<td class="gt_row gt_right" headers="stub_1_10 fy_2029">$4.2</td>
+<td class="gt_row gt_right" headers="stub_1_10 fy_2030">$5.1</td>
+<td class="gt_row gt_right" headers="stub_1_10 fy_total">$24.3</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_11" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Public Works</td>
+<td class="gt_row gt_right" headers="stub_1_11 fy_2025">$399.4</td>
+<td class="gt_row gt_right" headers="stub_1_11 fy_2026">$532.4</td>
+<td class="gt_row gt_right" headers="stub_1_11 fy_2027">$350.4</td>
+<td class="gt_row gt_right" headers="stub_1_11 fy_2028">$363.6</td>
+<td class="gt_row gt_right" headers="stub_1_11 fy_2029">$179.3</td>
+<td class="gt_row gt_right" headers="stub_1_11 fy_2030">$147.1</td>
+<td class="gt_row gt_right" headers="stub_1_11 fy_total">$1,972.1</td>
+</tr>
+<tr class="even">
+<td id="stub_1_12" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Recreation and Parks</td>
+<td class="gt_row gt_right" headers="stub_1_12 fy_2025">$19.1</td>
+<td class="gt_row gt_right" headers="stub_1_12 fy_2026">$18.2</td>
+<td class="gt_row gt_right" headers="stub_1_12 fy_2027">$46.5</td>
+<td class="gt_row gt_right" headers="stub_1_12 fy_2028">$15.0</td>
+<td class="gt_row gt_right" headers="stub_1_12 fy_2029">$15.0</td>
+<td class="gt_row gt_right" headers="stub_1_12 fy_2030">$37.6</td>
+<td class="gt_row gt_right" headers="stub_1_12 fy_total">$151.4</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_13" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Schools</td>
+<td class="gt_row gt_right" headers="stub_1_13 fy_2025">$19.0</td>
+<td class="gt_row gt_right" headers="stub_1_13 fy_2026">$25.0</td>
+<td class="gt_row gt_right" headers="stub_1_13 fy_2027">$25.0</td>
+<td class="gt_row gt_right" headers="stub_1_13 fy_2028">$30.0</td>
+<td class="gt_row gt_right" headers="stub_1_13 fy_2029">$30.0</td>
+<td class="gt_row gt_right" headers="stub_1_13 fy_2030">$40.0</td>
+<td class="gt_row gt_right" headers="stub_1_13 fy_total">$169.0</td>
+</tr>
+<tr class="even">
+<td id="stub_1_14" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Transportation</td>
+<td class="gt_row gt_right" headers="stub_1_14 fy_2025">$171.4</td>
+<td class="gt_row gt_right" headers="stub_1_14 fy_2026">$147.4</td>
+<td class="gt_row gt_right" headers="stub_1_14 fy_2027">$169.3</td>
+<td class="gt_row gt_right" headers="stub_1_14 fy_2028">$103.0</td>
+<td class="gt_row gt_right" headers="stub_1_14 fy_2029">$98.9</td>
+<td class="gt_row gt_right" headers="stub_1_14 fy_2030">$94.8</td>
+<td class="gt_row gt_right" headers="stub_1_14 fy_total">$785.0</td>
+</tr>
+<tr class="odd">
+<td id="grand_summary_stub_1" class="gt_row gt_left gt_stub gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Total ($M)</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2025">$732.5</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2026">$829.0</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2027">$702.7</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2028">$636.0</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2029">$449.0</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_2030">$440.3</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 fy_total">$3,789.4</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<!-- :::{.callout-note collapse=false appearance='simple' title='January 2024 Agency Presentations' icon=true} -->
+<!-- -   Baltimore City Information Technology: [Slides](https://planning.baltimorecity.gov/sites/default/files/BCIT%20FY25%20CIP%20Presentation%203.pdf) -->
+<!-- -   Department of General Services: [Slides](https://planning.baltimorecity.gov/sites/default/files/FY25%20DGS%20CIP%20Planning%20Presentation%201.17.24_Final%20(1).pdf)  -->
+<!-- -   Bureau of Solid Waste (Public Works): [Slides](https://planning.baltimorecity.gov/sites/default/files/FY%2025%20CIP%20Presentation%20-%20BSW%20(Final).pdf)  -->
+<!-- -   Water, Wastewater, and Stormwater Utilities (Public Works): [Slides](https://planning.baltimorecity.gov/sites/default/files/FY%2025%20CIP%20Presentation%20-%20BW&WW%20(Final).pdf)  -->
+<!-- -   Department of Transportation: [Slides](https://planning.baltimorecity.gov/sites/default/files/DRAFT_BCDOT%20FY25-30%20CIP%20Presentation%20(Jan%2018%202024).pdf)  -->
+<!-- -   Department of Recreation and Parks: [Slides](https://planning.baltimorecity.gov/sites/default/files/BCRP%20FY25%20CIP%20Presentation.pdf) -->
+<!-- -   Department of Housing & Community Development: [Slides](https://planning.baltimorecity.gov/sites/default/files/DHCD%20CIP%20Presentation%20FY25%20-%20F30.pdf) -->
+<!-- -   Baltimore Development Corporation: [Slides](https://planning.baltimorecity.gov/sites/default/files/BDC_CIP_FY25-30%20Presentation.pdf)  -->
+<!-- ::: -->
+<div style="page-break-after: always;"></div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/city-of-baltimore\.github\.io\/baltimoreCIP-FY2530");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

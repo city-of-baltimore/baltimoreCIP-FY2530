@@ -6,5 +6,5 @@
 .quarto
 
 /.quarto/
-_output
+_output/report_files/
 report_files/*
