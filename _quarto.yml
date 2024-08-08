@@ -1,21 +1,3 @@
 project:
+  type: default
   output-dir: _output
-  render:
-    - project_data_check_FY2530.qmd
-  # render:
-    # - report*.qmd
-    # - project_data*.qmd
-    # - placeholder.qmd
-
-toc: true
-
-format:
-  html: default
-#   dopPDF-pdf:
-#     toc-depth: 2
-#     keep-tex: true
-
-execute:
-  echo: false
-  message: false
-  error: true
