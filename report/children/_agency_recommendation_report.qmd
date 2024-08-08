@@ -127,12 +127,12 @@ project_recommendation_tbl_data |>
     diff_overall = fy_total_diff,
     fy_total_pct_diff
   ) |>
-  # suppressMessages() |>
   mutate(
     # project_name = stringr::str_wrap(
     #   project_name,
     #   width = 60
     # ),
+    # FIXME: This formatting may change after switching to gt
     fy_total_pct_diff = case_when(
       (fy_total_pct_diff == 0 | is.na(fy_total_pct_diff)) ~ "---",
       fy_total_pct_diff < 0 ~ paste0(
@@ -155,6 +155,7 @@ project_recommendation_tbl_data |>
       }
     )
   ) |>
+  # TODO: Replace kableExtra with gt
   kbl_tbl(
     col_names = c(
       "", "Project",
@@ -235,6 +236,7 @@ changed_project_list |>
       }
     )
   ) |>
+  # TODO: Replace kableExtra with gt
   kbl_tbl(
     col_names = c(
       "Project",
@@ -250,7 +252,6 @@ changed_project_list |>
 
 {{< pagebreak >}}
 
-
 ```{r}
 # Custom functions in document
 # - qto_callout_agency_additional
@@ -262,8 +263,6 @@ changed_project_list |>
 # - projaect_additional_list
 # - agency_level
 # - agency_label
-
-internal_report <- FALSE
 ```
 
 ```{r}
@@ -279,6 +278,7 @@ quartools::qto_block(
   #   callout = FALSE
   # ),
   # Show table of projects with no requests
+  # TODO: Replace kableExtra with gt
   kbl_agency_projects(
     data = project_recommendation_list,
     show_requests = FALSE,
@@ -307,8 +307,7 @@ project_recommendation_list |>
     ...,
     .input = here("report", "children", "_project_recommended.qmd"),
     .params = list2(
-      project_level = agency_level + 2,
-      internal_report = internal_report
+      project_level = agency_level + 2
     )
   )
 ```

@@ -1,16 +1,16 @@
 #' Format an exported CIP data report
-#'
 format_adaptive_cip_data <- function(data,
                                      dictionary,
                                      revenue_category_name_xwalk) {
-  stopifnot(
-    all(has_name(dictionary, c("adaptive_export_name", "adaptive_import_col_type")))
+  check_names(
+    dictionary,
+    must.include = c("adaptive_export_name", "adaptive_import_col_type")
   )
 
   # Subset dictionary to fields in file
   cip_dictionary <- filter(
     dictionary,
-    adaptive_export_name %in% names(data)
+    .data[["adaptive_export_name"]] %in% names(data)
   )
 
   cip_dictionary_numeric <- filter(

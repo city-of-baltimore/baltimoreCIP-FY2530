@@ -1,7 +1,10 @@
 #' Load Baltimore City Agency reference data
 load_agency_reference <- function(
-    entity_reference = baltimoredata::entity_reference,
-    agency_overviews = NULL) {
+    agency_overviews,
+    entity_reference = baltimoredata::entity_reference) {
+  check_installed("baltimoredata")
+  # pak::pkg_install("elipousson/baltimoredata")
+  # FIXME: Need to remove dependency on baltimoredata package
   agency_reference <- entity_reference |>
     mutate(
       agency_label = case_match(

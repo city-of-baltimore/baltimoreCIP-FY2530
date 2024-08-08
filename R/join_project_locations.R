@@ -10,19 +10,16 @@ join_project_locations <- function(
       "location_asset_id",
       "asset_agency_label"
     )) {
-  # project_locations <- prep_project_locations(
-  #   project_details_data = project_details_data,
-  #   project_asset_xwalk = project_asset_xwalk,
-  #   asset_parcels = asset_parcels
-  # )
-  #
-  # project_locations_nested <- nest_project_locations(project_locations)
-
   project_locations <- pull_location_data(location_data)
 
   stopifnot(
     !has_name(project_data, "location_data")
   )
+
+  location_data <- location_data |>
+    mutate(
+      has_location = TRUE
+    )
 
   project_data |>
     # Join formatted project details to nested list column with locations
@@ -32,8 +29,11 @@ join_project_locations <- function(
       relationship = "one-to-one",
       na_matches = "never"
     ) |>
-    # select(!location_asset_id) |>
-    # Join formatted project details to first location asset ID (to support legacy code)
+    tidyr::replace_na(
+      list(has_location = FALSE)
+    ) |>
+    # Join formatted project details to first location asset ID (to support
+    # legacy code)
     left_join(
       project_locations |>
         sf::st_drop_geometry() |>

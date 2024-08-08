@@ -10,7 +10,7 @@ load_packages(
     "tarchetypes",
     "rlang",
     "cli",
-    "gt",
+    "gt", # pak::pkg_install("gt@0.10.1")
     "quartools",
     "here",
     "naniar",
@@ -22,6 +22,16 @@ load_packages(
     "arcgislayers",
     "checkmate",
     "ggplot2",
-    "purrr"
+    "purrr",
+    "nombre",
+    "testthat",
+    "readr",
+    "tibble",
+    "lubridate",
+    "janitor",
+    "forcats",
+    "kableExtra",
+    "osmdata",
+    "rmapshaper"
   )
 )

@@ -4,6 +4,7 @@ agency_label <- "Department of Public Works"
 # agency_label <- "Baltimore City Information Technology"
 agency_level <- 2
 agency <- agency_label
+# report_data <- tar_read(cip_report_data)
 data <- filter(report_data, .data[["agency_label"]] == agency)
 ```
 
@@ -57,7 +58,7 @@ if (FALSE) {
   cip_type <- "recommendation"
 }
 
-
+# FIXME: Isn't this handled at the top level
 cip_singular <- cip_type
 cip_plural <- paste0(cip_type, "s")
 cip_singular_title <- str_to_title(cip_singular)

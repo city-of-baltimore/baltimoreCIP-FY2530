@@ -2,9 +2,9 @@
 
 ### Capital budget
 
-The City Charter requires the Baltimore City Planning Commission recommend a six-year [Capital Improvement Program](https://planning.baltimorecity.gov/planning-capital-improvement) (CIP) to the [Board of Estimates](https://comptroller.baltimorecity.gov/boe) each year. The first year of this plan is included as the capital portion of the Baltimore City budget, adopted by the Baltimore City Council in June of each year in a bill known as the [Ordinance of Estimates](https://comptroller.baltimorecity.gov/boe/ooe).
+The City Charter requires that the Baltimore City Planning Commission recommend a six-year [Capital Improvement Program](https://planning.baltimorecity.gov/planning-capital-improvement) (CIP) to the [Board of Estimates](https://comptroller.baltimorecity.gov/boe) each year. The first year of this plan is included as the capital portion of the Baltimore City budget, adopted by the Baltimore City Council in June of each year in a bill known as the [Ordinance of Estimates](https://comptroller.baltimorecity.gov/boe/ooe).
 
-The Baltimore City budget includes both the Operating Budget Plan and first year of the Capital Improvement Plan (also known as the Capital Budget). The operating budget funds the daily business of the City, specifically covering programs, services, staff, and supplies. The capital budget funds major renovations, upgrades, or replacements of physical infrastructure and assets. [Prior year budget publications](https://bbmr.baltimorecity.gov/budget-publications) are available through the Bureau of the Budget and Management Research.
+The Baltimore City budget includes both the Operating Budget Plan and first year of the Capital Improvement Plan (also known as the Capital Budget). The operating budget funds the daily business of the City, specifically covering programs, services, staff, and supplies. The capital budget funds major renovations, upgrades, or replacements of physical infrastructure and assets. Budget publications available through [the Bureau of the Budget and Management Research website](https://bbmr.baltimorecity.gov/budget-publications).
 
 The process of preparing the capital budget starts in the fall before the budget is adopted when Department of Planning staff start working with agency staff to update the six-year capital program. In January, each agency presents their proposed capital projects and program to the Planning Commission. The Planning Commission reviews the proposals and makes a recommendation to the Board of Estimates for which projects to include in six-year Capital Improvement Program. The recommended program must fit within the funding levels set forth by the Department of Finance.
 
@@ -85,7 +85,7 @@ Utility Funds
 
 Other
 
-:   Other possible sources include County grants, Local Impact Aid, private monies, and Critical Area Management Program (CAMP) and Forest Conservation Offset monies.
+:   Other possible sources include County grants, Local Impact Aid, private monies, and more.
 
 ### Evaluation criteria
 

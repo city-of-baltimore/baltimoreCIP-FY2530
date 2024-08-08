@@ -1,4 +1,3 @@
-## ---- gt_prj_fy_requests
 #' Create a project fiscal year capital request table
 #'
 #' [gt_prj_fy_requests()] is used to insert a standalone fiscal year
@@ -19,17 +18,17 @@ gt_prj_fy_requests <- function(data,
                                tbl_fy_cols = getOption(
                                  "tbl_fy_cols",
                                  c("fy_total", paste0("fy_", c(2025:2030)))
-                              ),
+                               ),
                                tbl_fy_labels = getOption(
                                  "tbl_fy_labels",
                                  c("Total ($K)", paste0(prefix, c(25:30)))
-                                 ),
+                               ),
                                rowname_col = request_source_col) {
   if (vctrs::is_list_of(data) && has_length(data, 1)) {
     data <- data[[1]]
   }
 
-  stopifnot(is.data.frame(data))
+  check_data_frame(data)
 
   fy_cols <- tbl_fy_cols
 
@@ -38,16 +37,6 @@ gt_prj_fy_requests <- function(data,
       c("Source", tbl_fy_labels),
       c(request_source_col, fy_cols)
     )
-
-  footnote <- NULL
-
-  # if (any(!is.na(data[["grant_program"]]))) {
-  #   # FIXME: Add state grants as a footnote
-  #   footnote <- "Test footnote"
-  #   footnote_location <- cells_stub(
-  #     rows = 1 #' [revenue_category_name_short] %in% c("State Grant", "Fed. Grant")'
-  #   )
-  # }
 
   data <- data |>
     select(
@@ -87,20 +76,6 @@ gt_prj_fy_requests <- function(data,
       ))
     )
 
-  # FIXME: This broke the rendering - check why and how to fix.
-  #   if (!is.null(footnote)) { # Maybe add  `&& !is.na(footnote)` to check
-  #     data <- data |>
-  #       tab_footnote(
-  #         footnote = footnote,
-  #         locations = locations
-  #       )
-  #   }
-
-  if (is.null(title)) {
-    return(data)
-  }
-
-  # data
   data |>
     tab_header(
       title = title

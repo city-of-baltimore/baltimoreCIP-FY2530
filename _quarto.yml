@@ -1,16 +1,6 @@
 project:
+  type: default
   output-dir: _output
-  render:
-    - report*.qmd
-
-toc: true
-
-format:
-  dopPDF-pdf:
-    toc-depth: 2
-    keep-tex: true
 
 execute:
   echo: false
-  message: false
-  error: true

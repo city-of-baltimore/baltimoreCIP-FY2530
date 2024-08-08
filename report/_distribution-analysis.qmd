@@ -1,0 +1,168 @@
+---
+title: CIP Distribution Analysis
+---
+
+```{r}
+#| label: setup
+#| message: false
+library(tidyverse)
+library(targets)
+library(sf)
+
+tar_config_set(
+  store = here::here(targets::tar_config_get("store"))
+)
+
+theme_set(
+  baltimoreplanning::theme_baltimoreplanning()
+)
+
+scale_x_currency <- scale_x_continuous(labels = scales::label_currency())
+```
+
+
+```{r}
+#| label: read
+asset_list <- tar_read(asset_list)
+
+cip_locations <- tar_read(cip_locations)
+
+cip_report_data <- tar_read(cip_report_data) |>
+  select(
+    project_code,
+    total_amt
+  )
+
+csa_year <- "21"
+ntile_col <- "quartile"
+n <- 4
+
+csa_mhhi <- tar_read(csa_mhhi) |>
+  rename(
+    csa = CSA2020
+  )
+
+csa_xwalk <- csa_mhhi |>
+  select(
+    starts_with("CSA")
+  )
+
+# NOTE: csa_paa data is missing the CSA2020 attribute
+csa_paa <- tar_read(csa_paa) |>
+  left_join(
+    st_drop_geometry(csa_xwalk),
+    by = join_by(CSA2010)
+  ) |>
+  select(
+    all_of("csa"),
+    starts_with("CSA"),
+    ends_with(csa_year)
+  ) |>
+  mutate(
+    "paa{csa_year}_{ntile_col}" := ntile(n = n),
+    .before = ends_with(csa_year)
+  )
+
+csa_mhhi <- csa_mhhi |>
+  select(
+    all_of("csa"),
+    starts_with("CSA"),
+    ends_with(csa_year)
+  ) |>
+  mutate(
+    "mhhi{csa_year}_{ntile_col}" := ntile(n = n),
+    .before = ends_with(csa_year)
+  )
+```
+
+
+```{r}
+#| label: tidy
+project_locations <- cip_locations |>
+  pull(location_data) |>
+  list_rbind() |>
+  left_join(
+    cip_report_data,
+    by = join_by(project_code)
+  ) |>
+  st_as_sf() |>
+  # Filter out empty geometries
+  filter(
+    !st_is_empty(geometry)
+  ) |>
+  # Join to Median Household Income
+  st_join(
+    csa_mhhi
+  ) |>
+  # Join to Percent African American
+  st_join(
+    csa_paa |>
+      select(!csa)
+  ) |>
+  # Replace missing agency_short_name values
+  replace_na(
+    replace = list(
+      agency_short_name = "Other/Undetermined"
+    )
+  )
+```
+
+
+```{r}
+project_locations |>
+  st_drop_geometry() |>
+  ggplot() +
+  geom_bar(
+    aes(y = fct_infreq(agency_short_name))
+  ) +
+  labs(
+    x = "Located projects",
+    y = "Agency"
+  )
+
+
+project_locations |>
+  ggplot() +
+  geom_point(
+    aes(x = mhhi21, y = agency_short_name, color = as.character(paa21_quartile)),
+    size = 2,
+    alpha = 0.8
+  ) +
+  scale_x_currency +
+  scale_color_viridis_d() +
+  labs(
+    x = "Median household income (CSA)",
+    y = "Agency"
+  ) +
+  guides(
+    color = "none"
+  )
+
+project_locations |>
+  ggplot() +
+  geom_point(aes(x = total_amt, y = agency_short_name)) +
+  scale_x_currency
+```
+
+
+```{r}
+#| label: analysis
+
+cip_locations_dpw <- cip_locations_sf |>
+  filter(
+    agency_short_name == "Public Works"
+  )
+
+cip_locations_general <- cip_locations_sf |>
+  filter(
+    agency_short_name != "Public Works"
+  )
+
+# Fiscal Year 2023 CIP Allocations per Capital (Excluding DPW)
+# by Community Statistical Area
+```
+
+
+```{r}
+```
+

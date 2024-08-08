@@ -14,28 +14,35 @@ To help agency staff or City residents compare projects in this report to prior 
 
 ```{r}
 #| echo: false
-report_data |>
-  select(agency_label, project_code, project_name_src, project_name) |>
-  mutate(
-    project_name_src = str_remove_trim(
-      project_name_src,
-      paste0("^", project_code)
-    ),
-    project_name = if_else(
-      project_name == project_name_src,
-      "---",
-      project_name
-    )
-  ) |>
-  group_by(agency_label) |>
-  kbl_tbl(
-    rowname_col = "project_code",
-    widths = paste0(c(2.5, 2.5), "in"),
-    width_cols = c(2, 3),
-    col_names = c("Project code", "Name (Workday)", "Name (Report)"),
-    latex_options = "repeat_header",
-    rowname_col_label = "Project code"
-  )
+
+
+# kbl_project_name_comparison <- function(report_data) {
+# report_data |>
+#   select(agency_label, project_code, project_name_src, project_name) |>
+#   mutate(
+#     project_name_src = str_remove_trim(
+#       project_name_src,
+#       paste0("^", project_code)
+#     ),
+#     project_name = if_else(
+#       project_name == project_name_src,
+#       "---",
+#       project_name
+#     )
+#   ) |>
+#   group_by(agency_label) |>
+# # TODO: Replace kableExtra with gt
+#   kbl_tbl(
+#     rowname_col = "project_code",
+#     widths = paste0(c(2.5, 2.5), "in"),
+#     width_cols = c(2, 3),
+#     col_names = c("Project code", "Name (Workday)", "Name (Report)"),
+#     latex_options = "repeat_header",
+#     rowname_col_label = "Project code"
+#   )
+# }
+
+tar_read(kbl_appendix_report_identifier)
 ```
 
 <!-- ### CIP numbers -->
@@ -75,7 +82,7 @@ cip_prj_xwalk_update |>
 
 The Board of Public Works and City agencies continue to use legacy project and contract numbers to report on capital projects and related procurement activities. For this report, contract numbers appear in project names for both the Department of Public Works and the Department of Transportation.
 
-Five different types of contract numbers appear in this report as part of project names and descriptions.
+Five different types of contract numbers appear in this report as part of project names and descriptions. The Department of Recreation and Parks also uses a contract identifier prefix but it does not appear in the CIP names or descriptions. The Solid Waste contract identifier also does not appear in this year's CIP. The SWC prefix has been used for Stormwater Projects as well as solid waste projects.
 
 | Contract type             | Abbreviation |
 |---------------------------|--------------|
@@ -84,6 +91,8 @@ Five different types of contract numbers appear in this report as part of projec
 | Stormwater Drainage       | SDC          |
 | Environmental Restoration | ER           |
 | Transportation            | TR           |
+| Recreation and Parks      | RP           |
+| Solid Waste               | SWC          |
 
 Unfortunately, combining contract numbers and project codes used by Workday is complicated by limitations in the city's legacy accounting system and capital project database. A single capital project can include funding for multiple contracts and a single contract can be supported by multiple capital projects. To connect these different project identifiers, the following table lists project codes by related contract number. This table is not a comprehensive reference on this topic and agency staff should use this resource with caution.
 
@@ -121,6 +130,7 @@ agency_contract_requests |>
   ) |>
   group_by(agency_label) |>
   arrange(agency_contract_id, .by_group = TRUE) |>
+  # TODO: Replace kableExtra with gt
   kbl_tbl(
     rowname_col = "agency_contract_id",
     rowname_col_label = "Contract number",

@@ -1,0 +1,47 @@
+% load packages
+\usepackage{xcolor}
+\usepackage{eso-pic}
+\usepackage{ifthen}
+\usepackage{fancyhdr}
+\usepackage{sectsty}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{fontawesome5}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{pdflscape}
+% %% https://github.com/baltimorebudget/LaTeX-Templates/blob/main/header.tex
+\usepackage{microtype} % improves line breaks, justification
+\usepackage{wrapfig} % allows for wrapping text around tables and figures
+% %% https://katharinabrunner.de/2023/02/tricks-to-use-quarto-for-publishing-control-line-breaks-page-numbers-positions-of-images-german-quotation-marks/
+\usepackage{float}
+
+\usepackage[document]{ragged2e}
+%% See also https://tex.stackexchange.com/a/696462
+
+% %% Add custom LaTeX commands for switching to landscape format
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
+
+% %% KOMA-Script options
+% %% https://cameronpatrick.com/post/2023/07/quarto-thesis-formatting/
+\setkomafont{pageheadfoot}{\normalfont\normalcolor\footnotesize}
+\setkomafont{pagenumber}{\normalfont\normalcolor\footnotesize}
+
+% %% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+%% Adapted from the monash-quarto-report template
+%% https://raw.githubusercontent.com/numbats/monash-quarto-report/main/_extensions/report/monashreport.tex
+% %% LINE AND PAGE BREAKING
+\sloppy
+\clubpenalty = 10000
+\widowpenalty = 10000
+\brokenpenalty = 10000
+% %% PARAGRAPH BREAKS
+\setlength{\parskip}{1.4ex}
+\setlength{\parindent}{0em}

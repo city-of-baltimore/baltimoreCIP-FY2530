@@ -1,3 +1,4 @@
+#' Format p_manager_name column
 format_p_manager_cols <- function(data) {
   data |>
     format_code_name_cols(

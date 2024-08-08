@@ -1,0 +1,96 @@
+%% Use some custom fonts
+\setsansfont{Raleway}[
+    Path=_extensions/city-of-baltimore/dopPDF/fonts/Raleway/,
+    Scale=0.9,
+    Extension = .ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-MediumItalic,
+    ]
+
+\setmainfont{Lora}[
+    Path=_extensions/city-of-baltimore/dopPDF/fonts/Lora/,
+    Scale=0.9,
+    Extension = .ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    ]
+
+\setmonofont{SourceCodePro}[
+    Path=_extensions/city-of-baltimore/dopPDF/fonts/Source_Code_Pro/,
+    Scale=0.8,
+    Extension = .ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-SemiBold,
+    ItalicFont=*-Italic,
+    ]
+
+%% style the chapter/section fonts
+\chapterfont{\color{lightblue}\fontsize{24}{16.8}\selectfont}
+\sectionfont{\color{darkestblue}\fontsize{26}{16.8}\selectfont}
+\subsectionfont{\color{darkblue}\fontsize{20}{2}\selectfont}
+\subsubsectionfont{\color{darkestblue}\fontsize{16}{16.8}\selectfont}
+
+%% sans font for all headings
+\allsectionsfont{\sffamily}
+
+%% CAPTIONS
+%% https://mirrors.mit.edu/CTAN/macros/latex/contrib/caption/caption.pdf
+\RequirePackage{caption}
+\DeclareCaptionStyle{dopCaption}[justification=RaggedRight]
+{
+ width=0.8\textwidth,
+  font={sf,md},
+  labelfont={sf,color=darkgray},
+  labelformat=simple,
+  textfont={color=darkblue},
+  labelsep=period,
+  format=hang,
+  singlelinecheck=true
+}
+%% figure captions
+\captionsetup[figure]{aboveskip=6pt,style=dopCaption}
+%% table captions
+\captionsetup[table]{font={tt,bf},labelfont={tt,footnotesize},belowskip=6pt,style=dopCaption}
+\captionsetup[longtable]{font={tt,bf},labelfont={tt,footnotesize},belowskip=6pt,style=dopCaption}
+
+\RequirePackage{etoolbox}
+
+%% monotype font for tables (may not work for latest version of gt)
+\AtBeginEnvironment{longtable}{\ttfamily}
+\AtBeginEnvironment{longtable*}{\ttfamily}
+
+% TODO: Change hanging indent for description list
+% https://tex.stackexchange.com/questions/7008/change-hanging-indent-in-description-list
+%% enumitem docs: https://ctan.math.illinois.edu/macros/latex/contrib/enumitem/enumitem.pdf
+% \setlist{noitemsep}
+% \setlist[1]{labelindent=\parindent} % < Usually a good idea
+\setlist[description,1]
+{
+  leftmargin=\linewidth / 6,
+  itemsep=8pt,
+  parsep=6pt,
+  % labelwidth=0.5in,
+  style=nextline,
+  font={\ttfamily\color{darkblue}}
+}
+
+\DeclareTOCStyleEntries[
+  raggedentrytext,
+  linefill=\hfill,
+  % numwidth=0.1pt,
+  numsep=1ex,
+  dynnumwidth
+]{tocline}{chapter,section,subsection,subsubsection,paragraph,subparagraph}
+\DeclareTOCStyleEntries[
+  indent=2pt,
+  dynindent
+]{tocline}{section,subsection,subsubsection,paragraph,subparagraph}
+
+%% Setting font styles
+%% https://mirror.mwt.me/ctan/macros/latex/contrib/koma-script/doc/scrguide-en.pdf
+\addtokomafont{partentry}{\large\sffamily\bfseries}
+\addtokomafont{partentrypagenumber}{\sffamily\bfseries}
+\addtokomafont{chapterentry}{\sffamily\mdseries}
+\addtokomafont{chapterentrypagenumber}{\sffamily\bfseries}

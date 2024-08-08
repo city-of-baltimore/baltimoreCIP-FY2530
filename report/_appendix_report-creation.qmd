@@ -18,7 +18,7 @@ Excel and CSV files with the project request data included in this report are (o
 
 ### Credits
 
-This report is created by the Baltimore City Department of Planning by staff including Kristen Ahearn, John Lloyd, Sara Paranilam, Eli Pousson, and Jamie Williams.
+This report is created by the Baltimore City Department of Planning by staff including Kristen Ahearn, Sara Paranilam, Eli Pousson, and Jamie Williams.
 
 ```{r}
 #| eval: false

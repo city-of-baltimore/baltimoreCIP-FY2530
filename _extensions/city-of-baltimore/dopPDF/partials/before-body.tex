@@ -1,0 +1,79 @@
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+  
+%% TODO: Implement numbered sections
+% $if(numbersections)$
+% \setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+% $else$
+% \setcounter{secnumdepth}{0}
+% $endif$
+
+%% https://enrico.spinielli.net/posts/2023-05-01-quarto-callout-hack/
+%% https://github.com/quarto-dev/quarto-cli/blob/13a4d21bea664d59d76d83d51d7edfe6980efe42/src/resources/filters/quarto-pre/meta.lua
+ %% darkblue
+\definecolor{quarto-callout-note-color}{HTML}{66B7C9}
+\definecolor{quarto-callout-note-color-frame}{HTML}{66B7C9}
+ %% highlight
+\definecolor{quarto-callout-important-color}{HTML}{FCB826}
+\definecolor{quarto-callout-important-color-frame}{HTML}{FCB826}
+ %% between highlight and darkblue
+\definecolor{quarto-callout-tip-color-frame}{HTML}{8CB7A0}
+\definecolor{quarto-callout-tip-color}{HTML}{8CB7A0}
+%% between highlight and darkred
+\definecolor{quarto-callout-caution-color-frame}{HTML}{C35C13}
+\definecolor{quarto-callout-caution-color}{HTML}{C35C13}
+
+\addtokomafont{descriptionlabel}{\color{darkblue}}
+
+%% https://github.com/baltimorebudget/LaTeX-Templates/blob/main/header.tex
+% prevent page/column stretching by allowing odd and even bottoms of pages/columns to not match
+
+\raggedbottom
+\raggedcolumns
+
+$if(has-frontmatter)$
+\frontmatter
+$endif$
+$if(title)$
+$if(beamer)$
+\frame{\titlepage}
+$else$
+\maketitle
+$endif$
+$if(titlegraphic)$
+\titlegraphic{\includegraphics{$titlegraphic$}}
+$endif$
+$if(logo)$
+\logo{\includegraphics{$logo$}}
+$endif$
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+$endif$
+
+%% https://us.mirrors.cicku.me/ctan/macros/latex/contrib/fancyhdr/fancyhdr.pdf
+%% HEADERS AND FOOTERS
+\pagestyle{fancy}
+\rfoot{\sffamily\color{darkerblue}{\textmd{\thepage}}}
+% \lfoot{\sffamily\color{darkerblue}\raisebox{-0.0625in}{\textmd{\rightmark}}}
+\makeatletter
+\lhead{\textsf{\expandafter{\@title}}}
+\makeatother
+\lhead{\small\sffamily\color{darkerblue}{\textmd{\leftmark}}}
+\rhead{}
+\cfoot{}
+$if(footertext)$
+\lfoot{\small\sffamily\color{darkerblue}{\textmd{$footertext$}}}
+$endif$
+\rfoot{\small\sffamily\color{darkerblue}{\textmd{\thepage}}}
+\renewcommand{\headrulewidth}{0.1pt}
+\renewcommand{\footrulewidth}{0.25pt}
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\rfoot{\small\sffamily\color{darkerblue}{\textmd{\thepage}}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.25pt}
+}

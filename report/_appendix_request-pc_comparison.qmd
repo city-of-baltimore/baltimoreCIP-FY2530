@@ -1,0 +1,65 @@
+\blandscape
+
+## Requests and Recommendations Comparison
+
+```{r}
+# tbl_list <- kbl_comparison_list(
+#   comparison_summary = cip_pc_comparison_summary,
+#   project_details = cip_project_details
+# )
+
+tbl_list <- tar_read(kbl_cip_comparison_list)
+```
+
+::: {width=90%}
+
+The following tables show a comparison between the original agency request and the Planning Commission recommendations adopted in on March 6, 2024.
+
+The first table shows changes across the full 6-year program. The following tables show changes for each fiscal year. Note that a project may show a change in the fiscal years, but not show in the overall changes if the overall funding for the 6-year program remains the same. Changes in revenue source are not included in these tables. No changes took places between the adoption of recommendations by the Planning Commission and the recommendations by the Board of Finance.
+
+### FY 2025-2030 Overall Changes
+
+`r tbl_list[["FY2025-FY2030"]]`
+
+{{< pagebreak >}}
+
+### FY 2025 Changes
+
+`r tbl_list[["FY2025"]]`
+
+{{< pagebreak >}}
+
+### FY 2026 Changes
+
+`r tbl_list[["FY2026"]]`
+
+{{< pagebreak >}}
+
+### FY 2027 Changes
+
+`r tbl_list[["FY2027"]]`
+
+{{< pagebreak >}}
+
+### FY 2028 Changes
+
+`r tbl_list[["FY2028"]]`
+
+{{< pagebreak >}}
+
+### FY 2029 Changes
+
+`r tbl_list[["FY2029"]]`
+
+{{< pagebreak >}}
+
+### FY 2030 Changes
+
+`r tbl_list[["FY2030"]]`
+
+:::
+
+\elandscape
+
+{{< pagebreak >}}
+

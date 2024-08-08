@@ -1,0 +1,55 @@
+---
+title: "Baltimore City FY25-30 Capital Improvement Program Report"
+format: html
+params:
+  stage: "Ordinance"
+  title_short: "FY25-30 CIP Report"
+---
+
+<!-- badges: start -->
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
+<!-- badges: end -->
+
+```{r}
+targets::tar_source(
+  files = here::here("R")
+)
+
+report_data <- tar_read(cip_report_data)
+
+curr_report_stage_reference <- tar_read(curr_report_stage_reference)
+
+cip_term <- curr_report_stage_reference[["term"]]
+cip_singular <- cip_term
+cip_plural <- paste0(cip_term, "s")
+cip_singular_title <- str_to_title(cip_singular)
+cip_plural_title <- str_to_title(cip_plural)
+cip_data_col <- paste0(cip_singular, "_data")
+
+cip_verb <- curr_report_stage_reference[["verb"]]
+report_org_name <- curr_report_stage_reference[["org_name"]]
+
+# FIXME: See if a long org name should be added to the reference
+report_org_name_long <- curr_report_stage_reference[["org_name"]]
+
+report_org_abb <- curr_report_stage_reference[["org_abb"]]
+
+recommendation_date <- format(lubridate::ymd(curr_report_stage_reference[["stage_date"]]), "%B %Y")
+
+stage_filename <- curr_report_stage_reference[["filename"]]
+```
+
+This page provides access to the [`r params$title_short`](FY25-30_CIP-Ordinance-Report.pdf) which is also available through [the Baltimore City Department of Planning website](https://planning.baltimorecity.gov/planning-capital-improvement/maps). The code used to create the report is published as an [open-source repository on the City of Baltimore GitHub account](https://github.com/city-of-baltimore/baltimoreCIP-FY2530).
+
+For questions about the Capital Improvement Program, please contact Kristen Ahearn, Capital Improvement Program Planner with the Department of Planning, at kristen.ahearn\@baltimorecity.gov.
+
+For questions about the code used to produce this report, please contact Eli Pousson, Data Lead with the Department of Planning, at eli.pousson\@baltimorecity.gov.
+
+::: callout-tip
+This project is built using {targets} and {tarchetypes}: two R packages designed to support the reproducible analytical pipelines (RAPs). For more information on {targets}, see [The {targets} R package user manual](https://books.ropensci.org/targets/).
+:::
+
+{{< include report/_intro_summary.qmd >}}

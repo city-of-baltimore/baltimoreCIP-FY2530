@@ -1,16 +1,15 @@
 #' Format project details report data from Adaptive Planning
 #'
-format_adaptive_project_data <- function(data,
-                                         dictionary,
-                                         project_detail_updates,
-                                         project_data_corrections,
-                                         report_xwalks,
-                                         p_hierarchy_xwalks,
-                                         agency_reference = NULL) {
+format_adaptive_project_data <- function(
+    data,
+    dictionary = NULL,
+    dictionary_filename = "Capital_Projects_-_Project_Details.xlsx",
+    project_detail_updates = NULL,
+    project_exclusions = NULL,
+    report_xwalks = NULL,
+    agency_reference = NULL) {
   project_details_source <- data
-  adaptive_dictionary <- dictionary
-  # FIXME: The filename should be a parameter
-  project_details_filename <- "Capital_Projects_-_Project_Details.xlsx"
+
   location_updates <- project_detail_updates[["location_updates"]]
   project_name_updates <- project_detail_updates[["project_name_updates"]]
   project_desc_updates <- project_detail_updates[["project_desc_updates"]]
@@ -20,27 +19,6 @@ format_adaptive_project_data <- function(data,
       impact_on_operating_budget = as.character(impact_on_operating_budget)
     )
 
-  p_hierarchy1_xwalk <- p_hierarchy_xwalks[["p_hierarchy1_xwalk"]]
-  p_hierarchy2_xwalk <- p_hierarchy_xwalks[["p_hierarchy2_xwalk"]]
-
-  exclude_projects <- project_data_corrections |>
-    filter(
-      exclude_flag == "Y"
-    ) |>
-    pull(project_code)
-
-  # Filter dictionary to project details
-  project_details_dictionary <- filter(
-    adaptive_dictionary,
-    !is.na(adaptive_export_name),
-    adaptive_export_filename == project_details_filename
-  )
-
-  # Subset columns with numeric values
-  project_details_numeric <- filter(
-    project_details_dictionary,
-    adaptive_import_col_type == "numeric"
-  )
 
   ## ---- format_project_details
   project_details_formatted <- project_details_source |>
@@ -49,17 +27,9 @@ format_adaptive_project_data <- function(data,
       !cumany(.data[["Cost Center Code"]] == "Total"),
       !is.na(.data[["Project Code"]])
     ) |>
-    mutate(
-      across(
-        all_of(project_details_numeric[["adaptive_export_name"]]),
-        \(x) {
-          if (is.character(x)) {
-            readr::parse_number(x)
-          } else {
-            x
-          }
-        }
-      )
+    format_adaptive_project_with_dictionary(
+      dictionary = dictionary,
+      dictionary_filename = dictionary_filename
     ) |>
     janitor::clean_names("snake") |>
     # Drop empty columns
@@ -69,14 +39,14 @@ format_adaptive_project_data <- function(data,
       # to double-check that the values are identical in both sources
       !starts_with("fgs_grant_")
     ) |>
-    filter(
-      !(project_code %in% exclude_projects)
+    filter_excluded_projects(
+      exclusions = project_exclusions
     ) |>
     # Format adaptive data
     format_prj_data() |>
     # Format workday hierarchy
     format_p_hierarchy_cols(
-      p_hierarchy_xwalks = p_hierarchy_xwalks
+      p_hierarchy_xwalks = report_xwalks[c("p_hierarchy1_xwalk", "p_hierarchy2_xwalk")]
     ) |>
     format_workday_names() |>
     mutate(
@@ -152,9 +122,7 @@ format_adaptive_project_data <- function(data,
       )
     ) |>
     mutate(
-      project_type_name = forcats::fct_infreq(
-        project_type_name
-      ),
+      project_type_name = forcats::fct_infreq(project_type_name),
       project_type_name = forcats::fct_rev(project_type_name)
     ) |>
     format_project_locations(
@@ -191,5 +159,53 @@ format_adaptive_project_data <- function(data,
     left_join(
       select(agency_reference, agency_label, agency_short_name, agency_label_abb),
       by = join_by(agency_label)
+    )
+}
+
+filter_excluded_projects <- function(
+    data,
+    exclusions) {
+  check_character(exclusions)
+
+  data |>
+    dplyr::filter(
+      !(project_code %in% exclusions)
+    )
+}
+
+format_adaptive_project_with_dictionary <- function(
+    project_data,
+    dictionary = NULL,
+    dictionary_filename = "Capital_Projects_-_Project_Details.xlsx") {
+  check_names(
+    dictionary,
+    must.include = c("adaptive_export_name", "adaptive_import_col_type")
+  )
+
+  # Filter dictionary to project details
+  project_dictionary <- dplyr::filter(
+    dictionary,
+    !is.na(adaptive_export_name),
+    adaptive_export_filename == dictionary_filename
+  )
+
+  # Subset columns with numeric values
+  project_dictionary_numeric <- filter(
+    project_dictionary,
+    adaptive_import_col_type == "numeric"
+  )
+
+  project_data |>
+    mutate(
+      across(
+        any_of(project_dictionary_numeric[["adaptive_export_name"]]),
+        \(x) {
+          if (is.character(x)) {
+            readr::parse_number(x)
+          } else {
+            x
+          }
+        }
+      )
     )
 }

@@ -1,5 +1,11 @@
-## ---- cols_width_ext
-# https://github.com/rstudio/gt/issues/119
+#' Specify gt column widths
+#'
+#' Updates to `{gt}` make this function no longer necessary:
+#' <https://github.com/rstudio/gt/issues/119> This function should be removed
+#' for compatibility with the most recent version of gt.
+#'
+#' @keywords gt
+#' @seealso [gt::cols_width()]; [perc()]
 cols_width_ext <- function(data,
                            columns = NULL,
                            widths = NULL,

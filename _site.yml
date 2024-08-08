@@ -1,0 +1,12 @@
+project:
+  type: website
+
+website:
+  title: "Baltimore CIP Report FY25-30"
+  repo-url: https://github.com/city-of-baltimore/baltimoreCIP-FY2530
+  site-url: https://city-of-baltimore.github.io/baltimoreCIP-FY2530
+  navbar:
+    right:
+      - icon: github
+        href: https://github.com/city-of-baltimore/balt   imoreCIP-FY2530
+        aria-label: GitHub Repo

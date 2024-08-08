@@ -3,6 +3,8 @@
 #' Use project_asset_xwalk as the input for intersections
 #'
 load_dot_intersections <- function(intersections) {
+  check_installed("mapbaltimore")
+
   if (is.data.frame(intersections) && has_name(intersections, "asset_id")) {
     intersections <- intersections |>
       filter(

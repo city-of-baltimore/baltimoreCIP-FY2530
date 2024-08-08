@@ -21,8 +21,7 @@ summarise_cip_comparison <- function(
   )
 
   # Combine reference and comparison data into a single data frame
-  combined_data <- input_list |>
-    set_names(nm) |>
+  combined_data <- set_names(input_list, nm) |>
     purrr::list_rbind(names_to = "report") |>
     group_by(project_code) |>
     arrange(
@@ -38,8 +37,8 @@ summarise_cip_comparison <- function(
   fy_total_summary <- combined_data |>
     summarise_cip_fy_comparison(
       fy_col = "fy_total",
-      col_reference = report_cols[[1]],
-      col_comparison = report_cols[[2]]
+      reference_col = report_cols[[1]],
+      comparison_col = report_cols[[2]]
     )
 
   # Summarise comparison for each fiscal year
@@ -49,8 +48,8 @@ summarise_cip_comparison <- function(
       combined_data |>
         summarise_cip_fy_comparison(
           fy_col = fy_col,
-          col_reference = report_cols[[1]],
-          col_comparison = report_cols[[2]]
+          reference_col = report_cols[[1]],
+          comparison_col = report_cols[[2]]
         )
     }
   )
@@ -74,18 +73,18 @@ summarise_cip_comparison <- function(
 #' Helper function to summarise a single fiscal year column
 #' Input data must have columns named "project_code" and "report"
 summarise_cip_fy_comparison <- function(data,
-                                     fy_col,
-                                     col_reference,
-                                     col_comparison) {
+                                        fy_col,
+                                        reference_col,
+                                        comparison_col) {
   data |>
     summarise(
-    "{fy_col}" := sum(.data[[fy_col]]),
-    # FIXME: Make the report column accessible via names_to parameter
-    .by = c(project_code, report)
-  ) |>
+      "{fy_col}" := sum(.data[[fy_col]]),
+      # FIXME: Make the report column accessible via names_to parameter
+      .by = c(project_code, report)
+    ) |>
     pivot_cip_fy_wider() |>
     bind_cip_comparison_cols(
-      col_reference = col_reference,
-      col_comparison = col_comparison
+      reference_col = reference_col,
+      comparison_col = comparison_col
     )
 }

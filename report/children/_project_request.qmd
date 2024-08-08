@@ -2,7 +2,6 @@
 # Expected in document environment
 # - project
 # - project_level
-# - internal_report
 
 # Custom functions in document
 # - qto_dl_prj_info
@@ -10,30 +9,28 @@
 # - gt_prj_fy_requests
 # - plot_src_image
 
+# FIXME: This should be set by the parameters - not here
 cip_data_col <- "recommendation_data"
 
-# Create project locator map
-project_locations <- project[["location_data"]] |>
-  purrr::list_rbind() |>
-  sf::st_as_sf() |>
-  dplyr::filter(!is.na(asset_id))
+has_prj_location <- FALSE
 
+if (!is_empty(project[["location_data"]])) {
+  # Create project locator map
+  project_locations <- project |>
+    pull_location_data()
 
-has_prj_location <- nrow(project_locations) > 0
+  has_prj_location <- nrow(project_locations) > 0
+}
 
-src <- here(
-  "images",
-  tolower(paste0(project[["location_asset_id"]], "_asset_map.jpeg"))
-)
-
-has_src_file <- file.exists(src)
-# FIXME: Disabling pregenerated maps until I can include it consistently
 has_src_file <- FALSE
 ```
 
 ```{r}
 # Set heading
-quartools::qto_heading(project[["prj"]], level = project_level)
+quartools::qto_heading(
+  project[["prj"]],
+  level = project_level
+)
 
 # Show project description and info list
 quartools::qto_block(
@@ -61,7 +58,6 @@ qto_dl_prj_info(project)
 #| fig-width: 1.5
 #| fig-height: 1.75
 # Show project locator map
-# FIXME: Plotting the locator map like this does not use the multiple location values
 plot_location_data(data = project_locations)
 ```
 
@@ -89,9 +85,6 @@ gt_prj_est_cost(project)
 <div>
 
 ```{r}
-#| eval: true
-# Plot a prepared image
-# plot_src_image(src)
 quartools::qto_block(" ")
 ```
 

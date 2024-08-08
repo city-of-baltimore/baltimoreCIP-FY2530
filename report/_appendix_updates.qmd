@@ -3,23 +3,27 @@
 ```{r}
 sys_time <- format(Sys.time(), format = "%D %r")
 
-recommendation_file_time <- fs::file_info(path_user_data("Adaptive-Planning", "Capital_Projects_-_Six-Year_CIP_Recommendations.xlsx"))[["change_time"]]
-request_file_time <- fs::file_info(path_user_data("Adaptive-Planning", "Capital_Projects_-_Six-Year_CIP_Requests.xlsx"))[["change_time"]]
-details_file_time <- fs::file_info(path_user_data("Adaptive-Planning", "Capital_Projects_-_Project_Details.xlsx"))[["change_time"]]
+recommendation_file_time <- fs::file_info(path_tar_user("Adaptive-Planning", stage_filename))[["change_time"]]
+
+request_file_time <- fs::file_info(path_tar_user("Adaptive-Planning", "Capital_Projects_-_Six-Year_CIP_Requests.xlsx"))[["change_time"]]
+
+details_file_time <- fs::file_info(path_tar_user("Adaptive-Planning", "Capital_Projects_-_Project_Details.xlsx"))[["change_time"]]
 
 recommendation_file_time <- format(recommendation_file_time, format = "%m/%d %r")
-request_file_time <- format(recommendation_file_time, format = "%m/%d %r")
-details_file_time <- format(details_file_time, format = "%m/%d %r")
 
-# request_file_time <- format(targets::tar_meta(cip_requests_src)[["time"]], format = "%D %r")
-# details_file_time <- format(targets::tar_meta(cip_project_details_src)[["time"]], format = "%m/%d %r")
+request_file_time <- format(request_file_time, format = "%m/%d %r")
+
+details_file_time <- format(details_file_time, format = "%m/%d %r")
 ```
 
 ::: {.callout-important appearance="simple" icon="true"}
 Report last updated `r sys_time` using recommendations exported from Adaptive Planning on `r recommendation_file_time`, requests exported on `r request_file_time`, and project details exported on `r details_file_time`.
 :::
 
-If any corrections or modifications to the report are required, these updates will be noted in this section of the report and a new version posted [to the Department website](https://planning.baltimorecity.gov/planning-capital-improvement/maps). Additional updates are expected following the Planning Commission hearings with agency staff and Planning Commission adoption of the Capital Improvement Program.
+Updates to the report with each version are noted below. Prior versions of the report are also posted [to the Department website](https://planning.baltimorecity.gov/planning-capital-improvement/maps).
 
--   **2023 January 25:** Minor corrections and updates to project names for BCRP, DHCD, and DPW to better match project names in this report to project names used by agencies in Planning Commission briefing presentations. Add maps for DOT FY25 Requests.
--   **2023 March 5:** New version of the report created using recommendation data instead of request data. This version includes an appendix comparing the requests to recommendations overall and by fiscal year.
+-   **2024 August 2:** New version of the report created using the budget year recommendations adopted by the Baltimore City Council the Ordinance of Estimates. This version removes the project identifier appendix.
+-   **2024 April 26:** New version of the report created using recommendation data before Board of Estimates review of the full budget. This version removes the comparative appendix added for the Planning Commission and Board of Finance versions of the report.
+-   **2024 April 16:** New version of the report created using recommendation data following Board of Finance adoption. This version includes minor fixes to report maps.
+-   **2024 March 5:** New version of the report created using recommendation data following Planning Commission adoption instead of request data. This version includes an appendix comparing the requests to recommendations overall and by fiscal year.
+-   **2024 January 25:** Minor corrections and updates to project names for BCRP, DHCD, and DPW to better match project names in this report to project names used by agencies in Planning Commission briefing presentations. Add maps for DOT FY25 Requests.

@@ -1,4 +1,6 @@
-plot_location_data <- function(data, ...) {
+#' Plot a CIP Project location map
+plot_location_data <- function(
+    data, ...) {
   if (has_name(data, "location_data")) {
     location_data <- pull_location_data(data)
   } else {
@@ -6,12 +8,16 @@ plot_location_data <- function(data, ...) {
     location_data <- data
   }
 
-  stopifnot(has_name(location_data, "county"))
-  location_counties <- location_data |>
-    filter(!is.na(county)) |>
-    pull(county)
+  location_data <- location_data |>
+    filter_st_is_not_empty()
 
-  if (all(location_counties == "Baltimore city")) {
+  if (nrow(location_data) == 0) {
+    return(invisible(NULL))
+  }
+
+  check_names(location_data, must.include = "county")
+
+  if (all(has_county_value(location_data))) {
     return(plot_baltimore_city_locator_map(data = location_data, ...))
   }
 

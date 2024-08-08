@@ -1,4 +1,4 @@
-#' Bind coordinate columns
+#' Bind coordinate columns to a sf data frame
 #'
 #' @param data A sf object.
 #' @inheritParams convert_to_coords
@@ -8,15 +8,20 @@ bind_coords <- function(data, coords = c("lon", "lat"), ...) {
 
   sf_column <- attr(data, "sf_column")
 
-  data |>
-    bind_cols(
+  data <- purrr::list_cbind(
+    list(
+      data,
       convert_to_coords(
         data,
         coords = coords,
         ...
       )
-    ) |>
-    relocate(
+    )
+  )
+
+  data |>
+    sf::st_as_sf() |>
+    dplyr::relocate(
       all_of(coords),
       .before = any_of(sf_column)
     )

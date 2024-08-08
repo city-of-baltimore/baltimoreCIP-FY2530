@@ -1,8 +1,6 @@
 #' Derive a new fiscal year column from the project_name column
-#'
 derive_fiscal_year_col <- function(data) {
   check_names(data, must.include = "project_name")
-
   cli_alert_new_col("fiscal_year", "project_name")
 
   mutate(

@@ -9,8 +9,6 @@
 # - project_additional_list
 # - agency_level
 # - agency_label
-
-internal_report <- FALSE
 ```
 
 ```{r}
@@ -46,8 +44,7 @@ project_additional_list |>
     ...,
     .input = here("report", "children", "_project_additional.qmd"),
     .params = list2(
-      project_level = agency_level + 2,
-      internal_report = internal_report
+      project_level = agency_level + 2
     )
   )
 ```

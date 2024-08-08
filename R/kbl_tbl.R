@@ -64,9 +64,7 @@ kbl_tbl <- function(x,
   }
 
   if (!is_empty(groupname_col) || is_grouped_df(x)) {
-    stopifnot(
-      length(groupname_col) == 1
-    )
+    check_string(groupname_col)
 
     if (!is_grouped_df(x)) {
       group_x <- group_by(x, .data[[groupname_col]])

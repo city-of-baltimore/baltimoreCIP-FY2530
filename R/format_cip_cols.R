@@ -6,10 +6,13 @@ format_cip_cols <- function(data,
                             drop_no_amt = TRUE,
                             fy_cols = paste0("fy", 2025:2030),
                             .before = NULL) {
-  stopifnot(all(tibble::has_name(data, c(
-    "revenue_category_code", "revenue_category_name",
-    "r_account_code", "r_account_name", "request_id"
-  ))))
+  check_names(
+    data,
+    must.include = c(
+      "revenue_category_code", "revenue_category_name",
+      "r_account_code", "r_account_name", "request_id"
+    )
+  )
 
   revenue_category_name_xwalk <- format_revenue_category_name_xwalk(
     revenue_category_name_xwalk
