@@ -1,12 +1,6 @@
 #' Read project detail updates (names, descriptions, and locations) from a reference Google Sheet
 #'
-read_project_detail_updates <- function(
-    sheet = "project_detail_updates",
-    ...) {
-  project_detail_updates <- read_sheet_ext(
-    sheet = sheet,
-    ...
-  )
+format_project_detail_updates <- function(project_detail_updates) {
 
   list(
     "project_name_updates" = project_detail_updates |>
