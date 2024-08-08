@@ -1,6 +1,5 @@
 # NOTE: Requires cols_width_ext function
 gt_revenue_category_reference <- function(revenue_category_name_xwalk) {
-
   sources_abb <- revenue_category_name_xwalk |>
     select(
       all_of(

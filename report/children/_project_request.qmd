@@ -27,7 +27,10 @@ has_src_file <- FALSE
 
 ```{r}
 # Set heading
-quartools::qto_heading(project[["prj"]], level = project_level)
+quartools::qto_heading(
+  project[["prj"]],
+  level = project_level
+)
 
 # Show project description and info list
 quartools::qto_block(

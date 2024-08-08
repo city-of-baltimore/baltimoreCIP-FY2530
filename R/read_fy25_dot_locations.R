@@ -1,5 +1,3 @@
-
-
 read_fy25_dot_locations <- function(...) {
   file_list <- list(
     "Footways/Alleys" = path_tar_user(

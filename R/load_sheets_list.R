@@ -1,4 +1,3 @@
-
 #' Load a subset of sheets from a reference Google Sheet based on a supplied pattern
 #'
 #' @keywords targets

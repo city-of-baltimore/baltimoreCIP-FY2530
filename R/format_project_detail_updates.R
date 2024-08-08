@@ -1,7 +1,6 @@
 #' Read project detail updates (names, descriptions, and locations) from a reference Google Sheet
 #'
 format_project_detail_updates <- function(project_detail_updates) {
-
   list(
     "project_name_updates" = project_detail_updates |>
       filter(

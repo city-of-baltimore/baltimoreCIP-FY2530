@@ -209,4 +209,3 @@ format_adaptive_project_with_dictionary <- function(
       )
     )
 }
-
