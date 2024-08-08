@@ -3,22 +3,17 @@
 ```{r}
 sys_time <- format(Sys.time(), format = "%D %r")
 
-# recommendation_file_time <- fs::file_info(path_user_data("Adaptive-Planning", "Capital_Projects_-_Six-Year_CIP_Recommendations.xlsx"))[["change_time"]]
+recommendation_file_time <- fs::file_info(path_tar_user("Adaptive-Planning", stage_filename))[["change_time"]]
 
-recommendation_file_time <- fs::file_info(path_user_data("Adaptive-Planning", stage_filename))[["change_time"]]
+request_file_time <- fs::file_info(path_tar_user("Adaptive-Planning", "Capital_Projects_-_Six-Year_CIP_Requests.xlsx"))[["change_time"]]
 
-request_file_time <- fs::file_info(path_user_data("Adaptive-Planning", "Capital_Projects_-_Six-Year_CIP_Requests.xlsx"))[["change_time"]]
-
-details_file_time <- fs::file_info(path_user_data("Adaptive-Planning", "Capital_Projects_-_Project_Details.xlsx"))[["change_time"]]
+details_file_time <- fs::file_info(path_tar_user("Adaptive-Planning", "Capital_Projects_-_Project_Details.xlsx"))[["change_time"]]
 
 recommendation_file_time <- format(recommendation_file_time, format = "%m/%d %r")
 
-request_file_time <- format(recommendation_file_time, format = "%m/%d %r")
+request_file_time <- format(request_file_time, format = "%m/%d %r")
 
 details_file_time <- format(details_file_time, format = "%m/%d %r")
-
-# request_file_time <- format(targets::tar_meta(cip_requests_src)[["time"]], format = "%D %r")
-# details_file_time <- format(targets::tar_meta(cip_project_details_src)[["time"]], format = "%m/%d %r")
 ```
 
 ::: {.callout-important appearance="simple" icon="true"}
