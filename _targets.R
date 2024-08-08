@@ -269,6 +269,8 @@ prep_cip_report_data <- tar_plan(
 # - not detecting changes to the Quarto documents or supporting files (use tar_delete() to address this)
 render_cip_report <- tar_plan(
   # Render Quarto project
+  # TODO: Add cover PDF as part of the file rendering - it is currently added
+  # manually
   tar_target(
     report_qmd,
     quarto::quarto_render(
