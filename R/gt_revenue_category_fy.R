@@ -47,14 +47,16 @@ gt_revenue_category_fy <- function(data,
         }
       ))
     ) |>
-    cols_label_ext(
-      columns = c(
-        "budget_category",
-        tbl_fy_cols
-      ),
-      labels = c(
-        "Source",
-        tbl_fy_labels
+    cols_label(
+      .list = set_names(
+        as.list(
+          c(
+            tbl_fy_labels
+          )
+        ),
+        c(
+          tbl_fy_cols
+        )
       )
     ) |>
     fmt_currency_plain(
