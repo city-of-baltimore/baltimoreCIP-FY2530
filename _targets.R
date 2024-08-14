@@ -44,6 +44,7 @@ tar_source()
 
 if (FALSE) {
   download_fy2530_report_references()
+  targets::tar_delete("report_reference_files_src")
 }
 
 report_reference_files <- rlang::set_names(
@@ -63,10 +64,18 @@ report_stages <- read_curr_fy_report_stages(
 
 ## Load setup data ----
 setup_cip_report <- tar_plan(
+  report_reference_files_src = rlang::set_names(
+    fs::dir_ls(path_tar_user(), glob = "*.csv"),
+    fs::path_ext_remove(
+      fs::path_file(
+        fs::dir_ls(path_tar_user(), glob = "*.csv")
+      )
+    )
+  ),
 
   # Read reference CSV files downloaded w/ download_fy2530_report_references
   report_references = purrr::map(
-    report_reference_files,
+    report_reference_files_src,
     readr::read_csv
   ),
   report_stage_reference = report_references[["fy2530_report_stages"]],
@@ -94,7 +103,7 @@ load_cip_program <- tar_plan(
     purrr::map(
       purrr::set_names(
         cip_program_files,
-        c("Requests", "PC", "BOE", "BOF", "Ordinance")
+        report_stages$stage
       ),
       \(x) {
         if (!fs::file_exists(x)) {
@@ -110,6 +119,17 @@ load_cip_program <- tar_plan(
       }
     )
   ),
+
+  # Get summary of program data by fiscal year and project
+  cip_program_data_summary = cip_program_data |>
+    map(
+      \(x) {
+        x |>
+          summarise_cip_data_fy(
+            .by = "project_code"
+          )
+      }
+    ),
   cip_program_report_stage = cip_program_data[[getOption("current_report_stage")]]
 )
 
@@ -282,6 +302,7 @@ render_cip_report <- tar_plan(
         title_short = getOption("current_report_title_short")
       )
     ),
+    cue = tar_cue(mode = "always"),
     error = "continue"
   ),
   tar_target(
