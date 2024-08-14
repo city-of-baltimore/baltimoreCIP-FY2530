@@ -3,7 +3,7 @@ gt_summary_table_source <- function(
     report_data,
     cip_verb = "recommended",
     cip_data_col = "recommendation_data",
-    tbl_title = NULL,
+    tbl_title = "Total approved and planned funding by year and source type",
     tbl_cols = c(
       "budget_category",
       paste0("fy_", c(2025:2030)),

@@ -2,9 +2,8 @@
 gt_summary_table_agency <- function(
     report_data,
     cip_verb = "recommended",
-    title = paste0(
-      "Total ", cip_verb, " capital funds by year and agency"
-    ),
+    # FIXME: Make the table title conditional based on the report stage
+    title = "Total approved and planned capital funds by year and agency",
     tbl_cols = c(
       "agency_short_name",
       paste0("fy_", c(2025:2030)),
