@@ -27,8 +27,9 @@ match_request_program <- function(x, ...) {
     str_detect(x, "(Curb Repair|Slab Concrete|Concrete Slab)") ~ "Curb and Slab Repair",
     str_detect(x, "ADA (Ramps|Curb Ramp)") ~ "ADA Ramps",
     str_detect(x, "Innovation Fund") ~ "Innovation Fund",
-    str_detect(x, "Annual Bridge|Urgent Needs Bridge") ~ "Bridge Repair",
+    str_detect(x, "Annual Bridge|Urgent Needs Bridge") ~ "Bridge Repairs",
     str_detect(x, "AHTF") ~ "Affordable Housing Trust Fund",
-    str_detect(x, "Emergency Roof") ~ "Emergency Roof Repair Program"
+    str_detect(x, "Emergency Roof") ~ "Emergency Roof Repair Program",
+    str_detect(x, "Traffic Signal Con|Traffic Signal Recon|Traffic Signals Citywide") ~ "Traffic Signal Programs"
   )
 }

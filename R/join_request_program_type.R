@@ -2,6 +2,8 @@
 join_request_program_type <- function(
     data,
     program_col = "request_program_name",
+    request_type_col = "request_type",
+    .default = "City-owned Projects",
     ...) {
   # <https://docs.google.com/spreadsheets/d/1j4IA5HSaag98Ex2Jaz-6pD4btr37FXxisobNGjQ_eo0/edit?gid=0#gid=0>
   request_program_name_xwalk <- tibble::tribble(
@@ -34,11 +36,24 @@ join_request_program_type <- function(
     "Traffic Signal Programs", "City-owned Programs"
   )
 
+  request_program_name_xwalk <- set_names(
+    request_program_name_xwalk,
+    c(program_col, request_type_col)
+  )
+
   data |>
     dplyr::left_join(
       request_program_name_xwalk,
       by = program_col,
       relationship = "many-to-one",
       na_matches = "never"
+    ) |>
+    tidyr::replace_na(
+      set_names(
+        list(
+          .default
+        ),
+        request_type_col
+      )
     )
 }
