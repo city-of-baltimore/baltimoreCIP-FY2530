@@ -67,7 +67,10 @@ plot_location_data(data = project_locations)
 ```{r}
 #| out-width: 100%
 # Create a table for requested funds by source and year
-gt_prj_fy_requests(project[[cip_data_col]])
+gt_prj_fy_requests(
+  project[[cip_data_col]],
+  title = curr_report_stage_reference[["project_table_title"]]
+)
 ```
 
 ::: {layout="[ 40, 60 ]" layout-valign="top"}

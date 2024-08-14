@@ -26,9 +26,9 @@ options(
 
 report_references <- tar_read(report_references)
 
-cip_project_details <- tar_read(cip_project_details)
-
 agency_reference <- report_references[["agency_reference"]]
+
+cip_project_details <- tar_read(cip_project_details)
 
 report_data <- tar_read(cip_report_data)
 
@@ -60,7 +60,8 @@ stage_filename <- curr_report_stage_reference[["filename"]]
 
 ```{r}
 #| eval: false
-sample_n <- 25
+# Enable this chunk to test
+sample_n <- 15
 report_data <- report_data |>
   slice_sample(n = sample_n)
 ```
@@ -77,7 +78,7 @@ report_data <- report_data |>
 
 {{< pagebreak >}}
 
-# Capital Project `r cip_plural_title` by Agency
+# `r curr_report_stage_reference[["report_section_title"]]`
 
 ```{r}
 #| output: asis
@@ -90,6 +91,7 @@ report_data |>
     .input = here("report", "children", "_agency_report.qmd"),
     .params = list2(
       agency_reference = agency_reference,
+      curr_report_stage_reference = curr_report_stage_reference,
       agency_level = 2
     )
   )

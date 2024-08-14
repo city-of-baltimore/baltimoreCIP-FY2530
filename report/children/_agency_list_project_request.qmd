@@ -59,7 +59,7 @@ if (group_project_request_tbl) {
 
 ```{r}
 quartools::qto_heading(
-  paste0("Project ", cip_plural),
+  curr_report_stage_reference[["agency_section_title"]],
   level = agency_level + 1
 )
 ```
@@ -67,10 +67,9 @@ quartools::qto_heading(
 ```{r}
 gt_revenue_category_fy(
   project_request_list[[cip_data_col]],
-  title = paste0(
-    "Total ",
-    agency[["agency_label_abb"]],
-    " ", cip_plural, " by source"
+  title = glue::glue(
+    curr_report_stage_reference[["agency_table_source"]],
+    .envir = agency
   )
 )
 ```
@@ -125,7 +124,9 @@ plot_location_data(
 # TODO: Replace kableExtra with gt
 kbl_agency_projects(
   data = project_request_tbl_data,
-  groupname_col = groupname_col
+  groupname_col = groupname_col # ,
+  # FIXME: Figure out if there is a way to add an unnumbered table caption
+  # caption = curr_report_stage_reference[["agency_table_project"]]
 )
 ```
 
@@ -143,7 +144,8 @@ project_request_list |>
     project,
     .input = here("report", "children", "_project_request.qmd"),
     .params = list2(
-      "project_level" = project_level
+      "project_level" = project_level,
+      curr_report_stage_reference = curr_report_stage_reference
     )
   )
 ```
