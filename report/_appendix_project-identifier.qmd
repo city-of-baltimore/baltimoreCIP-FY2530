@@ -14,34 +14,6 @@ To help agency staff or City residents compare projects in this report to prior 
 
 ```{r}
 #| echo: false
-
-
-# kbl_project_name_comparison <- function(report_data) {
-# report_data |>
-#   select(agency_label, project_code, project_name_src, project_name) |>
-#   mutate(
-#     project_name_src = str_remove_trim(
-#       project_name_src,
-#       paste0("^", project_code)
-#     ),
-#     project_name = if_else(
-#       project_name == project_name_src,
-#       "---",
-#       project_name
-#     )
-#   ) |>
-#   group_by(agency_label) |>
-# # TODO: Replace kableExtra with gt
-#   kbl_tbl(
-#     rowname_col = "project_code",
-#     widths = paste0(c(2.5, 2.5), "in"),
-#     width_cols = c(2, 3),
-#     col_names = c("Project code", "Name (Workday)", "Name (Report)"),
-#     latex_options = "repeat_header",
-#     rowname_col_label = "Project code"
-#   )
-# }
-
 tar_read(kbl_appendix_report_identifier)
 ```
 
