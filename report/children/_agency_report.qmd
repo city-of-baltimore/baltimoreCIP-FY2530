@@ -5,7 +5,8 @@ agency_label <- "Department of Public Works"
 agency_level <- 2
 agency <- agency_label
 report_data <- tar_read(cip_report_data)
-agency_reference <- tar_read(agency_reference)
+report_references <- tar_read(report_references)
+agency_reference <- report_references[["agency_reference"]]
 
 data <- filter(report_data, .data[["agency_label"]] == agency)
 ```
