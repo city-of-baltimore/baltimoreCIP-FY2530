@@ -64,6 +64,9 @@ report_stages <- read_curr_fy_report_stages(
 
 ## Load setup data ----
 setup_cip_report <- tar_plan(
+  # FIXME: Add targets for downloading the basemap data
+  # See https://github.com/elipousson/tigris-basemap
+
   report_reference_files_src = rlang::set_names(
     fs::dir_ls(path_tar_user(), glob = "*.csv"),
     fs::path_ext_remove(
@@ -289,8 +292,6 @@ prep_cip_report_data <- tar_plan(
 # - not detecting changes to the Quarto documents or supporting files (use tar_delete() to address this)
 render_cip_report <- tar_plan(
   # Render Quarto project
-  # TODO: Add cover PDF as part of the file rendering - it is currently added
-  # manually
   tar_target(
     report_qmd,
     quarto::quarto_render(
@@ -317,6 +318,19 @@ render_cip_report <- tar_plan(
       ),
       quiet = FALSE
     ),
+    error = "continue"
+  ),
+  tar_target(
+    report_qmd_cover,
+    \(x) {
+      replace_pdf_page(
+        input = here::here(
+          "docs",
+          getOption("current_report_filename")
+      )
+      )
+    },
+    cue = tar_cue(mode = "always"),
     error = "continue"
   )
 )
