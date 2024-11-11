@@ -11,8 +11,19 @@ replace_pdf_page <- function(input,
                              from = 2,
                              replacement = here::here("files", "FY2530_CIP-Ordinance-Report_Cover-Update.pdf"),
                              keep = c("bookmarks", "docinfo")) {
-  report_docinfo <- xmpdf::get_docinfo(input)[[1]]
-  report_bookmarks <- xmpdf::get_bookmarks(input)[[1]]
+  stopifnot(file.exists(input))
+
+  report_docinfo <- xmpdf::get_docinfo(input)
+
+  if (!is_empty(report_docinfo)) {
+    report_docinfo <- report_docinfo[[1]]
+  }
+
+  report_bookmarks <- xmpdf::get_bookmarks(input)
+
+  if (!is_empty(report_bookmarks)) {
+    report_bookmarks <- report_bookmarks[[1]]
+  }
 
   pages <- seq.int(from = from, to = pdftools::pdf_length(input), by = 1)
 
@@ -32,11 +43,11 @@ replace_pdf_page <- function(input,
     output = output
   )
 
-  if ("docinfo" %in% keep) {
+  if (("docinfo" %in% keep) && !is_empty(report_docinfo)) {
     xmpdf::set_docinfo(report_docinfo, output)
   }
 
-  if ("bookmarks" %in% keep) {
+  if (("bookmarks" %in% keep) && !is_empty(report_bookmarks)) {
     xmpdf::set_bookmarks(report_bookmarks, output)
   }
 
