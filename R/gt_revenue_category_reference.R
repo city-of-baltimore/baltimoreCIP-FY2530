@@ -26,12 +26,13 @@ gt_revenue_category_reference <- function(revenue_category_name_xwalk) {
       revenue_category_label ~ "Funding source",
       revenue_category_name_short ~ "Abbreviation"
     ) |>
-    cols_width_ext(
-      columns = c("budget_category", "revenue_category_label", "revenue_category_name_short"),
-      widths = c(0.25, 0.4, 0.35),
-      textwidth = 5
+    cols_width(
+      budget_category ~ pct(25),
+      revenue_category_label ~ pct(45),
+      revenue_category_name_short ~ pct(30)
     ) |>
     tab_header(
       title = "Capital funding source names with abbreviations"
-    )
+    ) |>
+    tab_options(table.width = pct(100))
 }
